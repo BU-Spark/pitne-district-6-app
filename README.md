@@ -1,1 +1,0 @@
-Hello, we are starting to work on the D6 Project!
