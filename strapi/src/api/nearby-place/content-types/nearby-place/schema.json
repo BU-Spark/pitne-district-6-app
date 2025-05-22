@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "nearby_places",
+  "info": {
+    "singularName": "nearby-place",
+    "pluralName": "nearby-places",
+    "displayName": "nearby place"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "place_type": {
+      "type": "enumeration",
+      "enum": [
+        "restaurant",
+        "school",
+        "voting_center",
+        "park",
+        "library"
+      ]
+    },
+    "description": {
+      "type": "text"
+    },
+    "address": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    },
+    "phone": {
+      "type": "biginteger"
+    },
+    "website": {
+      "type": "string"
+    },
+    "hours_of_operation": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean"
+    }
+  }
+}

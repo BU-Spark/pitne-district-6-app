@@ -474,6 +474,45 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiNearbyPlaceNearbyPlace extends Struct.CollectionTypeSchema {
+  collectionName: 'nearby_places';
+  info: {
+    displayName: 'nearby place';
+    pluralName: 'nearby-places';
+    singularName: 'nearby-place';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    address: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    hours_of_operation: Schema.Attribute.String;
+    is_active: Schema.Attribute.Boolean;
+    latitude: Schema.Attribute.Decimal;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::nearby-place.nearby-place'
+    > &
+      Schema.Attribute.Private;
+    longitude: Schema.Attribute.Decimal;
+    name: Schema.Attribute.String;
+    phone: Schema.Attribute.BigInteger;
+    place_type: Schema.Attribute.Enumeration<
+      ['restaurant', 'school', 'voting_center', 'park', 'library']
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    website: Schema.Attribute.String;
+  };
+}
+
 export interface ApiResourceResource extends Struct.CollectionTypeSchema {
   collectionName: 'resources';
   info: {
@@ -1026,6 +1065,7 @@ declare module '@strapi/strapi' {
       'api::about.about': ApiAboutAbout;
       'api::event.event': ApiEventEvent;
       'api::global.global': ApiGlobalGlobal;
+      'api::nearby-place.nearby-place': ApiNearbyPlaceNearbyPlace;
       'api::resource.resource': ApiResourceResource;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
