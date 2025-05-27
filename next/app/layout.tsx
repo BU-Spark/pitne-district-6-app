@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: 'District 6 App',
   description: 'District 6 App',
   keywords: ['Next.js', 'React', 'TypeScript', 'Template'],
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
