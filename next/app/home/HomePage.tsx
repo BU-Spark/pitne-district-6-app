@@ -10,8 +10,8 @@ export default function HomePage() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1>
-            Welcome to <br />
-            District 6
+            WELCOME TO <br />
+            DISTRICT 6
           </h1>
         </div>
       </section>

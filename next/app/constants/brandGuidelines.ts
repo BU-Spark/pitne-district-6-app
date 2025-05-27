@@ -49,7 +49,7 @@ export const TYPOGRAPHY = {
     usage: 'Primary typeface for web',
   },
   SECONDARY: {
-    name: 'Georgia',
+    name: 'Lora',
     fallback: 'serif',
     usage: 'Secondary typeface, can substitute Montserrat with Arial',
   },

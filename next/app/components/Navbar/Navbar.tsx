@@ -4,14 +4,15 @@ export default function Navbar() {
   return (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <span className={styles.cityName}>District 6</span>
-        <span className={styles.mayor}>| Counselor Benjamin Weber</span>
+        <span className={styles.cityName}>DISTRICT 6</span>
+        <span className={styles.divider}></span>
+        <span className={styles.mayor}> Counselor Benjamin Weber</span>
       </div>
       <nav className={styles.nav}>
-        <a href="#">Resources</a>
-        <a href="#">Events</a>
-        <a href="#">Locations</a>
-        <a href="#">About Us</a>
+        <a href="#">RESOURCES</a>
+        <a href="#">EVENTS</a>
+        <a href="#">LOCATIONS</a>
+        <a href="#">ABOUT US</a>
         <span className={styles.searchIcon}>🔍</span>
       </nav>
     </header>
