@@ -82,29 +82,63 @@
 }
 
 .hero {
+  position: relative;
   background: url('/images/home.png') center/cover no-repeat;
-  min-height: 350px;
+  height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
-.heroContent {
-  background: rgba(12, 34, 63, 0.7);
-  color: #fff;
-  padding: 2rem 3rem;
-  border-radius: 8px;
-  text-align: left;
+.overlay {
+  background: rgba(12, 34, 63, 0.6);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.heroContent h1 {
-  font-size: 2.5rem;
+.heroText {
+  text-align: center;
+  color: white;
+}
+
+.welcome {
+  font-family: 'Lora', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 3rem;
+  color: #ffffff;
+  display: block;
+}
+
+.district {
+  font-family: 'Montserrat', Arial, sans-serif;
   font-weight: bold;
-  margin-bottom: 1rem;
-  line-height: 1.1;
+  text-transform: uppercase;
+  font-size: 7rem;
+  color: #ffffff;
+  position: relative;
+  display: inline-block;
+  transition: font-style 0.3s ease;
 }
 
+.district::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 0%;
+  height: 6px;
+  background-color: #e3343e;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.district:hover::after {
+  width: 100%;
+}
 .playButton {
   background: none;
   border: 2px solid #e3343e;
