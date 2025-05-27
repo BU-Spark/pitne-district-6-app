@@ -1,11 +1,18 @@
 import type { Metadata } from 'next';
-import { Montserrat } from 'next/font/google';
+import { Montserrat, Lora } from 'next/font/google';
 import './globals.css';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-montserrat',
+});
+
+const lora = Lora({
+  subsets: ['latin'],
+  variable: '--font-lora',
+  style: ['normal', 'italic'],
+  weight: ['400'],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable}`}>
+    <html lang="en" className={`${montserrat.variable} ${lora.variable}`}>
       <body>
         <ErrorBoundary>
           <div className="main-content-container">{children}</div>
