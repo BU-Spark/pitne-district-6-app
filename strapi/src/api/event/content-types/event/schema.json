@@ -4,7 +4,8 @@
   "info": {
     "singularName": "event",
     "pluralName": "events",
-    "displayName": "Event"
+    "displayName": "Event",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -17,14 +18,15 @@
       "type": "text"
     },
     "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "event_type": {
       "type": "enumeration",
@@ -41,9 +43,6 @@
     "end_datetime": {
       "type": "datetime"
     },
-    "location": {
-      "type": "string"
-    },
     "link": {
       "type": "string"
     },
@@ -55,6 +54,12 @@
     },
     "is_active": {
       "type": "boolean"
+    },
+    "locations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::location.location",
+      "inversedBy": "events"
     }
   }
 }
