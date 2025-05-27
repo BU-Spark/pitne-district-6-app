@@ -405,6 +405,7 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
 export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   collectionName: 'events';
   info: {
+    description: '';
     displayName: 'Event';
     pluralName: 'events';
     singularName: 'event';
@@ -431,7 +432,10 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
-    location: Schema.Attribute.String;
+    locations: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::location.location'
+    >;
     longitude: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
     start_datetime: Schema.Attribute.DateTime;
@@ -490,6 +494,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
+    events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
     hours_of_operation: Schema.Attribute.String;
     is_active: Schema.Attribute.Boolean;
     latitude: Schema.Attribute.Decimal;
@@ -504,6 +509,10 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     phone: Schema.Attribute.BigInteger;
     place_type: Schema.Attribute.Enumeration<['restaurant', 'voting_center']>;
     publishedAt: Schema.Attribute.DateTime;
+    resources: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::resource.resource'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -514,6 +523,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
 export interface ApiResourceResource extends Struct.CollectionTypeSchema {
   collectionName: 'resources';
   info: {
+    description: '';
     displayName: 'Resource';
     pluralName: 'resources';
     singularName: 'resource';
@@ -541,6 +551,10 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
       'api::resource.resource'
     > &
       Schema.Attribute.Private;
+    locations: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::location.location'
+    >;
     phone: Schema.Attribute.BigInteger;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
