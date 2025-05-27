@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "nearby_places",
+  "collectionName": "locations",
   "info": {
-    "singularName": "nearby-place",
-    "pluralName": "nearby-places",
-    "displayName": "nearby place"
+    "singularName": "location",
+    "pluralName": "locations",
+    "displayName": "Location"
   },
   "options": {
     "draftAndPublish": true
@@ -17,10 +17,7 @@
       "type": "enumeration",
       "enum": [
         "restaurant",
-        "school",
-        "voting_center",
-        "park",
-        "library"
+        "voting_center"
       ]
     },
     "description": {
