@@ -51,8 +51,9 @@
 }
 
 .mayor {
-  font-family: 'Lora', serif;
+  font-family: var(--font-lora), serif;
   font-style: italic;
+  font-weight: 400;
   color: #222;
   font-size: 1rem;
 }
