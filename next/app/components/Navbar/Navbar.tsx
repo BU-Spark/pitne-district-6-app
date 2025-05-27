@@ -6,7 +6,7 @@ export default function Navbar() {
       <div className={styles.logoSection}>
         <span className={styles.cityName}>DISTRICT 6</span>
         <span className={styles.divider}></span>
-        <span className={styles.mayor}> Counselor Benjamin Weber</span>
+        <span className={styles.mayor}> Councilor Benjamin Weber</span>
       </div>
       <nav className={styles.nav}>
         <a href="#">RESOURCES</a>
