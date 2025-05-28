@@ -1,5 +1,6 @@
 import styles from '../../home/HomePage.module.css';
 import Link from 'next/link';
+import { Search } from 'lucide-react';
 
 export default function Navbar() {
   return (
@@ -18,7 +19,9 @@ export default function Navbar() {
         <Link href="/events">EVENTS</Link>
         <Link href="/map">LOCATIONS</Link>
         <Link href="/about">ABOUT US</Link>
-        <span className={styles.searchIcon}>🔍</span>
+        <span className={styles.searchIcon}>
+          <Search size={18} strokeWidth={4} />
+        </span>
       </nav>
     </header>
   );

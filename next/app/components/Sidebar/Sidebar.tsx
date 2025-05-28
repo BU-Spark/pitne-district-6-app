@@ -2,7 +2,7 @@
 
 import './Sidebar.css';
 import React, { useState } from 'react';
-import { CheckSquare, SquareX } from 'lucide-react'; // Icons
+import { CheckSquare, SquareX } from 'lucide-react';
 
 // These are hardcoded categories and counts (for demonstration purposes)
 // Need to fetch this data from Strapi database!

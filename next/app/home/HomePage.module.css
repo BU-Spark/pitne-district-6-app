@@ -92,6 +92,8 @@
 }
 
 .searchIcon {
+  position: relative;
+  top: 2px;
   margin-left: 1rem;
   font-size: 1.2rem;
 }
