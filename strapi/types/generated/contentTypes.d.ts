@@ -481,6 +481,7 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
 export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
   collectionName: 'locations';
   info: {
+    description: '';
     displayName: 'Location';
     pluralName: 'locations';
     singularName: 'location';
@@ -489,22 +490,29 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    address: Schema.Attribute.String;
+    address: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<
+        'plugin::geodata.geojson',
+        {
+          info: true;
+        }
+      >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
+    geohash: Schema.Attribute.String;
     hours_of_operation: Schema.Attribute.String;
     is_active: Schema.Attribute.Boolean;
-    latitude: Schema.Attribute.Decimal;
+    lat: Schema.Attribute.Float;
+    lng: Schema.Attribute.Float;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::location.location'
     > &
       Schema.Attribute.Private;
-    longitude: Schema.Attribute.Decimal;
     name: Schema.Attribute.String;
     phone: Schema.Attribute.BigInteger;
     place_type: Schema.Attribute.Enumeration<['restaurant', 'voting_center']>;
