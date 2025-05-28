@@ -516,7 +516,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String;
     phone: Schema.Attribute.BigInteger;
     place_type: Schema.Attribute.Enumeration<
-      ['Restaurant', 'Voting center', 'Small Business Organization']
+      ['BCYF Centers', 'Boston Public Libraries', 'Parks and Green Space']
     >;
     publishedAt: Schema.Attribute.DateTime;
     resources: Schema.Attribute.Relation<

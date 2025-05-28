@@ -17,9 +17,9 @@
     "place_type": {
       "type": "enumeration",
       "enum": [
-        "Restaurant",
-        "Voting center",
-        "Small Business Organization"
+        "BCYF Centers",
+        "Boston Public Libraries",
+        "Parks and Green Space"
       ]
     },
     "description": {
