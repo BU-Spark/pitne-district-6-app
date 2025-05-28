@@ -4,7 +4,8 @@
   "info": {
     "singularName": "location",
     "pluralName": "locations",
-    "displayName": "Location"
+    "displayName": "Location",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -23,14 +24,14 @@
     "description": {
       "type": "text"
     },
-    "address": {
+    "lat": {
+      "type": "float"
+    },
+    "lng": {
+      "type": "float"
+    },
+    "geohash": {
       "type": "string"
-    },
-    "latitude": {
-      "type": "decimal"
-    },
-    "longitude": {
-      "type": "decimal"
     },
     "phone": {
       "type": "biginteger"
@@ -55,6 +56,13 @@
       "relation": "manyToMany",
       "target": "api::event.event",
       "mappedBy": "locations"
+    },
+    "address": {
+      "type": "customField",
+      "options": {
+        "info": true
+      },
+      "customField": "plugin::geodata.geojson"
     }
   }
 }
