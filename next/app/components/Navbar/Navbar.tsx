@@ -5,14 +5,11 @@ export default function Navbar() {
   return (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <span className={styles.cityName}>DISTRICT 6</span>
+        <Link href="/" className={styles.cityName}>
+          DISTRICT 6
+        </Link>
         <span className={styles.divider}></span>
-        <a
-          href="https://www.boston.gov/departments/city-council/benjamin-j-weber"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.mayor}
-        >
+        <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
           Councilor Benjamin Weber
         </a>
       </div>

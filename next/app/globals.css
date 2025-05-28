@@ -1,18 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400&display=swap');
+
 :root {
   /* Boston Brand Colors */
-  --color-charles-blue: #091F2F;
-  --color-optimistic-blue: #1871BD;
-  --color-freedom-trail-red: #FB4D42;
-  --color-white: #FFFFFF;
-  --color-dark-text: #58585B;
-  --color-light-background: #F2F2F2;
+  --color-charles-blue: #091f2f;
+  --color-optimistic-blue: #1871bd;
+  --color-freedom-trail-red: #fb4d42;
+  --color-white: #ffffff;
+  --color-dark-text: #58585b;
+  --color-light-background: #f2f2f2;
 
   /* Typography */
   --font-primary: 'Montserrat', Arial, sans-serif;
-  --font-secondary: Georgia, serif;
+  --font-secondary: 'Lora', serif;
 }
 
-html, body {
+html,
+body {
   width: 100vw;
   min-height: 100vh;
   margin: 0;

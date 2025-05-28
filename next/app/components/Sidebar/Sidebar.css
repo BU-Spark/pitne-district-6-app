@@ -1,0 +1,111 @@
+.sidebar {
+  flex: 1;
+  background-color: #f2f2f2;
+  padding: 1rem;
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
+}
+
+.sidebar h2 {
+  margin-bottom: 1rem;
+  color: #0c223f;
+}
+
+.sidebar form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-category {
+  display: flex;
+  align-items: center;
+  font-family: 'Lora', serif;
+  color: #0c223f;
+  gap: 0.5rem;
+}
+
+.sidebar-category input[type='checkbox'] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.sidebar-category input[type='checkbox']:checked + span {
+  font-weight: bold;
+  /* font-style: italic; */
+  color: #0056b3;
+}
+
+.sidebar-category {
+  cursor: pointer;
+  user-select: none;
+}
+.sidebar-category {
+  display: flex;
+  align-items: center;
+  font-family: 'Lora', serif;
+  color: #0c223f;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hide default checkbox */
+.sidebar-category input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #0c223f;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-category input[type='checkbox']:checked {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.sidebar-category input[type='checkbox']:checked::after {
+  content: '';
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  pointer-events: none;
+}
+
+.sidebar-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-btn:hover {
+  background-color: #e2e2e2;
+}
+
+.sidebar-btn:active {
+  background-color: #d4d4d4;
+}

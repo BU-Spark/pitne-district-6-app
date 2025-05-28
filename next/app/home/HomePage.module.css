@@ -35,11 +35,20 @@
   letter-spacing: 1px;
 }
 
+.nav a,
 .cityName {
   font-weight: bold;
+  color: #0c223f;
   font-size: 1.2rem;
   margin-right: 0.5rem;
   letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+.nav a,
+.cityName:hover {
+  color: #fb4d42;
+  text-decoration: none;
 }
 
 .cityName::after {
