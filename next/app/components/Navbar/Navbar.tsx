@@ -1,10 +1,26 @@
+'use client';
+
 import styles from '../../home/HomePage.module.css';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
       <div className={styles.logoSection}>
         <Link href="/" className={styles.cityName}>
           DISTRICT 6
@@ -14,6 +30,12 @@ export default function Navbar() {
           Councilor Benjamin Weber
         </a>
       </div>
+
+      {/* Boston Logo in Center */}
+      <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
+        <Image src="/icons/boston_logo.png" alt="City of Boston Logo" width={110} height={110} priority />
+      </div>
+
       <nav className={styles.nav}>
         <Link href="/resources">RESOURCES</Link>
         <Link href="/events">EVENTS</Link>
