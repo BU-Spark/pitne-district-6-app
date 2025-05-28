@@ -515,7 +515,9 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
     phone: Schema.Attribute.BigInteger;
-    place_type: Schema.Attribute.Enumeration<['restaurant', 'voting_center']>;
+    place_type: Schema.Attribute.Enumeration<
+      ['Restaurant', 'Voting center', 'Small Business Organization']
+    >;
     publishedAt: Schema.Attribute.DateTime;
     resources: Schema.Attribute.Relation<
       'manyToMany',
@@ -540,7 +542,28 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    category: Schema.Attribute.String;
+    category: Schema.Attribute.Enumeration<
+      [
+        'Progressive Organizing',
+        'Small Business Organization',
+        'Senior Community Organization',
+        'Bike Community Organization',
+        'Education Community Organization',
+        'Environment Community Organizations',
+        'Pet Care',
+        'Child Care Organizations',
+        'Healthcare',
+        'Food Community Organizations',
+        'Youth Community Organizations',
+        'Community Organizing',
+        'Neighborhood Associations',
+        'Housing ',
+        'Senior Housing',
+        'Police and Fire',
+        'Arts and Culture Organizations',
+        'Boston Public Schools',
+      ]
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

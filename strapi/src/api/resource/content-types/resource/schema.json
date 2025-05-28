@@ -28,9 +28,6 @@
         "audios"
       ]
     },
-    "category": {
-      "type": "string"
-    },
     "phone": {
       "type": "biginteger"
     },
@@ -62,6 +59,29 @@
       "relation": "manyToMany",
       "target": "api::location.location",
       "inversedBy": "resources"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Progressive Organizing",
+        "Small Business Organization",
+        "Senior Community Organization",
+        "Bike Community Organization",
+        "Education Community Organization",
+        "Environment Community Organizations",
+        "Pet Care",
+        "Child Care Organizations",
+        "Healthcare",
+        "Food Community Organizations",
+        "Youth Community Organizations",
+        "Community Organizing",
+        "Neighborhood Associations",
+        "Housing ",
+        "Senior Housing",
+        "Police and Fire",
+        "Arts and Culture Organizations",
+        "Boston Public Schools"
+      ]
     }
   }
 }

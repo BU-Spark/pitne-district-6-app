@@ -17,8 +17,9 @@
     "place_type": {
       "type": "enumeration",
       "enum": [
-        "restaurant",
-        "voting_center"
+        "Restaurant",
+        "Voting center",
+        "Small Business Organization"
       ]
     },
     "description": {
