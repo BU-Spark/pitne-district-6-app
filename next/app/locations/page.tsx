@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 
-const MapPage = dynamic(() => import('../map/MapPage'), { ssr: false });
+const MapPage = dynamic(() => import('./MapPage'), { ssr: false });
 
 export default function Map() {
   return <MapPage />;

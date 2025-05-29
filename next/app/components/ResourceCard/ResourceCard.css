@@ -1,0 +1,119 @@
+.resource-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 2px solid #1871bd;
+  padding: 16px;
+  padding-bottom: 58px;
+  margin: 12px;
+  background-color: white;
+  color: #1871bd;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  cursor: default;
+  transition: background-color 0.4s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.resource-card:hover {
+  background-color: #f5faff;
+}
+
+.slider {
+  display: flex;
+  overflow: hidden;
+  width: 300%;
+  transition: transform 0.4s ease;
+  position: relative;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.resource-card:hover .slider {
+  transform: translateX(-50%);
+}
+
+.slide-out,
+.slide-in {
+  overflow: hidden;
+  width: 50%;
+  box-sizing: border-box;
+  padding-right: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #1871bd;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.icon-wrapper {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 2px solid #1871bd;
+  color: #1871bd;
+  background-color: white;
+}
+
+.resource-title {
+  font-size: 1.2rem;
+  margin: 8px 0;
+  font-weight: 600;
+}
+
+.resource-info {
+  font-size: 0.9rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.info-icon {
+  margin-right: 6px;
+}
+
+.view-button {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 20px;
+  border: 2px solid #1871bd;
+  background-color: white;
+  color: #1871bd;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  z-index: 10;
+  user-select: none;
+  outline: none;
+}
+
+.view-button:hover {
+  background-color: #1871bd;
+  color: white;
+}

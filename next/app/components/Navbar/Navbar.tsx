@@ -75,7 +75,7 @@ export default function Navbar() {
         <nav className={styles.nav}>
           <Link href="/resources">RESOURCES</Link>
           <Link href="/events">EVENTS</Link>
-          <Link href="/map">LOCATIONS</Link>
+          <Link href="/locations">LOCATIONS</Link>
           <Link href="/about">ABOUT US</Link>
           <span className={styles.searchIcon}>
             <Search size={18} strokeWidth={4} />
@@ -102,14 +102,17 @@ export default function Navbar() {
               <Link href="/" onClick={closeMobileMenu}>
                 HOME
               </Link>
-              <Link href="/guides" onClick={closeMobileMenu}>
-                GUIDES TO BOSTON
+              <Link href="/resources" onClick={closeMobileMenu}>
+                RESOURCES
               </Link>
-              <Link href="/departments" onClick={closeMobileMenu}>
-                DEPARTMENTS
+              <Link href="/events" onClick={closeMobileMenu}>
+                EVENTS
               </Link>
-              <Link href="/notices" onClick={closeMobileMenu}>
-                PUBLIC NOTICES
+              <Link href="/locations" onClick={closeMobileMenu}>
+                LOCATIONS
+              </Link>
+              <Link href="/about" onClick={closeMobileMenu}>
+                ABOUT US
               </Link>
             </nav>
           </div>
