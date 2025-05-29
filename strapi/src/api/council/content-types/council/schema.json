@@ -4,7 +4,8 @@
   "info": {
     "singularName": "council",
     "pluralName": "councils",
-    "displayName": "Council"
+    "displayName": "Council",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,7 +15,7 @@
       "type": "string"
     },
     "Description": {
-      "type": "string"
+      "type": "text"
     },
     "Role": {
       "type": "enumeration",
@@ -24,14 +25,15 @@
       ]
     },
     "Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "Wesbite": {
       "type": "string"

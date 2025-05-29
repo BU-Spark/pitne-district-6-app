@@ -405,6 +405,7 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
 export interface ApiCouncilCouncil extends Struct.CollectionTypeSchema {
   collectionName: 'councils';
   info: {
+    description: '';
     displayName: 'Council';
     pluralName: 'councils';
     singularName: 'council';
@@ -416,7 +417,7 @@ export interface ApiCouncilCouncil extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Description: Schema.Attribute.String;
+    Description: Schema.Attribute.Text;
     Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
