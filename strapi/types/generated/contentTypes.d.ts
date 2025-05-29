@@ -426,6 +426,7 @@ export interface ApiCouncilCouncil extends Struct.CollectionTypeSchema {
       'api::council.council'
     > &
       Schema.Attribute.Private;
+    Location: Schema.Attribute.String;
     Name: Schema.Attribute.String;
     Phone: Schema.Attribute.BigInteger;
     Position: Schema.Attribute.String;
