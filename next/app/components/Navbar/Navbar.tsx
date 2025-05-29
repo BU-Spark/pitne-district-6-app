@@ -5,10 +5,13 @@ import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { fetchCouncilor, CouncilMember } from '../../utils';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [councilor, setCouncilor] = useState<CouncilMember | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,12 +23,33 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const loadCouncilor = async () => {
+      try {
+        const councilorData = await fetchCouncilor();
+        setCouncilor(councilorData);
+      } catch (error) {
+        console.error('Failed to load councilor data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCouncilor();
+  }, []);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const getCouncilorDisplay = () => {
+    if (loading) return 'Loading...';
+    if (councilor) return `Councilor ${councilor.Name}`;
+    return 'Councilor Benjamin Weber'; // Fallback
   };
 
   return (
@@ -38,7 +62,7 @@ export default function Navbar() {
           </Link>
           <span className={styles.divider}></span>
           <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
-            Councilor Benjamin Weber
+            {getCouncilorDisplay()}
           </a>
         </div>
 
@@ -78,17 +102,14 @@ export default function Navbar() {
               <Link href="/" onClick={closeMobileMenu}>
                 HOME
               </Link>
-              <Link href="/resources" onClick={closeMobileMenu}>
-                RESOURCES
+              <Link href="/guides" onClick={closeMobileMenu}>
+                GUIDES TO BOSTON
               </Link>
-              <Link href="/events" onClick={closeMobileMenu}>
-                EVENTS
+              <Link href="/departments" onClick={closeMobileMenu}>
+                DEPARTMENTS
               </Link>
-              <Link href="/map" onClick={closeMobileMenu}>
-                LOCATIONS
-              </Link>
-              <Link href="/about" onClick={closeMobileMenu}>
-                ABOUT US
+              <Link href="/notices" onClick={closeMobileMenu}>
+                PUBLIC NOTICES
               </Link>
             </nav>
           </div>
