@@ -6,9 +6,19 @@ import 'leaflet/dist/leaflet.css';
 import './MapPage.css';
 import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
-import Papa from 'papaparse'; // for CSV parsing
+import Papa from 'papaparse';
 import wellknown from 'wellknown';
 import L from 'leaflet';
+
+interface LocationData {
+  id: number;
+  name: string;
+  lat: number;
+  lng: number;
+  place_type?: string;
+  phone?: string;
+  website?: string;
+}
 
 const redPinIcon = L.icon({
   iconUrl: '/icons/markericon.svg',
@@ -19,6 +29,8 @@ const redPinIcon = L.icon({
 
 const MapPage: React.FC = () => {
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
+  const [locations, setLocations] = useState<LocationData[]>([]);
+
   useEffect(() => {
     fetch('/district6Coords.csv')
       .then((res) => res.text())
@@ -40,6 +52,20 @@ const MapPage: React.FC = () => {
       .catch((err) => console.error('Error loading CSV:', err));
   }, []);
 
+  useEffect(() => {
+    fetch('http://localhost:1337/api/locations?pagination[page]=1&pagination[pageSize]=1000')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data) {
+          console.log(`Fetched ${data.data.length} locations from Strapi:`, data.data); // ← Add this line
+          setLocations(data.data as LocationData[]);
+        } else {
+          console.warn('No location data found in API response.');
+        }
+      })
+      .catch((err) => console.error('Error loading locations:', err));
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -47,7 +73,7 @@ const MapPage: React.FC = () => {
         <div className="map-container">
           <MapContainer
             center={[42.3061, -71.1204]}
-            zoom={13}
+            zoom={16}
             zoomControl={true}
             className="leaflet-map"
             style={{ height: '100%', width: '100%' }}
@@ -65,19 +91,16 @@ const MapPage: React.FC = () => {
               attribution='&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
             />
 
-            {/* TEMPORARY DUMMY POINTS FOR DEMO PURPOSES */}
-            <Marker position={[42.313, -71.115]} icon={redPinIcon}>
-              <Popup>Dummy Point 1</Popup>
-            </Marker>
-            <Marker position={[42.299, -71.134]} icon={redPinIcon}>
-              <Popup>Dummy Point 2</Popup>
-            </Marker>
-            <Marker position={[42.321, -71.097]} icon={redPinIcon}>
-              <Popup>Dummy Point 3</Popup>
-            </Marker>
-            {/* END OF TEMPORARY DUMMY POINTS */}
-
-            {/* <ZoomControl position="topright" /> */}
+            {locations
+              .filter((location) => location.lat !== null && location.lng !== null)
+              .map((location) => {
+                const { lat, lng, name } = location;
+                return (
+                  <Marker key={location.id} position={[lat, lng]} icon={redPinIcon}>
+                    <Popup>{name}</Popup>
+                  </Marker>
+                );
+              })}
 
             <Polygon
               positions={district6Coords}
