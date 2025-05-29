@@ -43,6 +43,9 @@
     },
     "Position": {
       "type": "string"
+    },
+    "Email": {
+      "type": "email"
     }
   }
 }
