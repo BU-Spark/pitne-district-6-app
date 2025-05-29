@@ -31,10 +31,11 @@
     "event_type": {
       "type": "enumeration",
       "enum": [
-        "voting",
-        "community",
-        "concert",
-        "sports"
+        "Voting",
+        "Community",
+        "Concert",
+        "Sports",
+        "Others"
       ]
     },
     "start_datetime": {

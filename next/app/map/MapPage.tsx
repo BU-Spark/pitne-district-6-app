@@ -10,15 +10,15 @@ import Papa from 'papaparse'; // for CSV parsing
 import wellknown from 'wellknown';
 import L from 'leaflet';
 
-const redPinIcon = L.icon({
-  iconUrl: '/icons/markericon.svg',
-  iconSize: [34, 34],
-  iconAnchor: [12, 24],
-  popupAnchor: [5, -24],
-});
-
-const MapPage: React.FC = () => {
+export default function MapPage() {
+  const redPinIcon = L.icon({
+    iconUrl: '/icons/markericon.svg',
+    iconSize: [34, 34],
+    iconAnchor: [12, 24],
+    popupAnchor: [5, -24],
+  });
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
+
   useEffect(() => {
     fetch('/district6Coords.csv')
       .then((res) => res.text())
@@ -94,6 +94,4 @@ const MapPage: React.FC = () => {
       </div>
     </>
   );
-};
-
-export default MapPage;
+}
