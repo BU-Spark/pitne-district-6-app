@@ -10,24 +10,22 @@ import Papa from 'papaparse';
 import wellknown from 'wellknown';
 import L from 'leaflet';
 
-interface LocationData {
-  id: number;
-  name: string;
-  lat: number;
-  lng: number;
-  place_type?: string;
-  phone?: string;
-  website?: string;
-}
-
-const redPinIcon = L.icon({
-  iconUrl: '/icons/markericon.svg',
-  iconSize: [34, 34],
-  iconAnchor: [12, 24],
-  popupAnchor: [5, -24],
-});
-
-const MapPage: React.FC = () => {
+export default function MapPage() {
+  interface LocationData {
+    id: number;
+    name: string;
+    lat: number;
+    lng: number;
+    place_type?: string;
+    phone?: string;
+    website?: string;
+  }
+  const redPinIcon = L.icon({
+    iconUrl: '/icons/markericon.svg',
+    iconSize: [34, 34],
+    iconAnchor: [12, 24],
+    popupAnchor: [5, -24],
+  });
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
   const [locations, setLocations] = useState<LocationData[]>([]);
 
@@ -117,6 +115,4 @@ const MapPage: React.FC = () => {
       </div>
     </>
   );
-};
-
-export default MapPage;
+}
