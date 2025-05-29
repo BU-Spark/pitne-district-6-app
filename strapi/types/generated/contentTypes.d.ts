@@ -402,6 +402,43 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiCouncilCouncil extends Struct.CollectionTypeSchema {
+  collectionName: 'councils';
+  info: {
+    description: '';
+    displayName: 'Council';
+    pluralName: 'councils';
+    singularName: 'council';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Description: Schema.Attribute.Text;
+    Email: Schema.Attribute.Email;
+    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::council.council'
+    > &
+      Schema.Attribute.Private;
+    Location: Schema.Attribute.String;
+    Name: Schema.Attribute.String;
+    Phone: Schema.Attribute.BigInteger;
+    Position: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    Role: Schema.Attribute.Enumeration<['Councilor', 'Staff']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Wesbite: Schema.Attribute.String;
+  };
+}
+
 export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   collectionName: 'events';
   info: {
@@ -1106,6 +1143,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::about.about': ApiAboutAbout;
+      'api::council.council': ApiCouncilCouncil;
       'api::event.event': ApiEventEvent;
       'api::global.global': ApiGlobalGlobal;
       'api::location.location': ApiLocationLocation;
