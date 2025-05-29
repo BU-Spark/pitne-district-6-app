@@ -1,6 +1,7 @@
 'use client';
 
 import './Sidebar.css';
+import FilterTag from '../FilterTag/FilterTag';
 import React, { useState } from 'react';
 import { CheckSquare, SquareX } from 'lucide-react';
 
@@ -71,7 +72,7 @@ const Sidebar: React.FC = () => {
         </button>
       </div>
 
-      <form>
+      {/* <form>
         {categories.map((category, idx) => (
           <label key={idx} className="sidebar-category">
             <input
@@ -84,7 +85,19 @@ const Sidebar: React.FC = () => {
             </span>
           </label>
         ))}
-      </form>
+      </form> */}
+
+      <div className="filter-tag-list">
+        {categories.map((category) => (
+          <FilterTag
+            key={category.name}
+            label={category.name}
+            count={category.count}
+            selected={selectedCategories.has(category.name)}
+            onToggle={() => toggleCategory(category.name)}
+          />
+        ))}
+      </div>
     </aside>
   );
 };

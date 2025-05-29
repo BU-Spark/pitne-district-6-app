@@ -44,7 +44,7 @@ export default function Navbar() {
 
         {/* Boston Logo in Center */}
         <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
-          <Image src="/icons/boston_logo.png" alt="City of Boston Logo" width={110} height={110} priority />
+          <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={110} height={110} priority />
         </div>
 
         {/* Desktop Navigation */}
@@ -70,7 +70,7 @@ export default function Navbar() {
           <div className={styles.mobileMenu} onClick={(e) => e.stopPropagation()}>
             {/* Boston Logo at Top */}
             <div className={styles.mobileMenuLogo}>
-              <Image src="/icons/boston_logo.png" alt="City of Boston Logo" width={120} height={120} priority />
+              <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={120} height={120} priority />
             </div>
 
             {/* Mobile Navigation Links */}

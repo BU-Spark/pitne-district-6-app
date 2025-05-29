@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapPage.css';
 import Navbar from '../components/Navbar/Navbar';
@@ -48,6 +48,7 @@ const MapPage: React.FC = () => {
           <MapContainer
             center={[42.3061, -71.1204]}
             zoom={13}
+            zoomControl={true}
             className="leaflet-map"
             style={{ height: '100%', width: '100%' }}
             maxBounds={[
@@ -75,6 +76,8 @@ const MapPage: React.FC = () => {
               <Popup>Dummy Point 3</Popup>
             </Marker>
             {/* END OF TEMPORARY DUMMY POINTS */}
+
+            {/* <ZoomControl position="topright" /> */}
 
             <Polygon
               positions={district6Coords}

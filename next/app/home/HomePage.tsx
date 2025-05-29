@@ -11,7 +11,6 @@ export default function HomePage() {
         <div className={styles.overlay}>
           <div className={styles.heroText}>
             <span className={styles.welcome}>Welcome to</span>
-            <br />
             <span className={styles.district}>DISTRICT 6</span>
           </div>
         </div>

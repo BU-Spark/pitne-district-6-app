@@ -17,7 +17,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-bottom: 4px solid #0c223f;
+  /* border-top: 4px solid #0c223f; */
   position: fixed;
   top: 0;
   left: 0;
@@ -50,7 +50,7 @@
 .cityName {
   font-weight: bold;
   color: #0c223f;
-  font-size: 1.0rem;
+  font-size: 1rem;
   margin-right: 0.5rem;
   letter-spacing: 1px;
   transition: color 0.2s;
@@ -142,14 +142,15 @@
 }
 
 .district {
+  margin-top: 4px;
   font-family: 'Montserrat', Arial, sans-serif;
   font-weight: bold;
   text-transform: uppercase;
   font-size: 7rem;
   color: #ffffff;
   position: relative;
-  display: inline-block;
   transition: font-style 0.3s ease;
+  display: block;
 }
 
 .district::after {
@@ -229,7 +230,7 @@
   left: 50%;
   transform: translateX(-50%);
   transition: all 0.3s ease;
-  top: 0px;
+  top: 5px;
   z-index: 1001;
 }
 
@@ -241,7 +242,7 @@
   border-radius: 50%;
   background: white;
   padding: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
 
