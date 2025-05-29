@@ -2,40 +2,35 @@
 
 import './Sidebar.css';
 import FilterTag from '../FilterTag/FilterTag';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckSquare, SquareX } from 'lucide-react';
 
-// These are hardcoded categories and counts (for demonstration purposes)
-// Need to fetch this data from Strapi database!
-const rawCategories = [
-  { name: 'Parks and Green Space', count: 34 },
-  { name: 'Youth Community Organizations', count: 21 },
-  { name: 'Neighborhood Associations', count: 18 },
-  { name: 'BHA and Senior Housing', count: 15 },
-  { name: 'Boston Public Schools', count: 15 },
-  { name: 'Food Community Organizations', count: 9 },
-  { name: 'Small Business Community Organization', count: 7 },
-  { name: 'Healthcare', count: 7 },
-  { name: 'BCYF Centers', count: 7 },
-  { name: 'Arts, Culture, History Community Organizations', count: 7 },
-  { name: 'Housing Community Organizations', count: 6 },
-  { name: 'Boston Public Libraries', count: 6 },
-  { name: 'Police and Fire', count: 5 },
-  { name: 'Bike Community Organizations', count: 4 },
-  { name: 'Climate, Environment, Parks Community Organizations', count: 4 },
-  { name: 'Justice, Community Organizing, Basic Needs', count: 4 },
-  { name: 'Child Care Organizations', count: 3 },
-  { name: 'Progressive Organizing', count: 2 },
-  { name: 'Senior Community Organizations', count: 2 },
-  { name: 'Education Community Organizations', count: 1 },
-  { name: 'Pet Care', count: 1 },
-];
-
-// Sort alphabetically by name
-const categories = rawCategories.sort((a, b) => a.name.localeCompare(b.name));
+// Fetch categories from Strapi
+const fetchCategories = async () => {
+  const res = await fetch('http://localhost:1337/resources/categories-with-count');
+  console.log(res);
+  if (!res.ok) throw new Error('Failed to fetch categories');
+  return await res.json();
+};
 
 const Sidebar: React.FC = () => {
+  const [categories, setCategories] = useState<{ name: string; count: number }[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchCategories()
+      .then((data: { name: string; count: number }[]) => {
+        // Sort alphabetically by name
+        setCategories(data.sort((a, b) => a.name.localeCompare(b.name)));
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Failed to load categories');
+        setLoading(false);
+      });
+  }, []);
 
   const toggleCategory = (name: string) => {
     setSelectedCategories((prev) => {
@@ -72,20 +67,8 @@ const Sidebar: React.FC = () => {
         </button>
       </div>
 
-      {/* <form>
-        {categories.map((category, idx) => (
-          <label key={idx} className="sidebar-category">
-            <input
-              type="checkbox"
-              checked={selectedCategories.has(category.name)}
-              onChange={() => toggleCategory(category.name)}
-            />
-            <span>
-              {category.name} ({category.count})
-            </span>
-          </label>
-        ))}
-      </form> */}
+      {loading && <div>Loading categories...</div>}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
 
       <div className="filter-tag-list">
         {categories.map((category) => (
