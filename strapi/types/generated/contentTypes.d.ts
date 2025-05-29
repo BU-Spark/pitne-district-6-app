@@ -427,6 +427,7 @@ export interface ApiCouncilCouncil extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     Name: Schema.Attribute.String;
     Phone: Schema.Attribute.BigInteger;
+    Position: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     Role: Schema.Attribute.Enumeration<['Councilor', 'Staff']>;
     updatedAt: Schema.Attribute.DateTime;

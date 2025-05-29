@@ -40,6 +40,9 @@
     },
     "Phone": {
       "type": "biginteger"
+    },
+    "Position": {
+      "type": "string"
     }
   }
 }
