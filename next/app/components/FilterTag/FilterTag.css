@@ -1,7 +1,5 @@
 .filter-tag {
   display: inline-flex;
-  text-align: left;
-  align-items: flex-start;
   border-radius: 9999px;
   padding: 6px 12px;
   margin: 4px;
@@ -13,6 +11,7 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   font-weight: 500;
+  max-width: 100%;
 }
 
 .filter-tag:hover {
@@ -22,8 +21,28 @@
 .filter-tag.selected {
   background-color: #1871bd;
   color: white;
+  border-color: #1871bd;
 }
 
-.filter-tag .tag-icon {
-  margin-right: 6px;
+.tag-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.tag-icon {
+  flex-shrink: 0;
+}
+
+.tag-text {
+  display: inline-block;
+  line-height: 1.2;
+  text-align: left;
+  word-break: break-word;
+}
+
+.tag-count {
+  white-space: nowrap;
 }

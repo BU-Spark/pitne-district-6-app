@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, ZoomControl } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapPage.css';
 import Navbar from '../components/Navbar/Navbar';
@@ -83,7 +83,7 @@ const MapPage: React.FC = () => {
               positions={district6Coords}
               pathOptions={{
                 color: '#1871bd',
-                weight: 1,
+                weight: 2,
                 fillColor: '#1871bd',
                 fillOpacity: 0.2,
               }}

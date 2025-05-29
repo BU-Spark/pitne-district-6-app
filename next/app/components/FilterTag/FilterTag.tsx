@@ -1,4 +1,3 @@
-// components/FilterTag.tsx
 import React from 'react';
 import './FilterTag.css';
 import { Shapes } from 'lucide-react';
@@ -13,8 +12,12 @@ interface FilterTagProps {
 const FilterTag: React.FC<FilterTagProps> = ({ label, count, selected, onToggle }) => {
   return (
     <button className={`filter-tag ${selected ? 'selected' : ''}`} onClick={onToggle} type="button">
-      <Shapes size={16} className="tag-icon" />
-      {label} ({count})
+      <div className="tag-content">
+        <Shapes size={16} className="tag-icon" />
+        <span className="tag-text">
+          {label} <span className="tag-count">({count})</span>
+        </span>
+      </div>
     </button>
   );
 };
