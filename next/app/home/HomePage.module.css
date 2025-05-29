@@ -244,3 +244,153 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
+
+/* Mobile Menu Styles */
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  color: #0c223f;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1002;
+  order: -1;
+}
+
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1003;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.mobileMenu {
+  background: white;
+  width: 80%;
+  height: 100vh;
+  padding: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobileMenuLogo {
+  background: white;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  margin: 0;
+  flex: 1;
+  background: white;
+}
+
+.mobileNav a {
+  color: #1871bd;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  padding: 1.5rem 2rem;
+  text-align: left;
+  /* border-bottom: 2px solid rgba(255, 255, 255, 0.1); */
+  transition: background-color 0.2s;
+  display: block;
+}
+
+.mobileNav a:hover {
+  opacity: 0.8;
+  background: #fb4d42;
+}
+
+/* .mobileNav a:last-child {
+  border-bottom: none;
+} */
+
+/* Medium Screen Responsive Styles */
+@media (max-width: 1224px) {
+  .bostonLogo {
+    display: none;
+  }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .logoSection {
+    order: 0;
+    align-items: center;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .mayor {
+    font-size: 0.85rem;
+  }
+
+  .cityName {
+    font-size: 0.9rem;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: block;
+    order: -1;
+  }
+
+  .bostonLogo {
+    display: none;
+  }
+
+  .container {
+    padding-top: 70px;
+  }
+
+  .welcome {
+    font-size: 1.5rem;
+  }
+
+  .district {
+    font-size: 4rem;
+  }
+
+  .tracker {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
