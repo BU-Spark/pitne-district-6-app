@@ -457,7 +457,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     description: Schema.Attribute.Text;
     end_datetime: Schema.Attribute.DateTime;
     event_type: Schema.Attribute.Enumeration<
-      ['voting', 'community', 'concert', 'sports']
+      ['Voting', 'Community', 'Concert', 'Sports', 'Others']
     >;
     images: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
@@ -579,7 +579,12 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String;
     phone: Schema.Attribute.BigInteger;
     place_type: Schema.Attribute.Enumeration<
-      ['BCYF Centers', 'Boston Public Libraries', 'Parks and Green Space']
+      [
+        'BCYF Centers',
+        'Boston Public Libraries',
+        'Parks and Green Space',
+        'Others',
+      ]
     >;
     publishedAt: Schema.Attribute.DateTime;
     resource: Schema.Attribute.Boolean;
@@ -627,6 +632,7 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
         'Police and Fire',
         'Arts and Culture Organizations',
         'Boston Public Schools',
+        'Others',
       ]
     >;
     createdAt: Schema.Attribute.DateTime;
