@@ -16,7 +16,7 @@ export default function MapPage() {
     name: string;
     lat: number;
     lng: number;
-    place_type?: string;
+    category?: string;
     phone?: string;
     website?: string;
   }
@@ -98,8 +98,8 @@ export default function MapPage() {
                     <Popup>
                       <div>
                         <strong>{name}</strong>
+                        {location.category && <div>{location.category}</div>}
                         {location.phone && <div>📞 {location.phone}</div>}
-                        {location.place_type && <div>📍 {location.place_type}</div>}
                         {location.website && (
                           <div>
                             🌐{' '}
