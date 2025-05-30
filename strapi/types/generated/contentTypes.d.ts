@@ -534,10 +534,36 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
           info: true;
         }
       >;
+    category: Schema.Attribute.Enumeration<
+      [
+        'Progressive Organizing',
+        'Small Business Community Organization',
+        'Senior Community Organizations',
+        'Bike Community Organizations',
+        'Education Community Organizations',
+        'Climate, Environment, Parks Organizations',
+        'Housing Community Organizations',
+        'Pet Care',
+        'Child Care Organizations',
+        'Healthcare',
+        'Food Community Organizations',
+        'Youth Community Organizations',
+        'Justice and Community Organizing',
+        'Neighborhood Associations',
+        'BHA and Senior Housing',
+        'Police and Fire',
+        'Arts and Culture Organizations',
+        'Boston Public Schools',
+        'BCYF Centers',
+        'Boston Public Libraries',
+        'Parks and Green Space',
+      ]
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
+    email: Schema.Attribute.String;
     events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
     geohash: Schema.Attribute.String;
     hours_of_operation: Schema.Attribute.String;
@@ -556,6 +582,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
       ['BCYF Centers', 'Boston Public Libraries', 'Parks and Green Space']
     >;
     publishedAt: Schema.Attribute.DateTime;
+    resource: Schema.Attribute.Boolean;
     resources: Schema.Attribute.Relation<
       'manyToMany',
       'api::resource.resource'
@@ -564,6 +591,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     website: Schema.Attribute.String;
+    word_embeddings: Schema.Attribute.String;
   };
 }
 

@@ -97,7 +97,21 @@ const MapPage: React.FC = () => {
                 const { lat, lng, name } = location;
                 return (
                   <Marker key={location.id} position={[lat, lng]} icon={redPinIcon}>
-                    <Popup>{name}</Popup>
+                    <Popup>
+                      <div>
+                        <strong>{name}</strong>
+                        {location.phone && <div>📞 {location.phone}</div>}
+                        {location.place_type && <div>📍 {location.place_type}</div>}
+                        {location.website && (
+                          <div>
+                            🌐{' '}
+                            <a href={location.website} target="_blank" rel="noopener noreferrer">
+                              {location.website}
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </Popup>
                   </Marker>
                 );
               })}
