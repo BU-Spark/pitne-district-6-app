@@ -13,6 +13,7 @@ export default function HomePage() {
             <span className={styles.welcome}>Welcome to</span>
             <span className={styles.district}>DISTRICT 6</span>
           </div>
+          <div className={styles.photoCredit}>Photo by Korri Crowley (2025)</div>
         </div>
       </section>
 

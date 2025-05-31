@@ -17,3 +17,28 @@
 .map-container .leaflet-control-zoom {
   top: 60px !important;
 }
+
+.popup-content {
+  max-width: 270px;
+  word-break: break-word;
+  font-size: 14px;
+}
+
+.inline-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inline-item a {
+  color: #1871bd;
+  text-decoration: underline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+  display: inline-block;
+}

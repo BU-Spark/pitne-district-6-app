@@ -19,6 +19,7 @@ export default function MapPage() {
     category?: string;
     phone?: string;
     website?: string;
+    email?: string;
   }
 
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
@@ -92,24 +93,38 @@ export default function MapPage() {
             />
 
             {filteredLocations.map((location) => {
-              const { lat, lng, name, category, phone, website } = location;
+              const { lat, lng, name, category, phone, website, email } = location;
               return (
                 <Marker key={location.id} position={[lat, lng]} icon={getIconForCategory(category)}>
                   <Popup>
-                    <div>
-                      <strong>{name}</strong>
+                    <div className="popup-content">
+                      <strong>
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`}
+                          target="_blank"
+                          style={{ color: '#1871bd' }}
+                          rel="noopener noreferrer"
+                        >
+                          {name}
+                        </a>
+                      </strong>
                       {category && (
-                        <div>
-                          <b>Category:</b> {category}
+                        <div className="inline-item">
+                          <i>{category}</i>
                         </div>
                       )}
-                      {phone && <div>📞 {phone}</div>}
                       {website && (
-                        <div>
+                        <div className="inline-item">
                           🌐{' '}
                           <a href={website} target="_blank" rel="noopener noreferrer">
                             {website}
                           </a>
+                        </div>
+                      )}
+                      {phone && <div className="inline-item">📞 {phone}</div>}
+                      {email && (
+                        <div className="inline-item">
+                          ✉️ <a href={`mailto:${email}`}>{email}</a>
                         </div>
                       )}
                     </div>
