@@ -8,8 +8,7 @@ import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Papa from 'papaparse';
 import wellknown from 'wellknown';
-import L from 'leaflet';
-import { getColorForCategory } from '../utils/categoryMeta';
+import { categoryMeta, getIconForCategory } from '../utils/categoryMeta';
 
 export default function MapPage() {
   interface LocationData {
@@ -24,29 +23,14 @@ export default function MapPage() {
 
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
   const [locations, setLocations] = useState<LocationData[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(Object.keys(categoryMeta)));
 
-  const iconCache: { [color: string]: L.Icon } = {};
-
-  const getColoredIcon = (color: string): L.Icon => {
-    if (iconCache[color]) return iconCache[color];
-
-    const svg = encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="${color}">
-        <circle cx="12" cy="12" r="10" />
-      </svg>
-    `);
-
-    const icon = L.icon({
-      iconUrl: `data:image/svg+xml,${svg}`,
-      iconSize: [34, 34],
-      iconAnchor: [17, 34],
-      popupAnchor: [0, -34],
-    });
-
-    iconCache[color] = icon;
-    return icon;
-  };
-
+  const filteredLocations = locations.filter(
+    (location) =>
+      location.lat !== null &&
+      location.lng !== null &&
+      (!location.category || selectedCategories.has(location.category))
+  );
   useEffect(() => {
     fetch('/district6Coords.csv')
       .then((res) => res.text())
@@ -107,37 +91,32 @@ export default function MapPage() {
               attribution='&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
             />
 
-            {locations
-              .filter((location) => location.lat !== null && location.lng !== null)
-              .map((location) => {
-                const { lat, lng, name, category, phone, website } = location;
-                const color = getColorForCategory(category);
-                const icon = getColoredIcon(color);
-
-                return (
-                  <Marker key={location.id} position={[lat, lng]} icon={icon}>
-                    <Popup>
-                      <div>
-                        <strong>{name}</strong>
-                        {category && (
-                          <div>
-                            <b>Category:</b> {category}
-                          </div>
-                        )}
-                        {phone && <div>📞 {phone}</div>}
-                        {website && (
-                          <div>
-                            🌐{' '}
-                            <a href={website} target="_blank" rel="noopener noreferrer">
-                              {website}
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    </Popup>
-                  </Marker>
-                );
-              })}
+            {filteredLocations.map((location) => {
+              const { lat, lng, name, category, phone, website } = location;
+              return (
+                <Marker key={location.id} position={[lat, lng]} icon={getIconForCategory(category)}>
+                  <Popup>
+                    <div>
+                      <strong>{name}</strong>
+                      {category && (
+                        <div>
+                          <b>Category:</b> {category}
+                        </div>
+                      )}
+                      {phone && <div>📞 {phone}</div>}
+                      {website && (
+                        <div>
+                          🌐{' '}
+                          <a href={website} target="_blank" rel="noopener noreferrer">
+                            {website}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
 
             <Polygon
               positions={district6Coords}
@@ -150,7 +129,7 @@ export default function MapPage() {
             />
           </MapContainer>
         </div>
-        <Sidebar />
+        <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
       </div>
     </>
   );

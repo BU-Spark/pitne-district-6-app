@@ -3,7 +3,7 @@
 import './Sidebar.css';
 import Image from 'next/image';
 import FilterTag from '../FilterTag/FilterTag';
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckSquare, SquareX } from 'lucide-react';
 import { categoryMeta, groupColors, groupNames } from '../../utils/categoryMeta';
 
@@ -13,12 +13,17 @@ import { categoryMeta, groupColors, groupNames } from '../../utils/categoryMeta'
 //   return await res.json();
 // };
 
+interface SidebarProps {
+  selectedCategories: Set<string>;
+  setSelectedCategories: React.Dispatch<React.SetStateAction<Set<string>>>;
+}
+
 const hardcodedCategories = Object.keys(categoryMeta).map((name) => ({
   name,
   // count: 0, // comment out count for now
 }));
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCategories }) => {
   // const [categories, setCategories] = useState<{ name: string; count: number }[]>([]);
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
@@ -34,10 +39,6 @@ const Sidebar: React.FC = () => {
   //       setLoading(false);
   //     });
   // }, []);
-
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    new Set(hardcodedCategories.map((c) => c.name))
-  );
 
   const toggleCategory = (name: string) => {
     setSelectedCategories((prev) => {

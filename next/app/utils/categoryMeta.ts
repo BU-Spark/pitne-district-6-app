@@ -1,5 +1,7 @@
 // utils/categoryMeta.ts
 
+import L from 'leaflet';
+
 export const categoryMeta: Record<string, { group: string; iconPath: string }> = {
   'Affordable & Public Housing': { group: 'community', iconPath: '/icons/default/APH.svg' },
   'Boston Centers for Youth & Families': { group: 'community', iconPath: '/icons/default/BCYF.svg' },
@@ -40,8 +42,32 @@ export const groupNames: Record<string, string> = {
   education: 'EDUCATION AND CULTURE',
 };
 
-export const getColorForCategory = (category: string): string => {
+export const groupIcons: Record<string, string> = {
+  community: '/icons/markers/community_marker.svg',
+  health: '/icons/markers/health_marker.svg',
+  environment: '/icons/markers/environment_marker.svg',
+  education: '/icons/markers/education_marker.svg',
+};
+
+export const getIconForCategory = (category?: string): L.Icon => {
+  const fallback = '/icons/markers/community_marker.svg';
+
+  if (!category) {
+    return L.icon({
+      iconUrl: fallback,
+      iconSize: [34, 34],
+      iconAnchor: [12, 24],
+      popupAnchor: [5, -24],
+    });
+  }
+
   const meta = categoryMeta[category];
-  if (!meta) return '#999'; // fallback gray
-  return groupColors[meta.group] || '#999';
+  const iconUrl = meta?.group ? groupIcons[meta.group] : fallback;
+
+  return L.icon({
+    iconUrl,
+    iconSize: [34, 34],
+    iconAnchor: [12, 24],
+    popupAnchor: [5, -24],
+  });
 };
