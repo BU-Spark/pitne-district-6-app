@@ -9,6 +9,7 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import Papa from 'papaparse';
 import wellknown from 'wellknown';
 import L from 'leaflet';
+import { getColorForCategory } from '../utils/categoryMeta';
 
 export default function MapPage() {
   interface LocationData {
@@ -20,14 +21,31 @@ export default function MapPage() {
     phone?: string;
     website?: string;
   }
-  const redPinIcon = L.icon({
-    iconUrl: '/icons/markericon.svg',
-    iconSize: [34, 34],
-    iconAnchor: [12, 24],
-    popupAnchor: [5, -24],
-  });
+
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
   const [locations, setLocations] = useState<LocationData[]>([]);
+
+  const iconCache: { [color: string]: L.Icon } = {};
+
+  const getColoredIcon = (color: string): L.Icon => {
+    if (iconCache[color]) return iconCache[color];
+
+    const svg = encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="${color}">
+        <circle cx="12" cy="12" r="10" />
+      </svg>
+    `);
+
+    const icon = L.icon({
+      iconUrl: `data:image/svg+xml,${svg}`,
+      iconSize: [34, 34],
+      iconAnchor: [17, 34],
+      popupAnchor: [0, -34],
+    });
+
+    iconCache[color] = icon;
+    return icon;
+  };
 
   useEffect(() => {
     fetch('/district6Coords.csv')
@@ -55,7 +73,7 @@ export default function MapPage() {
       .then((res) => res.json())
       .then((data) => {
         if (data?.data) {
-          console.log(`Fetched ${data.data.length} locations from Strapi:`, data.data); // ← Add this line
+          console.log(`Fetched ${data.data.length} locations from Strapi:`, data.data);
           setLocations(data.data as LocationData[]);
         } else {
           console.warn('No location data found in API response.');
@@ -92,19 +110,26 @@ export default function MapPage() {
             {locations
               .filter((location) => location.lat !== null && location.lng !== null)
               .map((location) => {
-                const { lat, lng, name } = location;
+                const { lat, lng, name, category, phone, website } = location;
+                const color = getColorForCategory(category);
+                const icon = getColoredIcon(color);
+
                 return (
-                  <Marker key={location.id} position={[lat, lng]} icon={redPinIcon}>
+                  <Marker key={location.id} position={[lat, lng]} icon={icon}>
                     <Popup>
                       <div>
                         <strong>{name}</strong>
-                        {location.category && <div>{location.category}</div>}
-                        {location.phone && <div>📞 {location.phone}</div>}
-                        {location.website && (
+                        {category && (
+                          <div>
+                            <b>Category:</b> {category}
+                          </div>
+                        )}
+                        {phone && <div>📞 {phone}</div>}
+                        {website && (
                           <div>
                             🌐{' '}
-                            <a href={location.website} target="_blank" rel="noopener noreferrer">
-                              {location.website}
+                            <a href={website} target="_blank" rel="noopener noreferrer">
+                              {website}
                             </a>
                           </div>
                         )}
