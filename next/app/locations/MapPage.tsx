@@ -76,8 +76,8 @@ export default function MapPage() {
             className="leaflet-map"
             style={{ height: '100%', width: '100%' }}
             maxBounds={[
-              [42.23, -71.24],
-              [42.37, -71.03],
+              [42.23, -71.2],
+              [42.45, -70.97],
             ]}
             maxBoundsViscosity={1.0}
             scrollWheelZoom={true}

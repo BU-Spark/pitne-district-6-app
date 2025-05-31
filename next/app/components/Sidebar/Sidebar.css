@@ -1,5 +1,5 @@
 .sidebar {
-  flex: 1;
+  flex: 1.1;
   margin-top: 55px;
   background-color: #f2f2f2;
   padding: 1rem;
@@ -109,4 +109,13 @@
 
 .sidebar-btn:active {
   background-color: #d4d4d4;
+}
+
+.group-label {
+  color: #333333;
+  font-size: 0.85rem;
+  margin-top: 1em;
+  margin-left: 5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
