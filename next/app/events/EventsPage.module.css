@@ -1,0 +1,194 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 50vh;
+  min-height: 400px;
+  background: linear-gradient(135deg, #2d3748, #4a5568),
+    url('/images/home.png') center/cover;
+  background-blend-mode: overlay;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.overlay {
+  position: relative;
+  text-align: center;
+  color: white;
+  z-index: 2;
+  padding: 0 20px;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 1s ease-out;
+}
+
+.subtitle {
+  font-family: var(--font-lora), serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-style: italic;
+  opacity: 0.9;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+/* Calendar Section */
+.calendarSection {
+  padding: 80px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.calendarContainer {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  margin: 0 auto;
+  animation: fadeIn 1s ease-out 0.6s both;
+}
+
+.sectionTitle {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a365d;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sectionDescription {
+  font-family: var(--font-lora), serif;
+  font-size: 1.1rem;
+  color: #4a5568;
+  text-align: center;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero {
+    height: 40vh;
+    min-height: 300px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .calendarSection {
+    padding: 40px 16px;
+  }
+
+  .calendarContainer {
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .sectionDescription {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 35vh;
+    min-height: 250px;
+  }
+
+  .title {
+    font-size: 2rem;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .calendarSection {
+    padding: 24px 12px;
+  }
+
+  .calendarContainer {
+    padding: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 1.6rem;
+  }
+}
+
+/* Dark mode support (for future implementation) */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  }
+
+  .calendarContainer {
+    background: #2d3748;
+    color: #e2e8f0;
+  }
+
+  .sectionTitle {
+    color: #e2e8f0;
+  }
+
+  .sectionDescription {
+    color: #a0aec0;
+  }
+} 
