@@ -1,14 +1,13 @@
 .sidebar {
-  flex: 1.1;
+  flex: 0.97;
   margin-top: 28px;
   background-color: #f2f2f2;
   padding: 1rem;
   overflow-y: auto;
-  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 
 .sidebar h2 {
-  /* margin-bottom: 1rem; */
   color: #0c223f;
 }
 .sidebar-header {

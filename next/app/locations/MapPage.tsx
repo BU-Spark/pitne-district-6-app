@@ -70,7 +70,9 @@ export default function MapPage() {
   return (
     <>
       <Navbar />
+
       <div className="main-container">
+        <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
         <div className="map-container">
           <MapContainer
             center={[42.3061, -71.1204]}
@@ -144,7 +146,7 @@ export default function MapPage() {
             />
           </MapContainer>
         </div>
-        <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
+        {/* <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} /> */}
       </div>
     </>
   );

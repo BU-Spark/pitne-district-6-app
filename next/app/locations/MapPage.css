@@ -1,5 +1,6 @@
 .main-container {
   display: flex;
+  flex-direction: row; /* Ensure row direction */
   height: 100vh;
   font-family: 'Montserrat', Arial, sans-serif;
 }
@@ -7,6 +8,13 @@
 .map-container {
   flex: 3;
   height: 100%;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
 }
 
 .leaflet-map {
