@@ -17,17 +17,14 @@ export default function EventCalendar() {
   const calendarRef = useRef<FullCalendar>(null);
 
   const handleEventClick = (info: EventClickArg) => {
-    // Prevent default navigation
     info.jsEvent.preventDefault();
 
-    // Open event in a new window/tab
     if (info.event.url) {
       window.open(info.event.url, '_blank');
     }
   };
 
   const handleDateClick = (info: { dateStr: string }) => {
-    // You can add functionality for when a date is clicked
     console.log('Date clicked:', info.dateStr);
   };
 
@@ -86,7 +83,6 @@ export default function EventCalendar() {
         fixedWeekCount={false}
         showNonCurrentDates={false}
         eventClassNames={(info: { event: { allDay: boolean } }) => {
-          // Add custom classes based on event properties
           const classes = ['custom-event'];
           if (info.event.allDay) {
             classes.push('all-day-event');
@@ -94,7 +90,6 @@ export default function EventCalendar() {
           return classes;
         }}
         eventDidMount={(info: EventMountArg) => {
-          // Add tooltip or additional styling
           info.el.setAttribute('title', info.event.title || 'Event');
         }}
       />

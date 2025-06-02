@@ -6,13 +6,14 @@
 }
 
 .resource-card-container {
+  margin-left: 30px;
   flex: 3;
   overflow-y: auto;
 }
 
 .resource-card-stack {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 13px;
-  margin-top: 70px;
+  margin-top: 130px;
 }

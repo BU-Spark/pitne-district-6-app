@@ -8,18 +8,6 @@ export default function EventsPage() {
   return (
     <div className={styles.container}>
       <Navbar />
-
-      {/* Hero Section */}
-      <section className={styles.hero}>
-        <div className={styles.overlay}>
-          <div className={styles.heroText}>
-            <span className={styles.title}>COMMUNITY EVENTS</span>
-            <span className={styles.subtitle}>Stay connected with District 6</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Calendar Section */}
       <section className={styles.calendarSection}>
         <div className={styles.calendarContainer}>
           <h2 className={styles.sectionTitle}>Event Calendar</h2>
