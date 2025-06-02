@@ -1,6 +1,6 @@
 .sidebar {
   flex: 1.1;
-  margin-top: 55px;
+  margin-top: 28px;
   background-color: #f2f2f2;
   padding: 1rem;
   overflow-y: auto;
@@ -8,8 +8,50 @@
 }
 
 .sidebar h2 {
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   color: #0c223f;
+}
+.sidebar-header {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 0.25rem;
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  padding: 2rem 0 0.75rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+}
+
+.sidebar-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.sidebar-link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #1871bd;
+}
+
+.sidebar-link:hover {
+  color: #104b80;
+}
+
+.separator {
+  color: #555;
 }
 
 .sidebar form {
