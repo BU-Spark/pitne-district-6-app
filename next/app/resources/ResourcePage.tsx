@@ -1,71 +1,121 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
 import ResourceCard from '../components/ResourceCard/ResourceCard';
-import { Heart } from 'lucide-react';
+import { fetchLocations, fetchLocationsByCategories, Location } from '../utils/strapi.api';
 import './ResourcePage.css';
 import { categoryMeta } from '../utils/categoryMeta';
 
 export default function ResourcePage() {
   const allCategories = new Set(Object.keys(categoryMeta));
   const [selectedCategories, setSelectedCategories] = useState(allCategories);
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const resources = [
-    {
-      icon: <Heart size={20} />,
-      category: 'Healthcare',
-      title: 'Boston Health Center',
-      email: 'contact@bostonhealth.org',
-      contact: '(617) 555-1234',
-      website: 'https://bostonhealth.org',
-      lat: 42.3601,
-      lng: -71.0589,
-    },
-    {
-      icon: <Heart size={20} />,
-      category: 'Pet Care',
-      title: 'Cambridge Medical Hub',
-      email: 'info@cambridgemed.org',
-      contact: '(617) 555-6789',
-      website: 'https://cambridgemed.org',
-      lat: 42.3736,
-      lng: -71.1097,
-    },
-    {
-      icon: <Heart size={20} />,
-      category: 'Healthcare',
-      title: 'Somerville Clinic',
-      email: 'contact@somervilleclinic.org',
-      contact: '(617) 555-0001',
-      website: 'https://somervilleclinic.org',
-      lat: 42.3876,
-      lng: -71.0995,
-    },
-    {
-      icon: <Heart size={20} />,
-      category: 'Healthcare',
-      title: 'Medford Health Center',
-      email: 'info@medfordhealth.org',
-      contact: '(617) 555-7890',
-      website: 'https://medfordhealth.org',
-      lat: 42.4184,
-      lng: -71.1062,
-    },
-    {
-      icon: <Heart size={20} />,
-      category: 'Healthcare',
-      title: 'Newton Medical Facility',
-      email: 'contact@newtonmed.org',
-      contact: '(617) 555-2345',
-      website: 'https://newtonmed.org',
-      lat: 42.337,
-      lng: -71.2092,
-    },
-  ];
+  // Fetch locations on component mount
+  useEffect(() => {
+    const loadLocations = async () => {
+      try {
+        setLoading(true);
+        const locationsData = await fetchLocations();
+        console.log('Initial locations loaded:', locationsData.length);
+        console.log(
+          'Sample location categories:',
+          locationsData.slice(0, 3).map((l) => ({ name: l.name, category: l.category }))
+        );
+        setLocations(locationsData);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to load locations:', err);
+        setError('Failed to load resources. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const filteredResources = resources.filter((r) => selectedCategories.has(r.category));
+    loadLocations();
+  }, []);
+
+  // Fetch locations when selected categories change
+  useEffect(() => {
+    const loadFilteredLocations = async () => {
+      if (selectedCategories.size === 0) {
+        setLocations([]);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const categoriesArray = Array.from(selectedCategories);
+
+        console.log('Selected categories:', categoriesArray);
+        console.log('Number of selected categories:', categoriesArray.length);
+        console.log('Total available categories:', allCategories.size);
+
+        // If all categories are selected, fetch all locations
+        if (selectedCategories.size === allCategories.size) {
+          console.log('Fetching all locations (all categories selected)');
+          const locationsData = await fetchLocations();
+          setLocations(locationsData);
+        } else {
+          // Otherwise fetch by specific categories
+          console.log('Fetching locations by categories:', categoriesArray);
+          const locationsData = await fetchLocationsByCategories(categoriesArray);
+          console.log('Filtered locations received:', locationsData.length);
+          setLocations(locationsData);
+        }
+        setError(null);
+      } catch (err) {
+        console.error('Failed to load filtered locations:', err);
+        setError('Failed to load resources. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Only run filtering if we have some categories selected
+    // and it's not the initial load (where all categories are selected by default)
+    loadFilteredLocations();
+  }, [selectedCategories, allCategories.size]);
+
+  // Transform Strapi location to ResourceCard props
+  const transformLocation = (location: Location) => {
+    // Get icon path from categoryMeta, fallback to default icon
+    const categoryInfo = categoryMeta[location.category || ''];
+    const iconPath = categoryInfo?.iconPath || '/icons/default/default.svg';
+
+    return {
+      icon: <Image src={iconPath} alt={location.category || 'Default'} width={20} height={20} />,
+      category: location.category || 'Others',
+      title: location.name,
+      email: location.email || null,
+      contact: location.phone ? location.phone.toString() : null,
+      website: location.website || '',
+      lat: location.lat || null,
+      lng: location.lng || null,
+    };
+  };
+
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <div className="resource-main-container">
+          <div className="error-container">
+            <h2>Error Loading Resources</h2>
+            <p>{error}</p>
+            <button onClick={() => window.location.reload()} className="retry-button">
+              Retry
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -73,21 +123,38 @@ export default function ResourcePage() {
       <div className="resource-main-container">
         <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
         <div className="resource-card-container">
-          <div className="resource-card-stack">
-            {filteredResources.map((resource, i) => (
-              <ResourceCard
-                key={i}
-                icon={resource.icon}
-                category={resource.category}
-                title={resource.title}
-                email={resource.email}
-                contact={resource.contact}
-                website={resource.website}
-                lat={resource.lat}
-                lng={resource.lng}
-              />
-            ))}
-          </div>
+          {loading ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading resources...</p>
+            </div>
+          ) : (
+            <div className="resource-card-stack">
+              {locations.length > 0 ? (
+                locations.map((location) => {
+                  const cardProps = transformLocation(location);
+                  return (
+                    <ResourceCard
+                      key={location.id}
+                      icon={cardProps.icon}
+                      category={cardProps.category}
+                      title={cardProps.title}
+                      email={cardProps.email}
+                      contact={cardProps.contact}
+                      website={cardProps.website}
+                      lat={cardProps.lat}
+                      lng={cardProps.lng}
+                    />
+                  );
+                })
+              ) : (
+                <div className="no-resources-container">
+                  <h3>No resources found</h3>
+                  <p>Try adjusting your category filters or check back later.</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>
