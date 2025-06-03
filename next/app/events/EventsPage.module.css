@@ -2,10 +2,9 @@
 
 .container {
   min-height: 100vh;
-  background: #1a365d; /* solid dark blue */
+  background: var(--color-charles-blue);
 }
 
-/* Calendar Section */
 .calendarSection {
   padding: 80px 20px;
   max-width: 1400px;
@@ -13,19 +12,19 @@
 }
 
 .calendarContainer {
-  background: #1a365d; /* same dark blue as container */
-  border-radius: 0; /* remove rounding */
-  box-shadow: none; /* remove shadow */
+  background: var(--color-charles-blue);
+  border-radius: 0;
+  box-shadow: none;
   padding: 40px;
   margin: 0 auto;
-  color: white; /* white text for contrast */
+  color: white;
 }
 
 .sectionTitle {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  color: white; /* white text */
+  color: white;
   text-align: center;
   margin-bottom: 16px;
   letter-spacing: 1px;
@@ -35,7 +34,7 @@
 .sectionDescription {
   font-family: var(--font-lora), serif;
   font-size: 1.1rem;
-  color: #cbd5e1; /* light gray/blue for contrast */
+  color: white;
   text-align: center;
   margin-bottom: 40px;
   max-width: 900px;

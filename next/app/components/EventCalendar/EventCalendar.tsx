@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
+// Removed listPlugin import
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventClickArg, EventMountArg } from '@fullcalendar/core';
@@ -32,12 +32,12 @@ export default function EventCalendar() {
     <div className={styles.calendarWrapper}>
       <FullCalendar
         ref={calendarRef}
-        plugins={[dayGridPlugin, timeGridPlugin, listPlugin, googleCalendarPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, /* listPlugin removed */ googleCalendarPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay', // removed listWeek here
         }}
         views={{
           dayGridMonth: {

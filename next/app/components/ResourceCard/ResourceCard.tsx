@@ -6,7 +6,6 @@ import { MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 import { categoryMeta, groupColors } from '../../utils/categoryMeta';
 
 function lightenColor(hex: string, percent: number) {
-  // Simple lighten function for hex colors
   const num = parseInt(hex.replace('#', ''), 16);
   let r = (num >> 16) + Math.round(255 * percent);
   let g = ((num >> 8) & 0x00ff) + Math.round(255 * percent);

@@ -9,9 +9,8 @@ export const FeatureCard = ({ id, icon, title, description, details, isExpanded,
       className={`${styles.featureCard} ${isExpanded ? styles.expanded : ''}`}
       onClick={() => onClick(id)}
       role="button"
-      tabIndex={0} // For accessibility (keyboard focus)
+      tabIndex={0}
       onKeyDown={(e) => {
-        // For accessibility (keyboard activation)
         if (e.key === 'Enter' || e.key === ' ') {
           onClick(id);
         }

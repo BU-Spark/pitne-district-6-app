@@ -62,7 +62,8 @@
 }
 
 .featureTitle {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  color: blueviolet;
   font-weight: 600;
   margin-bottom: 0.75rem;
   text-align: center;
@@ -101,8 +102,7 @@
   padding-top: 1rem;
   margin-top: 1rem;
   transform: translateY(0);
-  /* Subtle scrollbar styling for WebKit browsers */
-  scrollbar-width: thin; /* For Firefox */
+  scrollbar-width: thin;
   scrollbar-color: var(--card-border) transparent;
 }
 
@@ -117,7 +117,7 @@
 .featureDetails.detailsVisible::-webkit-scrollbar-thumb {
   background-color: var(--card-border);
   border-radius: 10px;
-  border: 2px solid transparent; /* Creates padding around thumb */
+  border: 2px solid transparent;
   background-clip: content-box;
 }
 
@@ -137,7 +137,7 @@
 
 .featureLink {
   color: var(--link-color);
-  text-decoration: none; /* Remove underline by default */
+  text-decoration: none;
 }
 
 :global(html.dark) .featureLink {
@@ -145,13 +145,13 @@
 }
 
 .featureLink:hover {
-  text-decoration: underline; /* Add underline on hover for visual feedback */
+  text-decoration: underline;
 }
 
 .detailListItem {
-  margin-bottom: 0.5rem; /* Adjust as needed */
-  font-size: 0.95rem; /* Match paragraph font size */
-  line-height: 1.7; /* Match paragraph line height */
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 /* Ensure the last item in a list doesn't have extra margin if not desired, though usually fine */
@@ -166,13 +166,12 @@
   font-weight: 600;
 }
 
-/* Style for links within subheadings to have a gradient text */
 .detailSubheading > a.featureLink {
   background: linear-gradient(120deg, var(--primary-accent), var(--secondary-accent));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent; /* Fallback for browsers that don't support -webkit-text-fill-color */
+  color: transparent;
 }
 
 :global(html.dark) .detailSubheading > a.featureLink {
@@ -180,17 +179,14 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent; /* Fallback for browsers that don't support -webkit-text-fill-color */
+  color: transparent;
 }
 
-/* Underline for gradient heading links on hover */
 .detailSubheading > a.featureLink:hover {
-  text-decoration: none; /* Override general .featureLink:hover which adds text-decoration underline */
+  text-decoration: none;
   border-bottom: 1px solid var(--primary-accent);
-  /* The gradient text properties are inherited from the non-hover state */
 }
 
-/* Dark mode underline for gradient heading links on hover */
 :global(html.dark) .detailSubheading > a.featureLink:hover {
   border-bottom-color: var(--primary-accent);
 }
