@@ -4,7 +4,7 @@ import styles from '../../home/HomePage.module.css';
 import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import GoogleTranslate from '../GoogleTranslate/GoogleTranslate';
+import LanguageSelector from '../LanguageSelector/LanguageSelector';
 
 import Image from 'next/image';
 import { fetchCouncilor, CouncilMember } from '../../utils';
@@ -67,7 +67,7 @@ export default function Navbar() {
             {getCouncilorDisplay()}
           </a>
           <span className={styles.divider}></span>
-          <GoogleTranslate />
+          <LanguageSelector />
         </div>
 
         {/* Boston Logo in Center */}
@@ -120,6 +120,11 @@ export default function Navbar() {
                 ABOUT US
               </Link>
             </nav>
+
+            {/* Language Selector in Mobile Menu */}
+            <div className={styles.mobileLanguageSelector}>
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       )}

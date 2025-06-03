@@ -1,0 +1,76 @@
+.languageSelector {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.languageButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.5rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  color: #0c223f;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.languageButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.languageButton.active {
+  background: #fb4d42;
+  border-color: #fb4d42;
+  color: white;
+  font-weight: 700;
+}
+
+.languageButton.active:hover {
+  background: #e64339;
+  border-color: #e64339;
+}
+
+.flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.langCode {
+  font-size: 0.75rem;
+  font-weight: inherit;
+  letter-spacing: 0.5px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .languageSelector {
+    gap: 0.125rem;
+  }
+  
+  .languageButton {
+    padding: 0.25rem 0.375rem;
+  }
+  
+  .langCode {
+    display: none;
+  }
+  
+  .flag {
+    font-size: 1.125rem;
+  }
+}
+
+/* Navbar specific styling */
+.languageSelector {
+  margin-left: 0.5rem;
+} 
