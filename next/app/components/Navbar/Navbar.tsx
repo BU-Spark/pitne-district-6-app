@@ -2,42 +2,18 @@
 
 import styles from '../../home/HomePage.module.css';
 import Link from 'next/link';
-import { Search, Menu, X, Globe } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import GoogleTranslate from '../GoogleTranslate/GoogleTranslate';
+
 import Image from 'next/image';
 import { fetchCouncilor, CouncilMember } from '../../utils';
-
-declare global {
-  interface Window {
-    googleTranslateElementInit: () => void;
-    google: {
-      translate: {
-        TranslateElement: TranslateElementConstructor;
-      };
-    };
-  }
-
-  interface TranslateElementConstructor {
-    new (
-      options: {
-        pageLanguage: string;
-        layout: unknown;
-      },
-      containerId: string
-    ): void;
-
-    InlineLayout: {
-      SIMPLE: unknown;
-    };
-  }
-}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [councilor, setCouncilor] = useState<CouncilMember | null>(null);
   const [loading, setLoading] = useState(true);
-  const [translateLoaded, setTranslateLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,62 +38,6 @@ export default function Navbar() {
     };
 
     loadCouncilor();
-  }, []);
-
-  useEffect(() => {
-    // Check if Google Translate is already loaded
-    if (document.querySelector('script[src*="translate.google.com"]')) {
-      return;
-    }
-
-    const addGoogleTranslateScript = () => {
-      const script = document.createElement('script');
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      script.async = true;
-
-      script.onload = () => {
-        setTranslateLoaded(true);
-      };
-
-      document.body.appendChild(script);
-    };
-
-    // Define the callback globally
-    window.googleTranslateElementInit = () => {
-      if (window.google?.translate) {
-        new window.google.translate.TranslateElement(
-          {
-            pageLanguage: 'en',
-            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-          },
-          'google_translate_element'
-        );
-
-        // Additional cleanup after widget loads
-        setTimeout(() => {
-          // Remove Google's top banner if it appears
-          const banner = document.querySelector('.goog-te-banner-frame');
-          if (banner) {
-            banner.remove();
-          }
-
-          // Add custom class for better styling control
-          const widget = document.querySelector('#google_translate_element .goog-te-gadget');
-          if (widget) {
-            widget.classList.add('custom-translate-widget');
-          }
-        }, 1000);
-      }
-    };
-
-    addGoogleTranslateScript();
-
-    return () => {
-      // Remove the global callback when component unmounts
-      if (window.googleTranslateElementInit) {
-        window.googleTranslateElementInit = (() => {}) as () => void;
-      }
-    };
   }, []);
 
   const toggleMobileMenu = () => {
@@ -146,6 +66,8 @@ export default function Navbar() {
           <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
             {getCouncilorDisplay()}
           </a>
+          <span className={styles.divider}></span>
+          <GoogleTranslate />
         </div>
 
         {/* Boston Logo in Center */}
@@ -159,20 +81,10 @@ export default function Navbar() {
           <Link href="/events">EVENTS</Link>
           <Link href="/locations">LOCATIONS</Link>
           <Link href="/about">ABOUT US</Link>
+
           <span className={styles.searchIcon}>
             <Search size={18} strokeWidth={4} />
           </span>
-
-          {/* Enhanced Translate Widget Container */}
-          <div className={`${styles.translateWidget} ${styles.translateWidgetCompact}`}>
-            {!translateLoaded && (
-              <div className={styles.translatePlaceholder}>
-                <Globe size={16} />
-                <span>Translate</span>
-              </div>
-            )}
-            <div id="google_translate_element"></div>
-          </div>
         </nav>
 
         {/* Mobile Hamburger Button */}

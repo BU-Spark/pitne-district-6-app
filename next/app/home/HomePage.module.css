@@ -7,7 +7,7 @@
   max-width: 100vw;
   margin: 0;
   padding: 0;
-  padding-top: 50px; /* Space for fixed header */
+  padding-top: 50px;
   box-sizing: border-box;
 }
 
@@ -17,9 +17,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  /* border-top: 4px solid #0c223f; */
   position: fixed;
-  top: 0;
+  /* top: 0; */
   left: 0;
   right: 0;
   z-index: 1000;
@@ -46,17 +45,31 @@
   letter-spacing: 1px;
 }
 
-.nav a,
+.nav a {
+  font-weight: 500;
+  color: #0c223f;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin: 0 0.75rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: #fb4d42;
+  text-decoration: none;
+}
+
+/* City name */
 .cityName {
   font-weight: bold;
   color: #0c223f;
   font-size: 1rem;
-  margin-right: 0.5rem;
   letter-spacing: 1px;
   transition: color 0.2s;
+  position: relative;
 }
 
-.nav a,
 .cityName:hover {
   color: #fb4d42;
   text-decoration: none;
@@ -88,18 +101,6 @@
   height: 1.2rem;
   background-color: #222;
   margin: 0 0.5rem;
-}
-
-.nav a {
-  color: #0c223f;
-  margin: 0 1rem;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.nav a:hover {
-  color: #fb4d42;
 }
 
 .searchIcon {
@@ -168,6 +169,7 @@
 .district:hover::after {
   width: 100%;
 }
+
 .playButton {
   background: none;
   border: 2px solid #e3343e;
@@ -328,10 +330,6 @@
   background: #fb4d42;
 }
 
-/* .mobileNav a:last-child {
-  border-bottom: none;
-} */
-
 /* Medium Screen Responsive Styles */
 @media (max-width: 1224px) {
   .bostonLogo {
@@ -405,62 +403,4 @@
   font-style: italic;
   z-index: 10;
   pointer-events: none;
-}
-
-/* Add these to your HomePage.module.css file */
-
-.translateWidget {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 12px;
-  position: relative;
-}
-
-.translateWidgetCompact {
-  height: 32px;
-  min-width: 100px;
-}
-
-.translatePlaceholder {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: inherit;
-  opacity: 0.7;
-  pointer-events: none;
-  position: absolute;
-  z-index: 1;
-}
-
-.translatePlaceholder svg {
-  opacity: 0.8;
-}
-
-.mobileTranslateWidget {
-  margin: 16px 0;
-  padding: 12px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .translateWidget {
-    display: none; /* Hide on mobile, show in mobile menu instead */
-  }
-
-  .mobileTranslateWidget {
-    display: block;
-  }
-
-  .mobileTranslateWidget :global(.goog-te-gadget .goog-te-combo) {
-    font-size: 12px !important;
-    padding: 6px 10px !important;
-  }
-}
-
-@media (min-width: 769px) {
-  .mobileTranslateWidget {
-    display: none;
-  }
 }
