@@ -1,34 +1,30 @@
+/* Resource Card Styles - Inspired by lesson card design */
 .resource-card {
-  /* transform: scale(0.9); */
-  transform-origin: top left;
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
-  border: 2px solid #1871bd;
-  padding: 16px;
-  background-color: white;
-  color: #1871bd;
+  border-radius: 20px;
+  background: #f2f2f2;
   width: 100%;
-  width: 320px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  cursor: default;
-  transition: background-color 0.4s ease;
+  max-width: 240px;
+  height: 160px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
   font-family: 'Montserrat', sans-serif;
+  border: none;
 }
 
 .resource-card:hover {
-  background-color: #f5faff;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
+/* Slider Animation */
 .slider {
   display: flex;
-  overflow: hidden;
-  width: 300%;
+  width: 200%;
   transition: transform 0.4s ease;
-  position: relative;
-  left: 0;
-  margin: 0;
-  padding: 0;
+  height: 100%;
 }
 
 .resource-card:hover .slider {
@@ -37,103 +33,134 @@
 
 .slide-out,
 .slide-in {
-  overflow: hidden;
   width: 50%;
-  box-sizing: border-box;
-  padding-right: 0;
-  margin: 0;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  color: #1871bd;
+  justify-content: flex-start;
   height: 100%;
+  box-sizing: border-box;
+}
+
+/* First Card (Initial View) */
+.slide-out {
+  background: #f2f2f2;
 }
 
 .card-header {
-  display: flex;
-  align-items: center;
   margin-bottom: 10px;
 }
 
-.icon-wrapper {
-  margin-right: 8px;
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 18px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+  max-width: 200px;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  /* background is set inline */
+}
+
+.category-icon {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.category-tag {
-  display: inline-flex;
+.category-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  border-radius: 9999px;
-  padding: 4px 10px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  border: 2px solid #1871bd;
-  color: #1871bd;
-  background-color: white;
+  text-align: center;
 }
 
 .resource-title {
-  font-size: 1.2rem;
-  margin: 8px 0;
-  font-weight: 600;
-}
-
-.resource-info {
-  font-size: 0.9rem;
-}
-
-.info-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.info-icon {
-  margin-right: 6px;
-}
-
-/* 
-.view-button {
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 8px 20px;
-  border: 2px solid #1871bd;
-  background-color: white;
-  color: #1871bd;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-  z-index: 10;
-  user-select: none;
-  outline: none;
-}
-
-.view-button:hover {
-  display: none;
-  background-color: #1871bd;
-  color: white;
-} */
-
-.resource-title-large {
-  font-size: 1.8rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin: 8px 0;
-  max-width: 80%;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.3;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  white-space: normal;
+  hyphens: auto;
 }
 
-.resource-title-small {
+/* Second Card (Contact Info) */
+.slide-in {
+  background: white;
+  border-left: 1px solid #e5e7eb;
+}
+
+.contact-header {
+  margin-bottom: 10px;
+}
+
+.contact-title {
   font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.contact-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 1px 0;
+}
+
+.contact-icon {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.contact-text {
+  font-size: 0.8rem;
+  color: #374151;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.3;
+}
+
+.contact-link {
+  font-size: 0.8rem;
+  color: #3b82f6;
+  text-decoration: none;
   font-weight: 500;
-  margin: 8px 0 12px 0;
-  color: #1871bd;
+  transition: color 0.2s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.3;
+}
+
+.contact-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
 }

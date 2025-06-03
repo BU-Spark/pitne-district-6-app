@@ -2,7 +2,20 @@
 
 import React from 'react';
 import './ResourceCard.css';
-import { MapPin, Mail, Phone, Shapes, ExternalLink } from 'lucide-react';
+import { MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
+import { categoryMeta, groupColors } from '../../utils/categoryMeta';
+
+function lightenColor(hex: string, percent: number) {
+  // Simple lighten function for hex colors
+  const num = parseInt(hex.replace('#', ''), 16);
+  let r = (num >> 16) + Math.round(255 * percent);
+  let g = ((num >> 8) & 0x00ff) + Math.round(255 * percent);
+  let b = (num & 0x0000ff) + Math.round(255 * percent);
+  r = r > 255 ? 255 : r;
+  g = g > 255 ? 255 : g;
+  b = b > 255 ? 255 : b;
+  return `rgb(${r},${g},${b})`;
+}
 
 interface ResourceCardProps {
   icon?: React.ReactNode;
@@ -15,64 +28,61 @@ interface ResourceCardProps {
   lng?: number | null;
 }
 
-const truncate = (str: string, max = 30) => (str.length > max ? str.slice(0, max) + '...' : str);
-
-const ResourceCard: React.FC<ResourceCardProps> = ({
-  icon = <Shapes size={20} />,
-  category,
-  title,
-  email,
-  contact,
-  website,
-  lat,
-  lng,
-}) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, email, contact, website, lat, lng }) => {
   const mapsLink = lat != null && lng != null ? `https://www.google.com/maps?q=${lat},${lng}` : null;
+  const meta = categoryMeta[category] || { group: 'community' };
+  const groupColor = groupColors[meta.group] || '#091F2F';
+  const lighterColor = lightenColor(groupColor, 0.7); // 70% lighter
 
   return (
     <div className="resource-card">
       <div className="slider">
-        {/* First card: only category and big title */}
+        {/* First card: Initial view with category and title */}
         <div className="slide-out">
           <div className="card-header">
-            <div className="icon-wrapper">{icon}</div>
-            <div className="category-tag">{category}</div>
+            <div className="category-pill" style={{ background: groupColor, minWidth: 120, maxWidth: 200 }}>
+              {icon && <div className="category-icon">{icon}</div>}
+              <span className="category-text">{category}</span>
+            </div>
           </div>
-          <h2 className="resource-title-large">{title}</h2> {/* Bigger title */}
+          <div className="card-content">
+            <h2 className="resource-title">{title}</h2>
+          </div>
         </div>
-
-        {/* Second card: smaller title + contact info, website, maps */}
-        <div className="slide-in">
-          <h4 className="resource-title-small">{title}</h4> {/* Smaller title */}
-          <div className="resource-info info-hover">
+        {/* Second card: Contact details on hover */}
+        <div className="slide-in" style={{ background: lighterColor }}>
+          <div className="contact-header">
+            <h3 className="contact-title">{title}</h3>
+          </div>
+          <div className="contact-info">
             {email && (
-              <div className="info-row">
-                <Mail size={14} className="info-icon" />
-                <span>{email}</span>
+              <div className="contact-row">
+                <Mail size={16} className="contact-icon" />
+                <span className="contact-text">{email}</span>
               </div>
             )}
             {contact && (
-              <div className="info-row">
-                <Phone size={14} className="info-icon" />
-                <span>{contact}</span>
+              <div className="contact-row">
+                <Phone size={16} className="contact-icon" />
+                <span className="contact-text">{contact}</span>
               </div>
             )}
             {website && (
-              <div className="info-row">
-                <ExternalLink size={14} className="info-icon" />
-                <a href={website} target="_blank" rel="noopener noreferrer" className="website-link" title={website}>
-                  {truncate(website, 40)}
+              <div className="contact-row">
+                <ExternalLink size={16} className="contact-icon" />
+                <a href={website} target="_blank" rel="noopener noreferrer" className="contact-link" title={website}>
+                  Visit Website
                 </a>
               </div>
             )}
             {mapsLink && (
-              <div className="info-row">
-                <MapPin size={14} className="info-icon" />
+              <div className="contact-row">
+                <MapPin size={16} className="contact-icon" />
                 <a
                   href={mapsLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="maps-link"
+                  className="contact-link"
                   title="Open location in Google Maps"
                 >
                   View Directions
