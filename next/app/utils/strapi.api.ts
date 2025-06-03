@@ -41,6 +41,51 @@ export interface CouncilMember {
   publishedAt: string;
 }
 
+export interface Location {
+  id: number;
+  documentId: string;
+  name: string;
+  place_type: 'BCYF Centers' | 'Boston Public Libraries' | 'Parks and Green Space' | 'Others';
+  description?: string;
+  lat?: number;
+  lng?: number;
+  geohash?: string;
+  phone?: number;
+  website?: string;
+  hours_of_operation?: string;
+  is_active: boolean;
+  email?: string;
+  resource: boolean;
+  category?:
+    | 'Affordable & Public Housing'
+    | 'Boston Centers for Youth & Families'
+    | 'Housing Community Organizations'
+    | 'Neighborhood Associations'
+    | 'Police & Fire'
+    | 'Small Business Organizations'
+    | 'Child Care Organizations'
+    | 'Food Community Organizations'
+    | 'Healthcare'
+    | 'Pet Care'
+    | 'Justice, Organizing & Basic Needs'
+    | 'Senior Services & Communities'
+    | 'Bike Community Organizations'
+    | 'Boston Public Libraries'
+    | 'Climate & Environmental Organizations'
+    | 'Parks & Green Space'
+    | 'Arts & Culture Organizations'
+    | 'Education Community Organizations'
+    | 'Boston Public Schools'
+    | 'Youth Community Organizations';
+  word_embeddings?: string;
+  address?: unknown; // GeoJSON custom field
+  resources?: unknown[]; // Resource relation
+  events?: unknown[]; // Event relation
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
 export interface StrapiResponse<T> {
   data: T;
   meta: {
@@ -97,4 +142,86 @@ export async function fetchCouncilMembersByRole(role: string): Promise<CouncilMe
 export async function fetchCouncilor(): Promise<CouncilMember | null> {
   const councilors = await fetchCouncilMembersByRole('Councilor');
   return councilors.length > 0 ? councilors[0] : null;
+}
+
+/**
+ * Fetch all locations that are marked as resources
+ */
+export async function fetchLocations(): Promise<Location[]> {
+  try {
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/locations?populate=*&filters[is_active][$eq]=true&filters[resource][$eq]=true`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch locations: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Location[]> = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching locations:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch locations by category
+ */
+export async function fetchLocationsByCategory(category: string): Promise<Location[]> {
+  try {
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/locations?populate=*&filters[category][$eq]=${encodeURIComponent(category)}&filters[is_active][$eq]=true&filters[resource][$eq]=true`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch locations by category: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Location[]> = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching locations by category:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch locations by multiple categories
+ */
+export async function fetchLocationsByCategories(categories: string[]): Promise<Location[]> {
+  try {
+    // If only one category, use the simpler single category endpoint
+    if (categories.length === 1) {
+      return await fetchLocationsByCategory(categories[0]);
+    }
+
+    // For multiple categories, try building the filter differently
+    // Strapi expects: filters[category][$in][0]=Category1&filters[category][$in][1]=Category2
+    const filterParams = categories
+      .map((cat, index) => `filters[category][$in][${index}]=${encodeURIComponent(cat)}`)
+      .join('&');
+
+    const url = `${STRAPI_BASE_URL}/api/locations?populate=*&${filterParams}&filters[is_active][$eq]=true&filters[resource][$eq]=true`;
+
+    console.log('API URL for category filtering (new format):', url);
+    console.log('Categories being filtered:', categories);
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch locations by categories: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Location[]> = await response.json();
+    console.log('API response for filtered categories:', {
+      totalResults: result.data.length,
+      categories: result.data.map((location) => ({ name: location.name, category: location.category })),
+    });
+
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching locations by categories:', error);
+    return [];
+  }
 }
