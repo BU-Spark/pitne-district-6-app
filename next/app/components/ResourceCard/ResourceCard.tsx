@@ -40,7 +40,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
         {/* First card: Initial view with category and title */}
         <div className="slide-out">
           <div className="card-header">
-            <div className="category-pill" style={{ background: groupColor, minWidth: 120, maxWidth: 200 }}>
+            <div className="category-pill" style={{ background: groupColor, minWidth: 140, maxWidth: 220 }}>
               {icon && <div className="category-icon">{icon}</div>}
               <span className="category-text">{category}</span>
             </div>
