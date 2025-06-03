@@ -443,94 +443,16 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Google Translate Styles with :global() wrapper */
-:global(.goog-te-banner-frame) {
-  display: none !important;
-}
-
-:global(.goog-te-gadget) {
-  font-family: 'Montserrat', Arial, sans-serif !important;
-  font-size: 14px !important;
-  color: inherit !important;
-  background: transparent !important;
-  border: none !important;
-}
-
-:global(.goog-te-gadget .goog-te-combo) {
-  background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  border-radius: 4px !important;
-  color: inherit !important;
-  font-family: 'Montserrat', Arial, sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  padding: 4px 8px !important;
-  margin: 0 !important;
-  outline: none !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-}
-
-:global(.goog-te-gadget .goog-te-combo:hover) {
-  border-color: rgba(255, 255, 255, 0.6) !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-}
-
-:global(.goog-te-gadget .goog-te-gadget-simple) {
-  background: transparent !important;
-  border: none !important;
-  font-size: 12px !important;
-  line-height: 1 !important;
-}
-
-:global(.goog-te-gadget .goog-te-gadget-simple .goog-te-menu-value span:first-child) {
-  display: none; /* This hides the translate icon */
-}
-
-:global(.goog-te-gadget .goog-te-gadget-simple .goog-te-menu-value span:last-child) {
-  color: inherit !important;
-  border-left: 4px solid transparent !important;
-  border-right: 4px solid transparent !important;
-  border-top: 4px solid currentColor !important;
-  display: inline-block !important;
-  margin-left: 6px !important;
-  vertical-align: middle !important;
-}
-
-:global(.goog-te-gadget .goog-te-gadget-simple .goog-te-menu-value span[style]) {
-  color: inherit !important;
-  font-family: 'Montserrat', Arial, sans-serif !important;
-}
-
-:global(.goog-te-gadget .goog-te-gadget-simple .goog-te-menu-value) {
-  color: inherit !important;
-}
-
-:global(.goog-te-spinner-pos) {
-  display: none !important;
-}
-
-/* Dark theme adjustments for scrolled header */
-.headerScrolled :global(.goog-te-gadget .goog-te-combo) {
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: #fff !important;
-}
-
-.headerScrolled :global(.goog-te-gadget .goog-te-combo:hover) {
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .translateWidget {
     display: none; /* Hide on mobile, show in mobile menu instead */
   }
-  
+
   .mobileTranslateWidget {
     display: block;
   }
-  
+
   :global(.goog-te-gadget .goog-te-combo) {
     font-size: 12px !important;
     padding: 6px 10px !important;

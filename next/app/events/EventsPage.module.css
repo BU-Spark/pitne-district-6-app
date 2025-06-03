@@ -2,7 +2,7 @@
 
 .container {
   min-height: 100vh;
-  background: var(--color-charles-blue);
+  background: #1a365d; /* solid dark blue */
 }
 
 /* Calendar Section */
@@ -13,19 +13,19 @@
 }
 
 .calendarContainer {
-  background: var(--color-charles-blue);
-  border-radius: 0;
-  box-shadow: none;
+  background: #1a365d; /* same dark blue as container */
+  border-radius: 0; /* remove rounding */
+  box-shadow: none; /* remove shadow */
   padding: 40px;
   margin: 0 auto;
-  color: var(--color-white);
+  color: white; /* white text for contrast */
 }
 
 .sectionTitle {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--color-white);
+  color: white; /* white text */
   text-align: center;
   margin-bottom: 16px;
   letter-spacing: 1px;
@@ -35,7 +35,7 @@
 .sectionDescription {
   font-family: var(--font-lora), serif;
   font-size: 1.1rem;
-  color: var(--color-light-text);
+  color: #cbd5e1; /* light gray/blue for contrast */
   text-align: center;
   margin-bottom: 40px;
   max-width: 900px;
@@ -83,19 +83,19 @@
 /* Optional: dark mode support */
 @media (prefers-color-scheme: dark) {
   .container {
-    background: var(--color-charles-blue);
+    background: #1a365d;
   }
 
   .calendarContainer {
-    background: var(--color-charles-blue);
-    color: var(--color-white);
+    background: #1a365d;
+    color: white;
   }
 
   .sectionTitle {
-    color: var(--color-white);
+    color: white;
   }
 
   .sectionDescription {
-    color: var(--color-light-text);
+    color: #cbd5e1;
   }
 }
