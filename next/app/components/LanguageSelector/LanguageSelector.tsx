@@ -8,6 +8,11 @@ const languages = [
   { code: 'es', name: 'Español', flag: '🇪🇸' },
 ];
 
+const shortLabels: Record<string, string> = {
+  en: 'ENGLISH',
+  es: 'Español',
+};
+
 declare global {
   interface Window {
     googleTranslateElementInit: () => void;
@@ -138,7 +143,7 @@ export default function LanguageSelector() {
           title={language.name}
         >
           <span className={styles.flag}>{language.flag}</span>
-          <span className={styles.langCode}>{language.code.toUpperCase()}</span>
+          <span className={styles.langCode}>{shortLabels[language.code].toUpperCase()}</span>
         </button>
       ))}
     </div>

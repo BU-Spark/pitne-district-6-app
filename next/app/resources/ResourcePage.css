@@ -117,6 +117,7 @@
 /* No Resources States */
 .no-resources-container {
   display: flex;
+  /* box-shadow: 0 4px 3px rgba(49, 130, 206, 0.3); */
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -131,14 +132,14 @@
 }
 
 .no-resources-container h3 {
-  color: #2d3748;
+  color: var(--color-charles-blue);
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 12px;
 }
 
 .no-resources-container p {
-  color: #718096;
+  color: var(--color-charles-blue);
   font-size: 1rem;
   line-height: 1.5;
 }
@@ -207,6 +208,7 @@
 /* Pagination Controls */
 .pagination-controls {
   display: flex;
+  font-family: var(--font-primary);
   justify-content: center;
   align-items: center;
   gap: 1rem;
@@ -216,9 +218,10 @@
 
 .pagination-button {
   padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
+  font-family: var(--font-primary);
+  border: 2px solid #ccc;
   border-radius: 4px;
-  background-color: white;
+  background-color: var(--color-light-background);
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -239,9 +242,11 @@
 
 .page-number {
   padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
+  font-family: var(--font-primary);
   border-radius: 4px;
-  background-color: white;
+  background-color: var(--color-light-background);
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -251,7 +256,7 @@
 }
 
 .page-number.active {
-  background-color: #007bff;
+  background-color: var(--color-charles-blue);
   color: white;
-  border-color: #007bff;
+  border-color: var(--color-charles-blue);
 }

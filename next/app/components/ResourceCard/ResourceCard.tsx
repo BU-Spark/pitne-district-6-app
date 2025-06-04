@@ -35,7 +35,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
   const mapsLink = lat != null && lng != null ? `https://www.google.com/maps?q=${lat},${lng}` : null;
   const meta = categoryMeta[category] || { group: 'community' };
   const groupColor = groupColors[meta.group] || '#091F2F';
-  const lighterColor = lightenColor(groupColor, 0.7); // 70% lighter
+  const lighterColor = lightenColor(groupColor, 0.8);
 
   return (
     <div className="resource-card">
@@ -61,7 +61,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
             {email && (
               <div className="contact-row">
                 <Mail size={16} className="contact-icon" />
-                <span className="contact-text">{email}</span>
+                <a className="contact-text" href={`mailto:${email}`}>
+                  {email}
+                </a>
               </div>
             )}
             {contact && (
