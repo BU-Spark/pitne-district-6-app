@@ -149,16 +149,32 @@ export async function fetchCouncilor(): Promise<CouncilMember | null> {
  */
 export async function fetchLocations(): Promise<Location[]> {
   try {
-    const response = await fetch(
-      `${STRAPI_BASE_URL}/api/locations?populate=*&filters[is_active][$eq]=true&filters[resource][$eq]=true`
-    );
+    let allLocations: Location[] = [];
+    let page = 1;
+    let hasMorePages = true;
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch locations: ${response.statusText}`);
+    while (hasMorePages) {
+      const response = await fetch(
+        `${STRAPI_BASE_URL}/api/locations?populate=*&filters[is_active][$eq]=true&filters[resource][$eq]=true&pagination[page]=${page}&pagination[pageSize]=100`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch locations: ${response.statusText}`);
+      }
+
+      const result: StrapiResponse<Location[]> = await response.json();
+      allLocations = [...allLocations, ...result.data];
+
+      // Check if there are more pages
+      if (result.meta.pagination) {
+        hasMorePages = page < result.meta.pagination.pageCount;
+        page++;
+      } else {
+        hasMorePages = false;
+      }
     }
 
-    const result: StrapiResponse<Location[]> = await response.json();
-    return result.data;
+    return allLocations;
   } catch (error) {
     console.error('Error fetching locations:', error);
     return [];
@@ -170,16 +186,32 @@ export async function fetchLocations(): Promise<Location[]> {
  */
 export async function fetchLocationsByCategory(category: string): Promise<Location[]> {
   try {
-    const response = await fetch(
-      `${STRAPI_BASE_URL}/api/locations?populate=*&filters[category][$eq]=${encodeURIComponent(category)}&filters[is_active][$eq]=true&filters[resource][$eq]=true`
-    );
+    let allLocations: Location[] = [];
+    let page = 1;
+    let hasMorePages = true;
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch locations by category: ${response.statusText}`);
+    while (hasMorePages) {
+      const response = await fetch(
+        `${STRAPI_BASE_URL}/api/locations?populate=*&filters[category][$eq]=${encodeURIComponent(category)}&filters[is_active][$eq]=true&filters[resource][$eq]=true&pagination[page]=${page}&pagination[pageSize]=100`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch locations by category: ${response.statusText}`);
+      }
+
+      const result: StrapiResponse<Location[]> = await response.json();
+      allLocations = [...allLocations, ...result.data];
+
+      // Check if there are more pages
+      if (result.meta.pagination) {
+        hasMorePages = page < result.meta.pagination.pageCount;
+        page++;
+      } else {
+        hasMorePages = false;
+      }
     }
 
-    const result: StrapiResponse<Location[]> = await response.json();
-    return result.data;
+    return allLocations;
   } catch (error) {
     console.error('Error fetching locations by category:', error);
     return [];
@@ -196,30 +228,47 @@ export async function fetchLocationsByCategories(categories: string[]): Promise<
       return await fetchLocationsByCategory(categories[0]);
     }
 
-    // For multiple categories, try building the filter differently
-    // Strapi expects: filters[category][$in][0]=Category1&filters[category][$in][1]=Category2
-    const filterParams = categories
-      .map((cat, index) => `filters[category][$in][${index}]=${encodeURIComponent(cat)}`)
-      .join('&');
+    let allLocations: Location[] = [];
+    let page = 1;
+    let hasMorePages = true;
 
-    const url = `${STRAPI_BASE_URL}/api/locations?populate=*&${filterParams}&filters[is_active][$eq]=true&filters[resource][$eq]=true`;
+    while (hasMorePages) {
+      // For multiple categories, try building the filter differently
+      // Strapi expects: filters[category][$in][0]=Category1&filters[category][$in][1]=Category2
+      const filterParams = categories
+        .map((cat, index) => `filters[category][$in][${index}]=${encodeURIComponent(cat)}`)
+        .join('&');
 
-    console.log('API URL for category filtering (new format):', url);
-    console.log('Categories being filtered:', categories);
+      const url = `${STRAPI_BASE_URL}/api/locations?populate=*&${filterParams}&filters[is_active][$eq]=true&filters[resource][$eq]=true&pagination[page]=${page}&pagination[pageSize]=100`;
 
-    const response = await fetch(url);
+      console.log('API URL for category filtering (new format):', url);
+      console.log('Categories being filtered:', categories);
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch locations by categories: ${response.statusText}`);
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch locations by categories: ${response.statusText}`);
+      }
+
+      const result: StrapiResponse<Location[]> = await response.json();
+      allLocations = [...allLocations, ...result.data];
+
+      console.log(`Page ${page} API response for filtered categories:`, {
+        pageResults: result.data.length,
+        totalSoFar: allLocations.length,
+        categories: result.data.map((location) => ({ name: location.name, category: location.category })),
+      });
+
+      // Check if there are more pages
+      if (result.meta.pagination) {
+        hasMorePages = page < result.meta.pagination.pageCount;
+        page++;
+      } else {
+        hasMorePages = false;
+      }
     }
 
-    const result: StrapiResponse<Location[]> = await response.json();
-    console.log('API response for filtered categories:', {
-      totalResults: result.data.length,
-      categories: result.data.map((location) => ({ name: location.name, category: location.category })),
-    });
-
-    return result.data;
+    return allLocations;
   } catch (error) {
     console.error('Error fetching locations by categories:', error);
     return [];

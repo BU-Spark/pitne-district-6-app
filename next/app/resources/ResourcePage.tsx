@@ -15,6 +15,25 @@ export default function ResourcePage() {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12; // Number of items to show per page
+
+  // Calculate pagination values
+  const totalPages = Math.ceil(locations.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentLocations = locations.slice(startIndex, endIndex);
+
+  // Handle page change
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Reset page when categories change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategories]);
 
   // Fetch locations on component mount
   useEffect(() => {
@@ -131,34 +150,69 @@ export default function ResourcePage() {
               <p>Loading resources...</p>
             </div>
           ) : (
-            <div className="resource-card-stack">
-              {locations.length > 0 ? (
-                locations
-                  .slice() // avoid mutating state
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((location) => {
-                    const cardProps = transformLocation(location);
-                    return (
-                      <ResourceCard
-                        key={location.id}
-                        icon={cardProps.icon}
-                        category={cardProps.category}
-                        title={cardProps.title}
-                        email={cardProps.email}
-                        contact={cardProps.contact}
-                        website={cardProps.website}
-                        lat={cardProps.lat}
-                        lng={cardProps.lng}
-                      />
-                    );
-                  })
-              ) : (
-                <div className="no-resources-container">
-                  <h3>No resources found</h3>
-                  <p>Try adjusting your category filters or check back later.</p>
+            <>
+              <div className="resource-card-stack">
+                {currentLocations.length > 0 ? (
+                  currentLocations
+                    .slice() // avoid mutating state
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((location) => {
+                      const cardProps = transformLocation(location);
+                      return (
+                        <ResourceCard
+                          key={location.id}
+                          icon={cardProps.icon}
+                          category={cardProps.category}
+                          title={cardProps.title}
+                          email={cardProps.email}
+                          contact={cardProps.contact}
+                          website={cardProps.website}
+                          lat={cardProps.lat}
+                          lng={cardProps.lng}
+                        />
+                      );
+                    })
+                ) : (
+                  <div className="no-resources-container">
+                    <h3>No resources found</h3>
+                    <p>Try adjusting your category filters or check back later.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Pagination Controls */}
+              {locations.length > itemsPerPage && (
+                <div className="pagination-controls">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="pagination-button"
+                  >
+                    Previous
+                  </button>
+
+                  <div className="page-numbers">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                      <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`page-number ${pageNum === currentPage ? 'active' : ''}`}
+                      >
+                        {pageNum}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="pagination-button"
+                  >
+                    Next
+                  </button>
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>
