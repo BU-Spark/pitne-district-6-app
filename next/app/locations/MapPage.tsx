@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapPage.css';
+import { ZoomControl } from 'react-leaflet';
 import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Papa from 'papaparse';
@@ -77,7 +78,7 @@ export default function MapPage() {
           <MapContainer
             center={[42.3061, -71.1204]}
             zoom={16}
-            zoomControl={true}
+            zoomControl={false}
             className="leaflet-map"
             style={{ height: '100%', width: '100%' }}
             maxBounds={[
@@ -94,6 +95,7 @@ export default function MapPage() {
               attribution='&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
             />
 
+            <ZoomControl position="topright" />
             {filteredLocations.map((location) => {
               const { lat, lng, name, category, phone, website, email } = location;
               return (

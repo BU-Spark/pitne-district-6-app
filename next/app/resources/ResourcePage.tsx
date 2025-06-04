@@ -121,7 +121,9 @@ export default function ResourcePage() {
     <>
       <Navbar />
       <div className="resource-main-container">
-        <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
+        <div className="resource-sidebar">
+          <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
+        </div>
         <div className="resource-card-container">
           {loading ? (
             <div className="loading-container">
@@ -131,22 +133,25 @@ export default function ResourcePage() {
           ) : (
             <div className="resource-card-stack">
               {locations.length > 0 ? (
-                locations.map((location) => {
-                  const cardProps = transformLocation(location);
-                  return (
-                    <ResourceCard
-                      key={location.id}
-                      icon={cardProps.icon}
-                      category={cardProps.category}
-                      title={cardProps.title}
-                      email={cardProps.email}
-                      contact={cardProps.contact}
-                      website={cardProps.website}
-                      lat={cardProps.lat}
-                      lng={cardProps.lng}
-                    />
-                  );
-                })
+                locations
+                  .slice() // avoid mutating state
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((location) => {
+                    const cardProps = transformLocation(location);
+                    return (
+                      <ResourceCard
+                        key={location.id}
+                        icon={cardProps.icon}
+                        category={cardProps.category}
+                        title={cardProps.title}
+                        email={cardProps.email}
+                        contact={cardProps.contact}
+                        website={cardProps.website}
+                        lat={cardProps.lat}
+                        lng={cardProps.lng}
+                      />
+                    );
+                  })
               ) : (
                 <div className="no-resources-container">
                   <h3>No resources found</h3>

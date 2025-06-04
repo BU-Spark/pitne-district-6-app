@@ -5,15 +5,19 @@ import './ResourceCard.css';
 import { MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 import { categoryMeta, groupColors } from '../../utils/categoryMeta';
 
-function lightenColor(hex: string, percent: number) {
+function lightenColor(hex: string, percent: number): string {
   const num = parseInt(hex.replace('#', ''), 16);
-  let r = (num >> 16) + Math.round(255 * percent);
-  let g = ((num >> 8) & 0x00ff) + Math.round(255 * percent);
-  let b = (num & 0x0000ff) + Math.round(255 * percent);
-  r = r > 255 ? 255 : r;
-  g = g > 255 ? 255 : g;
-  b = b > 255 ? 255 : b;
-  return `rgb(${r},${g},${b})`;
+  const p = Math.min(Math.max(percent, 0), 1);
+
+  const r = (num >> 16) & 0xff;
+  const g = (num >> 8) & 0xff;
+  const b = num & 0xff;
+
+  const newR = Math.min(255, Math.round(r + (255 - r) * p));
+  const newG = Math.min(255, Math.round(g + (255 - g) * p));
+  const newB = Math.min(255, Math.round(b + (255 - b) * p));
+
+  return `rgb(${newR}, ${newG}, ${newB})`;
 }
 
 interface ResourceCardProps {

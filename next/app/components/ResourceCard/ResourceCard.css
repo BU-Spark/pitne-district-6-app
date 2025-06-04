@@ -7,11 +7,12 @@
   width: 100%;
   max-width: 280px;
   height: 160px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Montserrat', sans-serif;
   border: none;
+  border: 2px solid #ccc;
 }
 
 /* Slider Animation */
@@ -23,12 +24,12 @@
 }
 
 .resource-card:hover .slider {
-  transform: translateX(-50%);
+  transform: translateX(-50.1%);
 }
 
 .slide-out,
 .slide-in {
-  width: 50%;
+  width: 55%;
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -137,7 +138,7 @@
 }
 
 .contact-icon {
-  color: #ffffff;
+  color: var(--color-charles-blue);
   flex-shrink: 0;
 }
 
