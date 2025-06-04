@@ -20,12 +20,29 @@
   color: white;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  gap: 2rem;
+}
+
+.titleSection {
+  flex: 1;
+}
+
+.calendarActions {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .sectionTitle {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
   color: white;
-  text-align: center;
+  text-align: left;
   margin-bottom: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -35,12 +52,79 @@
   font-family: var(--font-lora), serif;
   font-size: 1.1rem;
   color: white;
-  text-align: center;
-  margin-bottom: 40px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+  text-align: left;
+  margin-bottom: 0;
   line-height: 1.6;
+}
+
+/* Calendar Subscription Styles */
+.subscribeButton {
+  background: white;
+  color: var(--color-charles-blue);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subscribeButton:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.subscriptionDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 8px;
+  min-width: 280px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.subscriptionOption {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  background: white;
+  color: #2d3748;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.subscriptionOption:hover {
+  background: #f7fafc;
+}
+
+.optionIcon {
+  font-size: 1.2rem;
+}
+
+.subscriptionNote {
+  padding: 12px 20px;
+  background: #f7fafc;
+  color: #4a5568;
+  font-size: 0.85rem;
+  border-top: 1px solid #e2e8f0;
+  line-height: 1.4;
 }
 
 /* Responsive Design */
@@ -54,14 +138,32 @@
     border-radius: 0;
   }
 
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+
   .sectionTitle {
     font-size: 2rem;
+    text-align: center;
   }
 
   .sectionDescription {
     font-size: 1rem;
-    margin-bottom: 24px;
-    max-width: 100%;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .calendarActions {
+    align-self: center;
+  }
+
+  .subscriptionDropdown {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 260px;
   }
 }
 
@@ -76,6 +178,15 @@
 
   .sectionTitle {
     font-size: 1.6rem;
+  }
+
+  .subscribeButton {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .subscriptionDropdown {
+    min-width: 240px;
   }
 }
 
