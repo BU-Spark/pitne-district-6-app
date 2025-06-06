@@ -566,7 +566,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
     geohash: Schema.Attribute.String;
     hours_of_operation: Schema.Attribute.String;
-    is_active: Schema.Attribute.Boolean;
+    is_active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     lat: Schema.Attribute.Float;
     lng: Schema.Attribute.Float;
     locale: Schema.Attribute.String & Schema.Attribute.Private;

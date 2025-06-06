@@ -45,7 +45,8 @@
       "type": "string"
     },
     "is_active": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "resources": {
       "type": "relation",
