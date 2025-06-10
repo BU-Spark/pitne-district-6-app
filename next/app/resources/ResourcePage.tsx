@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
 import ResourceCard from '../components/ResourceCard/ResourceCard';
-import { fetchLocations, fetchLocationsByCategories, Location } from '../utils/strapi.api';
+import { fetchLocations, Location } from '../utils/strapi.api';
 import './ResourcePage.css';
 import { categoryMeta } from '../utils/categoryMeta';
 
@@ -13,16 +13,36 @@ export default function ResourcePage() {
   const allCategories = new Set(Object.keys(categoryMeta));
   const [selectedCategories, setSelectedCategories] = useState(allCategories);
   const [locations, setLocations] = useState<Location[]>([]);
+  const [searchResults, setSearchResults] = useState<Location[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12; // Number of items to show per page
 
+  // Apply category filtering to search results or regular locations
+  const getFilteredLocations = (locationsToFilter: Location[]) => {
+    if (selectedCategories.size === 0) {
+      return [];
+    }
+
+    // If all categories are selected, return all locations
+    if (selectedCategories.size === allCategories.size) {
+      return locationsToFilter;
+    }
+
+    // Filter by selected categories
+    return locationsToFilter.filter((location) => location.category && selectedCategories.has(location.category));
+  };
+
+  // Combine search and category filtering
+  const displayLocations = isSearching ? getFilteredLocations(searchResults) : getFilteredLocations(locations);
+
   // Calculate pagination values
-  const totalPages = Math.ceil(locations.length / itemsPerPage);
+  const totalPages = Math.ceil(displayLocations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentLocations = locations.slice(startIndex, endIndex);
+  const currentLocations = displayLocations.slice(startIndex, endIndex);
 
   // Handle page change
   const handlePageChange = (pageNumber: number) => {
@@ -30,10 +50,17 @@ export default function ResourcePage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Reset page when categories change
+  // Reset page when categories change or search results change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategories]);
+  }, [selectedCategories, isSearching, searchResults]);
+
+  // Handle search results from Sidebar
+  const handleSearchResults = (results: Location[], searching: boolean) => {
+    setSearchResults(results);
+    setIsSearching(searching);
+    setCurrentPage(1); // Reset to first page when search changes
+  };
 
   // Fetch locations on component mount
   useEffect(() => {
@@ -59,47 +86,18 @@ export default function ResourcePage() {
     loadLocations();
   }, []);
 
-  // Fetch locations when selected categories change
+  // Only fetch by categories when not searching (to keep all data available for filtering)
+  // The category filtering is now applied in displayLocations
   useEffect(() => {
-    const loadFilteredLocations = async () => {
-      if (selectedCategories.size === 0) {
-        setLocations([]);
-        return;
-      }
+    // Skip category API filtering if we're currently searching
+    if (isSearching) {
+      return;
+    }
 
-      try {
-        setLoading(true);
-        const categoriesArray = Array.from(selectedCategories);
-
-        console.log('Selected categories:', categoriesArray);
-        console.log('Number of selected categories:', categoriesArray.length);
-        console.log('Total available categories:', allCategories.size);
-
-        // If all categories are selected, fetch all locations
-        if (selectedCategories.size === allCategories.size) {
-          console.log('Fetching all locations (all categories selected)');
-          const locationsData = await fetchLocations();
-          setLocations(locationsData);
-        } else {
-          // Otherwise fetch by specific categories
-          console.log('Fetching locations by categories:', categoriesArray);
-          const locationsData = await fetchLocationsByCategories(categoriesArray);
-          console.log('Filtered locations received:', locationsData.length);
-          setLocations(locationsData);
-        }
-        setError(null);
-      } catch (err) {
-        console.error('Failed to load filtered locations:', err);
-        setError('Failed to load resources. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Only run filtering if we have some categories selected
-    // and it's not the initial load (where all categories are selected by default)
-    loadFilteredLocations();
-  }, [selectedCategories, allCategories.size]);
+    // For non-search mode, we always keep all locations loaded
+    // and apply filtering in displayLocations calculation above
+    // This ensures we have all data available when search results need to be filtered by categories
+  }, [selectedCategories, isSearching]);
 
   // Transform Strapi location to ResourceCard props
   const transformLocation = (location: Location) => {
@@ -141,9 +139,27 @@ export default function ResourcePage() {
       <Navbar />
       <div className="resource-main-container">
         <div className="resource-sidebar">
-          <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
+          <Sidebar
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            onSearchResults={handleSearchResults}
+          />
         </div>
         <div className="resource-card-container">
+          {/* Search and Filter Status Header */}
+          {isSearching && (
+            <div className="search-status">
+              <h2>
+                Search Results: {searchResults.length} found, {displayLocations.length} match filters
+              </h2>
+              <p>
+                Showing search results for your query
+                {selectedCategories.size < allCategories.size &&
+                  ` filtered by ${selectedCategories.size} selected categories`}
+              </p>
+            </div>
+          )}
+
           {loading ? (
             <div className="loading-container">
               <div className="loading-spinner"></div>
@@ -160,7 +176,7 @@ export default function ResourcePage() {
                       const cardProps = transformLocation(location);
                       return (
                         <ResourceCard
-                          key={location.id}
+                          key={location.documentId || location.id}
                           icon={cardProps.icon}
                           category={cardProps.category}
                           title={cardProps.title}
@@ -174,14 +190,18 @@ export default function ResourcePage() {
                     })
                 ) : (
                   <div className="no-resources-container">
-                    <h3>No resources found</h3>
-                    <p>Try adjusting your category filters or check back later.</p>
+                    <h3>{isSearching ? 'No search results match your filters' : 'No resources found'}</h3>
+                    <p>
+                      {isSearching
+                        ? 'Try a different search term or adjust your category filters.'
+                        : 'Try adjusting your category filters or check back later.'}
+                    </p>
                   </div>
                 )}
               </div>
 
               {/* Pagination Controls */}
-              {locations.length > itemsPerPage && (
+              {displayLocations.length > itemsPerPage && (
                 <div className="pagination-controls">
                   <button
                     onClick={() => handlePageChange(currentPage - 1)}
