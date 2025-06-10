@@ -11,6 +11,12 @@
   color: #0c223f;
 }
 
+.sidebar-scroll-area {
+  overflow-y: auto;
+  max-height: calc(100vh - 180px); /* adjust based on your layout */
+  padding-right: 8px; /* space for scrollbar */
+}
+
 .sidebar-header {
   position: sticky;
   top: 0;
@@ -256,7 +262,7 @@
   align-items: center;
   gap: 8px;
   padding: 0px 0 12px 0;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
   border-bottom: 2px solid #ccc;
   z-index: 10;
 }

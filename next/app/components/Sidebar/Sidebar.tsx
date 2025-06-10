@@ -102,43 +102,44 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
             </span>
           </div>
         </div>
+        <div className="sidebar-scroll-area">
+          <div className="filter-tag-list">
+            {(() => {
+              const renderedGroups = new Set<string>();
 
-        <div className="filter-tag-list">
-          {(() => {
-            const renderedGroups = new Set<string>();
+              return hardcodedCategories.map((category) => {
+                const meta = categoryMeta[category.name];
+                const group = meta?.group;
+                const bgColor = group ? groupColors[group] : undefined;
+                const isSelected = selectedCategories.has(category.name);
+                const iconPath = isSelected ? meta.iconPath.replace('/default/', '/selected/') : meta.iconPath;
+                const icon = meta ? (
+                  <Image src={iconPath} alt={`${category.name} icon`} width={18} height={18} />
+                ) : undefined;
+                const groupLabel =
+                  group && !renderedGroups.has(group) ? (
+                    <h3 key={`group-${group}`} className="group-label">
+                      {groupNames[group]}
+                    </h3>
+                  ) : null;
 
-            return hardcodedCategories.map((category) => {
-              const meta = categoryMeta[category.name];
-              const group = meta?.group;
-              const bgColor = group ? groupColors[group] : undefined;
-              const isSelected = selectedCategories.has(category.name);
-              const iconPath = isSelected ? meta.iconPath.replace('/default/', '/selected/') : meta.iconPath;
-              const icon = meta ? (
-                <Image src={iconPath} alt={`${category.name} icon`} width={18} height={18} />
-              ) : undefined;
-              const groupLabel =
-                group && !renderedGroups.has(group) ? (
-                  <h3 key={`group-${group}`} className="group-label">
-                    {groupNames[group]}
-                  </h3>
-                ) : null;
+                if (group) renderedGroups.add(group);
 
-              if (group) renderedGroups.add(group);
-
-              return (
-                <React.Fragment key={category.name}>
-                  {groupLabel}
-                  <FilterTag
-                    label={category.name}
-                    selected={selectedCategories.has(category.name)}
-                    onToggle={() => toggleCategory(category.name)}
-                    icon={icon}
-                    color={bgColor}
-                  />
-                </React.Fragment>
-              );
-            });
-          })()}
+                return (
+                  <React.Fragment key={category.name}>
+                    {groupLabel}
+                    <FilterTag
+                      label={category.name}
+                      selected={selectedCategories.has(category.name)}
+                      onToggle={() => toggleCategory(category.name)}
+                      icon={icon}
+                      color={bgColor}
+                    />
+                  </React.Fragment>
+                );
+              });
+            })()}
+          </div>
         </div>
       </div>
     </aside>
