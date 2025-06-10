@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
       </div>
 
       {/* Filter Section */}
-      <div className="sidebar-section">
+      <div className="sidebar-section filter-section">
         <div className="filter-header">
           <div className="section-icon">
             <svg

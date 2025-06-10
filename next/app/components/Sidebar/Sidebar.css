@@ -1,9 +1,9 @@
 .sidebar {
-  flex: 0.97;
+  flex: 1;
   margin-top: 28px;
   background-color: #f2f2f2;
   padding: 1rem;
-  overflow-y: auto;
+  overflow-y: hidden;
   border-right: 2px solid #ccc;
 }
 
@@ -11,10 +11,15 @@
   color: #0c223f;
 }
 
+.sidebar-scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
 .sidebar-scroll-area {
   overflow-y: auto;
-  max-height: calc(100vh - 180px); /* adjust based on your layout */
-  padding-right: 8px; /* space for scrollbar */
+  height: calc(100vh - 250px);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .sidebar-header {
@@ -31,7 +36,7 @@
 }
 
 .section-icon {
-  color: #64748b;
+  color: var(--color-charles-blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +115,6 @@
   user-select: none;
 }
 
-/* Hide default checkbox */
 .sidebar-category input[type='checkbox'] {
   appearance: none;
   -webkit-appearance: none;
@@ -125,24 +129,6 @@
     border-color 0.2s ease;
   flex-shrink: 0;
 }
-/* 
-.sidebar-category input[type='checkbox']:checked {
-  background-color: #0056b3;
-  border-color: #0056b3;
-}
-
-.sidebar-category input[type='checkbox']:checked::after {
-  content: '';
-  position: absolute;
-  top: 43%;
-  left: 50%;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: translate(-50%, -50%) rotate(45deg);
-  pointer-events: none;
-} */
 
 .sidebar-actions {
   display: flex;
@@ -254,29 +240,10 @@
   padding: 0 16px;
 }
 
-.filter-header {
-  position: sticky;
-  top: 0;
-  background-color: #f2f2f2;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0px 0 12px 0;
-  /* margin-bottom: 16px; */
-  border-bottom: 2px solid #ccc;
-  z-index: 10;
-}
-
-.filter-header h3 {
-  margin: 0;
-  font-size: 1rem;
-  color: #0c223f;
-  font-weight: 600;
-}
-
 /* Separate styles for Search and Filter section headers */
 .search-header {
   position: sticky;
+  margin-left: 15px;
   top: 0;
   background-color: #f2f2f2;
   display: flex;
@@ -286,4 +253,23 @@
   margin-bottom: 16px;
   border-bottom: 2px solid #ccc;
   z-index: 10;
+}
+
+.filter-header {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0px 0 12px 0;
+  border-bottom: 2px solid #ccc;
+  z-index: 10;
+}
+
+.filter-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #0c223f;
+  font-weight: 600;
 }
