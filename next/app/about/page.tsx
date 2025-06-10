@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import { fetchCouncilMembers, CouncilMember } from '../utils/strapi.api';
 import styles from './AboutPage.module.css';
+import { FaInstagram } from 'react-icons/fa';
 
 export default function AboutPage() {
   const [councilMembers, setCouncilMembers] = useState<CouncilMember[]>([]);
@@ -46,21 +47,115 @@ export default function AboutPage() {
         <section className={styles.aboutSection}>
           <div className={styles.aboutContent}>
             <h1 className={styles.mainTitle}>About District 6</h1>
+            {/* Link cards */}
+            <div className={styles.linkButtons}>
+              <a
+                href="https://www.bostonplans.org/getattachment/ebd89ac2-3046-4ebd-879b-0cf2b67c8ee8/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                🗺️ <strong>City Council District 6 Map</strong>
+                <br />
+              </a>
+              <a
+                href="https://boston.maps.arcgis.com/apps/webappviewer/index.html?id=72a95777f7e842eaae3671c0d67acce0&find=129668"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                🧭 <strong>Wards & Precincts Interactive Map</strong>
+              </a>
+            </div>
+
             <div className={styles.aboutText}>
               <p>
-                District 6 encompasses vibrant neighborhoods including South End, Back Bay, Beacon Hill, North End, West
-                End, and Downtown. Our district is home to a diverse community of residents, businesses, and visitors
-                who make Boston a world-class city.
+                District 6 is comprised of Jamaica Plain, West Roxbury, Egleston Square in Roxbury, Back of the Hill,
+                and one Roslindale precinct (which includes the Arnold Arboretum). Jamaica Plain has the largest tree
+                canopy, including the Arnold Arboretum, Jamaica Pond, and Olmsted Park.
               </p>
+
               <p>
-                We are committed to creating a more equitable, sustainable, and prosperous Boston for all. Our work
-                focuses on affordable housing, economic development, public safety, transportation, education, and
-                environmental sustainability.
+                Established in the 1630s within the Town of Roxbury, the name Jamaica Plain is said to be derived from{' '}
+                <a
+                  href="https://www.jphs.org/jp-history/2005/4/10/how-jamaica-plain-got-its-name.html#gsc.tab=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title=" Rev. John Eliot’s 1689 deed"
+                >
+                  Rev. John Eliot’s 1689 deed
+                </a>
+                . Today, Jamaica Plain is home to around 80,000 residents, including about 8,000 Dominicans. In 2018,
+                Hyde Square and Jackson Square were named{' '}
+                <a
+                  href="https://www.boston.gov/departments/arts-and-culture/latin-quarter-cultural-district"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title=" Boston’s Latin Quarter Cultural District"
+                >
+                  Boston’s Latin Quarter Cultural District
+                </a>{' '}
+                (
+                <a
+                  href="https://www.wbur.org/news/2018/02/28/boston-latin-quarter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="WBUR coverage: Boston's Latin Quarter designation"
+                >
+                  see news coverage
+                </a>
+                ).
               </p>
+
               <p>
-                District 6 is not just the heart of Boston&apos;s downtown core – it&apos;s a thriving residential
-                community where families live, work, and play. From the historic brownstones of Back Bay to the bustling
-                markets of the North End, our district celebrates both our rich history and our bright future.
+                JP also has a vibrant LGBTQIA+ population—one of the highest in Boston (13.9% of its population as of
+                2017). (
+                <a
+                  href="https://www.wbur.org/news/2020/02/26/boston-neighborhood-field-guide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="WBUR’s Field Guide to Boston"
+                >
+                  WBUR’s Field Guide to Boston
+                </a>
+                ,{' '}
+                <a
+                  href="https://www.boston.gov/sites/default/files/embed/file/2017-12/bphc_demographics_data_brief.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Boston Public Health Commission Demographics Data Brief (PDF)"
+                >
+                  BPHC Demographics Data Brief
+                </a>
+                )
+              </p>
+
+              <p>
+                West Roxbury was historically a favored neighborhood for Irish-American families and was comprised
+                mostly of affordable single-family homes. In 1851, West Roxbury seceded from Roxbury but was
+                incorporated into Boston in 1868.
+              </p>
+
+              <p>
+                Today, Centre Street is home to more diverse neighbors and businesses, making the area more attractive
+                to young families. West Roxbury also has the highest concentration of senior citizens in Boston—18.2% as
+                of 2024. (
+                <a
+                  href="https://www.bostonplans.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="City of Boston Planning Department"
+                >
+                  City of Boston Planning Department
+                </a>
+                ,{' '}
+                <a
+                  href="https://www.wbur.org/news/2020/02/26/boston-neighborhood-field-guide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="WBUR’s Field Guide to Boston"
+                >
+                  WBUR’s Field Guide to Boston
+                </a>
+                )
               </p>
             </div>
           </div>
@@ -69,7 +164,19 @@ export default function AboutPage() {
         {/* Meet the Team Section */}
         <section className={styles.teamSection}>
           <div className={styles.teamContent}>
-            <h2 className={styles.sectionTitle}>Meet the Team</h2>
+            <h2 className={styles.sectionTitle}>
+              Meet the Team{' '}
+              <a
+                href="https://www.instagram.com/ben4district6/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className={styles.instagramIcon}
+              >
+                <FaInstagram />
+              </a>
+            </h2>
+
             <p className={styles.sectionDescription}>
               Our dedicated team works tirelessly to serve the residents and businesses of District 6. Get to know the
               people who are committed to making our community stronger every day.

@@ -372,6 +372,7 @@
 }
 
 .addToCalendarButton {
+  font-family: var(--font-primary);
   background: var(--color-charles-blue);
   color: white;
   border: none;
@@ -394,6 +395,7 @@
 }
 
 .viewDetailsButton {
+  font-family: var(--font-primary);
   background: #f7fafc;
   color: #4a5568;
   border: 1px solid #e2e8f0;
@@ -424,11 +426,11 @@
     top: 50% !important;
     transform: translate(-50%, -50%) !important;
   }
-  
+
   .popupActions {
     flex-direction: column;
   }
-  
+
   .addToCalendarButton,
   .viewDetailsButton {
     flex: none;

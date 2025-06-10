@@ -28,6 +28,7 @@
 }
 
 .aboutText {
+  text-align: justify;
   font-family: var(--font-secondary);
   font-size: 1.2rem;
   line-height: 1.8;
@@ -37,6 +38,29 @@
 
 .aboutText p {
   margin-bottom: 1.5rem;
+}
+
+/* Style the top buttons container */
+.linkButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+/* Link styles */
+.linkButtons a {
+  color: var(--color-optimistic-blue);
+  text-decoration: none;
+  font-weight: 300;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect using your global var */
+.linkButtons a:hover {
+  color: var(--color-freedom-trail-red);
+  text-decoration: underline;
 }
 
 /* Meet the Team Section */
@@ -52,13 +76,29 @@
 
 .sectionTitle {
   font-family: var(--font-primary);
+  justify-content: center;
+  display: flex;
+  align-items: center;
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--color-charles-blue);
   text-align: center;
   margin-bottom: 1rem;
   letter-spacing: 1px;
+  gap: 0.5rem;
   text-transform: uppercase;
+}
+
+.instagramIcon {
+  color: var(--charles-blue);
+  font-size: 2.3rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.instagramIcon:hover {
+  color: var(--color-freedom-trail-red);
 }
 
 .sectionDescription {
@@ -91,8 +131,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .errorContainer {
@@ -305,4 +349,4 @@
   .memberRole {
     font-size: 1rem;
   }
-} 
+}
