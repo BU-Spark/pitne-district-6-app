@@ -1,16 +1,14 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapPage.css';
-import { ZoomControl } from 'react-leaflet';
 import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Papa from 'papaparse';
 import wellknown from 'wellknown';
 import { categoryMeta, getIconForCategory } from '../utils/categoryMeta';
-
+import { FaFilter } from 'react-icons/fa';          // npm i react-icons
 export default function MapPage() {
   interface LocationData {
     id: number;
@@ -22,133 +20,141 @@ export default function MapPage() {
     website?: string;
     email?: string;
   }
-
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
   const [locations, setLocations] = useState<LocationData[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(Object.keys(categoryMeta)));
-
-  const filteredLocations = locations.filter(
-    (location) =>
-      location.lat !== null &&
-      location.lng !== null &&
-      (!location.category || selectedCategories.has(location.category))
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set(Object.keys(categoryMeta))
   );
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const togglePopup = () => setShowFilterPopup(prev => !prev);
   useEffect(() => {
     fetch('/district6Coords.csv')
-      .then((res) => res.text())
-      .then((csvText) => {
+      .then(res => res.text())
+      .then(csvText => {
         Papa.parse(csvText, {
           header: true,
-          complete: (results) => {
-            const firstRow = results.data[0] as { WKT: string };
+          complete: result => {
+            const firstRow = result.data[0] as { WKT: string };
             if (firstRow?.WKT) {
               const parsed = wellknown.parse(firstRow.WKT) as { coordinates: number[][][] } | null;
-              if (parsed && parsed.coordinates) {
+              if (parsed?.coordinates) {
                 const coords = parsed.coordinates[0].map(([lng, lat]) => [lat, lng] as [number, number]);
                 setDistrict6Coords(coords);
               }
             }
-          },
+          }
         });
       })
-      .catch((err) => console.error('Error loading CSV:', err));
+      .catch(err => console.error('Error loading CSV:', err));
   }, []);
-
   useEffect(() => {
     fetch('http://localhost:1337/api/locations?pagination[page]=1&pagination[pageSize]=1000')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.data) {
-          console.log(`Fetched ${data.data.length} locations from Strapi:`, data.data);
-          setLocations(data.data as LocationData[]);
-        } else {
-          console.warn('No location data found in API response.');
-        }
+      .then(res => res.json())
+      .then(data => {
+        if (data?.data) setLocations(data.data as LocationData[]);
+        else console.warn('No location data in API response.');
       })
-      .catch((err) => console.error('Error loading locations:', err));
+      .catch(err => console.error('Error loading locations:', err));
   }, []);
-
+  const filteredLocations = locations.filter(
+    loc =>
+      loc.lat !== null &&
+      loc.lng !== null &&
+      (!loc.category || selectedCategories.has(loc.category))
+  );
   return (
     <>
       <Navbar />
-
       <div className="main-container">
-        <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
+        {/* ----- Desktop sidebar (hidden on phones) ----- */}
+        <div className="sidebar">
+          <Sidebar
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+          />
+        </div>
+        {/* ----- Map & mobile UI ----- */}
         <div className="map-container">
           <MapContainer
             center={[42.3061, -71.1204]}
             zoom={16}
-            zoomControl={false}
+            zoomControl
             className="leaflet-map"
             style={{ height: '100%', width: '100%' }}
             maxBounds={[
               [42.23, -71.2],
-              [42.45, -70.97],
+              [42.45, -70.97]
             ]}
             maxBoundsViscosity={1.0}
-            scrollWheelZoom={true}
-            dragging={true}
-            doubleClickZoom={true}
+            scrollWheelZoom
+            dragging
+            doubleClickZoom
           >
             <TileLayer
               url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
               attribution='&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
             />
-
-            <ZoomControl position="topright" />
-            {filteredLocations.map((location) => {
-              const { lat, lng, name, category, phone, website, email } = location;
-              return (
-                <Marker key={location.id} position={[lat, lng]} icon={getIconForCategory(category)}>
-                  <Popup>
-                    <div className="popup-content">
-                      <strong>
-                        <a
-                          href={`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`}
-                          target="_blank"
-                          style={{ color: '#1871bd' }}
-                          rel="noopener noreferrer"
-                        >
-                          {name}
-                        </a>
-                      </strong>
-                      {category && (
-                        <div className="inline-item">
-                          <i>{category}</i>
-                        </div>
-                      )}
-                      {website && (
-                        <div className="inline-item">
-                          🌐{' '}
-                          <a href={website} target="_blank" rel="noopener noreferrer">
-                            {website}
-                          </a>
-                        </div>
-                      )}
-                      {phone && <div className="inline-item">📞 {phone}</div>}
-                      {email && (
-                        <div className="inline-item">
-                          ✉️ <a href={`mailto:${email}`}>{email}</a>
-                        </div>
-                      )}
-                    </div>
-                  </Popup>
-                </Marker>
-              );
-            })}
-
+            {filteredLocations.map(loc => (
+              <Marker
+                key={loc.id}
+                position={[loc.lat, loc.lng]}
+                icon={getIconForCategory(loc.category)}
+              >
+                <Popup>
+                  <div className="popup-content">
+                    <strong>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`}
+                        target="_blank"
+                        style={{ color: '#1871BD' }}
+                        rel="noopener noreferrer"
+                      >
+                        {loc.name}
+                      </a>
+                    </strong>
+                    {loc.category && (
+                      <div className="inline-item"><i>{loc.category}</i></div>
+                    )}
+                    {loc.website && (
+                      <div className="inline-item">
+                        :globe_with_meridians: <a href={loc.website} target="_blank" rel="noopener noreferrer">{loc.website}</a>
+                      </div>
+                    )}
+                    {loc.phone && <div className="inline-item">:telephone_receiver: {loc.phone}</div>}
+                    {loc.email && (
+                      <div className="inline-item">
+                        :email: <a href={`mailto:${loc.email}`}>{loc.email}</a>
+                      </div>
+                    )}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
             <Polygon
               positions={district6Coords}
-              pathOptions={{
-                color: '#1871bd',
-                weight: 2,
-                fillColor: '#1871bd',
-                fillOpacity: 0.2,
-              }}
+              pathOptions={{ color: '#1871BD', weight: 2, fillColor: '#1871BD', fillOpacity: 0.2 }}
             />
           </MapContainer>
+          {/* ----- filter button ----- */}
+          <div
+            className={`mobile-filter-button ${showFilterPopup ? 'open' : ''}`}
+            onClick={togglePopup}
+          >
+            <FaFilter />
+          </div>
+          {/* ----- Backdrop + bottom sheet (only when open) ----- */}
+          {showFilterPopup && (
+            <>
+              <div className="filter-backdrop" onClick={togglePopup} />
+              <div className="filter-popup bottom-sheet">
+                <Sidebar
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
+                />
+              </div>
+            </>
+          )}
         </div>
-        {/* <Sidebar selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} /> */}
       </div>
     </>
   );

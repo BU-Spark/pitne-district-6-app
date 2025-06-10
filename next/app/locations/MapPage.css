@@ -4,34 +4,28 @@
   height: 100vh;
   font-family: 'Montserrat', Arial, sans-serif;
 }
-
 .map-container {
-  flex: 2.9;
+  flex: 3;
   height: 100%;
 }
-
 .sidebar {
-  flex: 1.1;
-  background-color: #f9f9f9;
+  width: 300px;
+  background-color: #F9F9F9;
   overflow-y: auto;
   border-left: 1px solid #ccc;
 }
-
 .leaflet-map {
   width: 100%;
   height: 100%;
 }
-
 .map-container .leaflet-control-zoom {
   top: 60px !important;
 }
-
 .popup-content {
   max-width: 270px;
   word-break: break-word;
   font-size: 14px;
 }
-
 .inline-item {
   display: flex;
   align-items: center;
@@ -40,13 +34,83 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .inline-item a {
-  color: #1871bd;
+  color: #1871BD;
   text-decoration: underline;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 160px;
   display: inline-block;
+}
+/* ========== Mobile styles (≤768 px) ========== */
+.mobile-filter-button,
+.filter-popup,
+.filter-backdrop { display: none; }  /* hidden on desktop */
+@media (max-width: 768px) {
+  /* stack nav + map vertically */
+  .main-container { flex-direction: column; }
+  /* hide wide sidebar */
+  .sidebar { display: none; }
+  /* floating circle — defaults to WHITE */
+  .mobile-filter-button {
+    display: flex;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background 0.25s ease, color 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  /* turn BLACK when sheet open */
+  .mobile-filter-button.open {
+    background: #000;
+    color: #fff;
+  }
+  /* dimmed backdrop */
+  .filter-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 999;
+  }
+  /* sliding bottom sheet */
+  .filter-popup.bottom-sheet {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-light-background);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    padding: 1.25rem 1rem 2rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.25);
+    z-index: 1000;
+    animation: slideUp 240ms ease-out forwards;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0);    }
+  }
+  /* make sidebar look nice inside sheet */
+  .bottom-sheet .sidebar {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    overflow: visible;
+  }
 }
