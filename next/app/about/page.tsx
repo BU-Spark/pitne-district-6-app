@@ -70,6 +70,14 @@ export default function AboutPage() {
               >
                 🧭 <strong>Wards & Precincts Interactive Map</strong>
               </a>
+
+              <a
+                href="https://www.wbur.org/news/2023/09/01/jamaica-plain-boston-massachusetts-locals-field-guide"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                🧭 <strong>Jamaica Plain Field Guide</strong>
+              </a>
             </div>
 
             <div className={styles.aboutText}>

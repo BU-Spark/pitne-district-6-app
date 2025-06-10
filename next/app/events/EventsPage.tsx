@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './EventsPage.module.css';
 import Navbar from '../components/Navbar/Navbar';
 import EventCalendar from '../components/EventCalendar/EventCalendar';
@@ -8,6 +8,18 @@ import EventCalendar from '../components/EventCalendar/EventCalendar';
 const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
 
 export default function EventsPage() {
+  const [language, setLanguage] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('selected-language') || 'en';
+    }
+    return 'en'; // default on server side
+  });
+
+  // Optional: sync localStorage if language changes elsewhere
+  useEffect(() => {
+    localStorage.setItem('selected-language', language);
+  }, [language]);
+
   const [showSubscriptionOptions, setShowSubscriptionOptions] = useState(false);
 
   const handleAddToGoogleCalendar = () => {
@@ -34,7 +46,7 @@ export default function EventsPage() {
 
   return (
     <div className={styles.container}>
-      <Navbar />
+      <Navbar setLanguage={setLanguage} />
       <section className={styles.calendarSection}>
         <div className={styles.calendarContainer}>
           <div className={styles.header}>
@@ -69,7 +81,7 @@ export default function EventsPage() {
               )}
             </div>
           </div>
-          <EventCalendar />
+          <EventCalendar lang={language} />
         </div>
       </section>
     </div>

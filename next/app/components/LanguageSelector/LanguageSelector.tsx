@@ -40,7 +40,7 @@ declare global {
   }
 }
 
-export default function LanguageSelector() {
+export default function LanguageSelector({ setLanguage }: { setLanguage: (lang: string) => void }) {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -118,6 +118,13 @@ export default function LanguageSelector() {
 
   const changeLanguage = (langCode: string) => {
     if (langCode === currentLanguage) return;
+
+    setCurrentLanguage(langCode);
+    localStorage.setItem('selected-language', langCode);
+
+    if (setLanguage) {
+      setLanguage(langCode);
+    }
 
     setCurrentLanguage(langCode);
     localStorage.setItem('selected-language', langCode);

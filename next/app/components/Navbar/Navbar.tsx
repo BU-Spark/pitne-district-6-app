@@ -9,7 +9,7 @@ import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import Image from 'next/image';
 import { fetchCouncilor, CouncilMember } from '../../utils';
 
-export default function Navbar() {
+export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [councilor, setCouncilor] = useState<CouncilMember | null>(null);
@@ -67,7 +67,7 @@ export default function Navbar() {
             {getCouncilorDisplay()}
           </a>
           <span className={styles.divider}></span>
-          <LanguageSelector />
+          <LanguageSelector setLanguage={setLanguage} />
         </div>
 
         {/* Boston Logo in Center */}
@@ -123,7 +123,7 @@ export default function Navbar() {
 
             {/* Language Selector in Mobile Menu */}
             <div className={styles.mobileLanguageSelector}>
-              <LanguageSelector />
+              <LanguageSelector setLanguage={setLanguage} />
             </div>
           </div>
         </div>

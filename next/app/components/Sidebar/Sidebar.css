@@ -4,11 +4,11 @@
   background-color: #f2f2f2;
   padding: 1rem;
   overflow-y: hidden;
-  border-right: 2px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 
 .sidebar h2 {
-  color: #0c223f;
+  color: var(--color-charles-blue);
 }
 
 .sidebar-scroll-area::-webkit-scrollbar {
@@ -17,7 +17,7 @@
 
 .sidebar-scroll-area {
   overflow-y: auto;
-  height: calc(100vh - 250px);
+  height: calc(100vh - 240px);
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -49,7 +49,7 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0c223f;
+  color: var(--color-charles-blue);
   flex: 1;
 }
 
@@ -64,12 +64,12 @@
 .sidebar-link {
   cursor: pointer;
   text-decoration: underline;
-  color: #1871bd;
+  color: var(--color-optimistic-blue);
   transition: color 0.2s ease;
 }
 
 .sidebar-link:hover {
-  color: #104b80;
+  color: var(--color-charles-blue);
 }
 
 .separator {
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   font-family: 'Lora', serif;
-  color: #0c223f;
+  color: var(--color-charles-blue);
   gap: 0.5rem;
 }
 
@@ -98,7 +98,7 @@
 .sidebar-category input[type='checkbox']:checked + span {
   font-weight: bold;
   /* font-style: italic; */
-  color: #0056b3;
+  color: var(--color-optimistic-blue);
 }
 
 .sidebar-category {
@@ -109,7 +109,7 @@
   display: flex;
   align-items: center;
   font-family: 'Lora', serif;
-  color: #0c223f;
+  color: var(--color-charles-blue);
   gap: 0.5rem;
   cursor: pointer;
   user-select: none;
@@ -120,7 +120,7 @@
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
-  border: 3px solid #0c223f;
+  border: 3px solid var(--color-charles-blue);
   position: relative;
   cursor: pointer;
   vertical-align: middle;
@@ -270,6 +270,6 @@
 .filter-header h3 {
   margin: 0;
   font-size: 1rem;
-  color: #0c223f;
+  color: var(--color-charles-blue);
   font-weight: 600;
 }
