@@ -32,7 +32,7 @@ export default function AboutPage() {
 
   const getImageUrl = (member: CouncilMember) => {
     if (member.Image?.url) {
-      const baseUrl = 'http://localhost:1337';
+      const baseUrl = 'https://dev--district-6-strapi.up.railway.app';
       const imageUrl = member.Image.url;
 
       const normalizedImageUrl = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
