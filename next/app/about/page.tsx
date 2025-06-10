@@ -76,11 +76,8 @@ export default function AboutPage() {
               <p>
                 District 6 is comprised of Jamaica Plain, West Roxbury, Egleston Square in Roxbury, Back of the Hill,
                 and one Roslindale precinct (which includes the Arnold Arboretum). Jamaica Plain has the largest tree
-                canopy, including the Arnold Arboretum, Jamaica Pond, and Olmsted Park.
-              </p>
-
-              <p>
-                Established in the 1630s within the Town of Roxbury, the name Jamaica Plain is said to be derived from{' '}
+                canopy, including the Arnold Arboretum, Jamaica Pond, and Olmsted Park. Established in the 1630s within
+                the Town of Roxbury, the name Jamaica Plain is said to be derived from{' '}
                 <a
                   href="https://www.jphs.org/jp-history/2005/4/10/how-jamaica-plain-got-its-name.html#gsc.tab=0"
                   target="_blank"
@@ -108,11 +105,7 @@ export default function AboutPage() {
                 >
                   see news coverage
                 </a>
-                ).
-              </p>
-
-              <p>
-                JP also has a vibrant LGBTQIA+ population—one of the highest in Boston (13.9% of its population as of
+                ). JP also has a vibrant LGBTQIA+ population—one of the highest in Boston (13.9% of its population as of
                 2017). (
                 <a
                   href="https://www.wbur.org/news/2020/02/26/boston-neighborhood-field-guide"
@@ -137,13 +130,9 @@ export default function AboutPage() {
               <p>
                 West Roxbury was historically a favored neighborhood for Irish-American families and was comprised
                 mostly of affordable single-family homes. In 1851, West Roxbury seceded from Roxbury but was
-                incorporated into Boston in 1868.
-              </p>
-
-              <p>
-                Today, Centre Street is home to more diverse neighbors and businesses, making the area more attractive
-                to young families. West Roxbury also has the highest concentration of senior citizens in Boston—18.2% as
-                of 2024. (
+                incorporated into Boston in 1868. Today, Centre Street is home to more diverse neighbors and businesses,
+                making the area more attractive to young families. West Roxbury also has the highest concentration of
+                senior citizens in Boston—18.2% as of 2024. (
                 <a
                   href="https://www.bostonplans.org"
                   target="_blank"
@@ -183,10 +172,31 @@ export default function AboutPage() {
               </a>
             </h2>
 
-            <p className={styles.sectionDescription}>
-              Our dedicated team works tirelessly to serve the residents and businesses of District 6. Get to know the
-              people who are committed to making our community stronger every day.
-            </p>
+            {councilMembers
+              .filter((member) => member.Role.toLowerCase() === 'councilor')
+              .map((member) => (
+                <div key={member.id} className={styles.wideMemberCard}>
+                  <div className={styles.wideMemberImage}>
+                    {getImageUrl(member) ? (
+                      <Image
+                        src={getImageUrl(member)!}
+                        alt={member.Name}
+                        width={300}
+                        height={300}
+                        className={styles.wideAvatar}
+                      />
+                    ) : (
+                      <div className={styles.avatarPlaceholder}>👤</div>
+                    )}
+                  </div>
+                  <div className={styles.wideMemberInfo}>
+                    <h3 className={styles.memberName}>{member.Name}</h3>
+                    <p className={styles.memberRole}>{member.Role}</p>
+                    {member.Position && <p className={styles.memberPosition}>{member.Position}</p>}
+                    {member.Description && <p className={styles.memberDescription}>{member.Description}</p>}
+                  </div>
+                </div>
+              ))}
 
             {loading ? (
               <div className={styles.loadingContainer}>
@@ -202,29 +212,31 @@ export default function AboutPage() {
               </div>
             ) : (
               <div className={styles.teamGrid}>
-                {councilMembers.map((member) => (
-                  <div key={member.id} className={styles.memberCard}>
-                    <div className={styles.memberImage}>
-                      {getImageUrl(member) ? (
-                        <Image
-                          src={getImageUrl(member)!}
-                          alt={member.Name}
-                          width={200}
-                          height={200}
-                          className={styles.avatar}
-                        />
-                      ) : (
-                        <div className={styles.avatarPlaceholder}>👤</div>
-                      )}
+                {councilMembers
+                  .filter((member) => member.Role.toLowerCase() !== 'councilor')
+                  .map((member) => (
+                    <div key={member.id} className={styles.memberCard}>
+                      <div className={styles.memberImage}>
+                        {getImageUrl(member) ? (
+                          <Image
+                            src={getImageUrl(member)!}
+                            alt={member.Name}
+                            width={200}
+                            height={200}
+                            className={styles.avatar}
+                          />
+                        ) : (
+                          <div className={styles.avatarPlaceholder}>👤</div>
+                        )}
+                      </div>
+                      <div className={styles.memberInfo}>
+                        <h3 className={styles.memberName}>{member.Name}</h3>
+                        <p className={styles.memberRole}>{member.Role}</p>
+                        {member.Position && <p className={styles.memberPosition}>{member.Position}</p>}
+                        {member.Description && <p className={styles.memberDescription}>{member.Description}</p>}
+                      </div>
                     </div>
-                    <div className={styles.memberInfo}>
-                      <h3 className={styles.memberName}>{member.Name}</h3>
-                      <p className={styles.memberRole}>{member.Role}</p>
-                      {member.Position && <p className={styles.memberPosition}>{member.Position}</p>}
-                      {member.Description && <p className={styles.memberDescription}>{member.Description}</p>}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             )}
           </div>

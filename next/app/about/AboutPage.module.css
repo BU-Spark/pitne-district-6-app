@@ -7,6 +7,7 @@
 
 /* About District 6 Section */
 .aboutSection {
+  padding-top: 300px;
   background: var(--color-charles-blue);
   color: var(--color-white);
   padding: 100px 20px 80px;
@@ -277,6 +278,58 @@
   align-items: center;
   gap: 0.5rem;
   margin: 0;
+}
+
+.wideMemberCard {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  background: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(9, 31, 47, 0.1);
+  border: 1px solid rgba(9, 31, 47, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 3rem;
+  max-width: 100%;
+}
+
+.wideMemberCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(9, 31, 47, 0.15);
+}
+
+.wideMemberImage {
+  flex: 0 0 300px;
+  height: 100%;
+  background: var(--color-light-background);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wideAvatar {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.wideMemberInfo {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Ensure text styling remains consistent */
+.wideMemberInfo .memberName,
+.wideMemberInfo .memberRole,
+.wideMemberInfo .memberPosition,
+.wideMemberInfo .memberDescription {
+  margin-bottom: 1rem;
 }
 
 /* Responsive Design */

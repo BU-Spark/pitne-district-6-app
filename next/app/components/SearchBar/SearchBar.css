@@ -12,9 +12,9 @@
 .search-input {
   width: 100%;
   padding: 12px 16px;
-  padding-left: 12px; /* Space for search icon */
-  padding-right: 50px; /* Space for clear button and loading */
-  border: 2px solid #e2e8f0;
+  padding-left: 12px;
+  padding-right: 50px;
+  border: 2px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
   font-family: 'Lora', sans-serif;
@@ -66,10 +66,11 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
     opacity: 0.5;
   }
-} 
+}
