@@ -174,7 +174,8 @@ export async function fetchLocations(): Promise<Location[]> {
       }
     }
 
-    return allLocations;
+    // Deduplicate results to prevent duplicates
+    return deduplicateLocations(allLocations);
   } catch (error) {
     console.error('Error fetching locations:', error);
     return [];
@@ -211,7 +212,8 @@ export async function fetchLocationsByCategory(category: string): Promise<Locati
       }
     }
 
-    return allLocations;
+    // Deduplicate results to prevent duplicates
+    return deduplicateLocations(allLocations);
   } catch (error) {
     console.error('Error fetching locations by category:', error);
     return [];
@@ -268,9 +270,57 @@ export async function fetchLocationsByCategories(categories: string[]): Promise<
       }
     }
 
-    return allLocations;
+    // Deduplicate results to prevent duplicates
+    return deduplicateLocations(allLocations);
   } catch (error) {
     console.error('Error fetching locations by categories:', error);
     return [];
   }
+}
+
+/**
+ * Search locations by name
+ */
+export async function searchLocations(query: string): Promise<Location[]> {
+  try {
+    if (!query || query.trim().length === 0) {
+      return [];
+    }
+
+    const response = await fetch(`${STRAPI_BASE_URL}/api/locations/search?query=${encodeURIComponent(query.trim())}`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to search locations: ${response.statusText}`);
+    }
+
+    const result: { data: Location[] } = await response.json();
+
+    // Deduplicate results based on documentId and name to prevent duplicates
+    const deduplicatedResults = deduplicateLocations(result.data);
+
+    return deduplicatedResults;
+  } catch (error) {
+    console.error('Error searching locations:', error);
+    return [];
+  }
+}
+
+/**
+ * Deduplicate locations based on documentId or name + location combination
+ */
+function deduplicateLocations(locations: Location[]): Location[] {
+  const seen = new Set<string>();
+  const deduplicated: Location[] = [];
+
+  for (const location of locations) {
+    // Create a unique key based on documentId (preferred) or name + coordinates
+    const key = location.documentId || `${location.name}-${location.lat || 'no-lat'}-${location.lng || 'no-lng'}`;
+
+    if (!seen.has(key)) {
+      seen.add(key);
+      deduplicated.push(location);
+    }
+  }
+
+  return deduplicated;
 }
