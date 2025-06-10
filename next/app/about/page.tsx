@@ -32,11 +32,17 @@ export default function AboutPage() {
 
   const getImageUrl = (member: CouncilMember) => {
     if (member.Image?.url) {
-      // Handle both relative and absolute URLs
-      const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
-      return member.Image.url.startsWith('http') ? member.Image.url : `${baseUrl}${member.Image.url}`;
+      const baseUrl = 'http://localhost:1337';
+      const imageUrl = member.Image.url;
+
+      const normalizedImageUrl = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
+
+      const url = `${baseUrl}/${normalizedImageUrl}`;
+
+      console.log('Image URL for', member.Name, ':', url);
+      return url;
     }
-    return null; // No image available
+    return null;
   };
 
   return (
@@ -216,29 +222,6 @@ export default function AboutPage() {
                       <p className={styles.memberRole}>{member.Role}</p>
                       {member.Position && <p className={styles.memberPosition}>{member.Position}</p>}
                       {member.Description && <p className={styles.memberDescription}>{member.Description}</p>}
-                      <div className={styles.memberContact}>
-                        {member.Email && (
-                          <a href={`mailto:${member.Email}`} className={styles.contactLink}>
-                            📧 {member.Email}
-                          </a>
-                        )}
-                        {member.Phone && (
-                          <a href={`tel:${member.Phone}`} className={styles.contactLink}>
-                            📞 {member.Phone}
-                          </a>
-                        )}
-                        {member.Wesbite && (
-                          <a
-                            href={member.Wesbite}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.contactLink}
-                          >
-                            🌐 Website
-                          </a>
-                        )}
-                        {member.Location && <p className={styles.memberLocation}>📍 {member.Location}</p>}
-                      </div>
                     </div>
                   </div>
                 ))}

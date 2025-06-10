@@ -103,7 +103,7 @@ export interface StrapiResponse<T> {
  */
 export async function fetchCouncilMembers(): Promise<CouncilMember[]> {
   try {
-    const response = await fetch(`${STRAPI_BASE_URL}/api/councils`);
+    const response = await fetch(`${STRAPI_BASE_URL}/api/councils?populate=Image`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch council members: ${response.statusText}`);
