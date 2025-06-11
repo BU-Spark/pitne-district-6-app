@@ -1,5 +1,8 @@
 'use client';
 
+import { FiMap } from 'react-icons/fi';
+import { FaCompass } from 'react-icons/fa';
+import { BsBook } from 'react-icons/bs';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
@@ -54,21 +57,24 @@ export default function AboutPage() {
           <div className={styles.aboutContent}>
             <h1 className={styles.mainTitle}>About District 6</h1>
             {/* Link cards */}
+
             <div className={styles.linkButtons}>
               <a
                 href="https://www.bostonplans.org/getattachment/ebd89ac2-3046-4ebd-879b-0cf2b67c8ee8/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                🗺️ <strong>City Council District 6 Map</strong>
-                <br />
+                <FiMap style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                <strong>City Council District 6 Map</strong>
               </a>
+
               <a
                 href="https://boston.maps.arcgis.com/apps/webappviewer/index.html?id=72a95777f7e842eaae3671c0d67acce0&find=129668"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                🧭 <strong>Wards & Precincts Interactive Map</strong>
+                <FaCompass style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                <strong>Wards & Precincts Interactive Map</strong>
               </a>
 
               <a
@@ -76,7 +82,8 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                🧭 <strong>Jamaica Plain Field Guide</strong>
+                <BsBook style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                <strong>Jamaica Plain Field Guide</strong>
               </a>
             </div>
 
@@ -201,7 +208,12 @@ export default function AboutPage() {
                     <h3 className={styles.memberName}>{member.Name}</h3>
                     <p className={styles.memberRole}>{member.Role}</p>
                     {member.Position && <p className={styles.memberPosition}>{member.Position}</p>}
-                    {member.Description && <p className={styles.memberDescription}>{member.Description}</p>}
+                    {member.Description && (
+                      <div
+                        className={styles.memberDescription}
+                        dangerouslySetInnerHTML={{ __html: member.Description }}
+                      />
+                    )}
                   </div>
                 </div>
               ))}

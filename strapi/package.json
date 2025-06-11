@@ -27,6 +27,7 @@
     "pg": "8.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^6.0.0",
     "strapi-geodata": "^0.1.2",
     "styled-components": "^6.0.0"
