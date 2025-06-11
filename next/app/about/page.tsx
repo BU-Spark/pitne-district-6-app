@@ -205,7 +205,9 @@ export default function AboutPage() {
                     )}
                   </div>
                   <div className={styles.wideMemberInfo}>
-                    <h3 className={styles.memberName}>{member.Name}</h3>
+                    <h3 className={styles.memberName} translate="no">
+                      {member.Name}
+                    </h3>
                     <p className={styles.memberRole}>{member.Role}</p>
                     {member.Position && <p className={styles.memberPosition}>{member.Position}</p>}
                     {member.Description && (
@@ -250,7 +252,9 @@ export default function AboutPage() {
                         )}
                       </div>
                       <div className={styles.memberInfo}>
-                        <h3 className={styles.memberName}>{member.Name}</h3>
+                        <h3 className={styles.memberName} translate="no">
+                          {member.Name}
+                        </h3>
                         <p className={styles.memberRole}>{member.Role}</p>
                         {member.Position && <p className={styles.memberPosition}>{member.Position}</p>}
                         {member.Description && <p className={styles.memberDescription}>{member.Description}</p>}
