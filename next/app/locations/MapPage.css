@@ -5,12 +5,12 @@
   font-family: 'Montserrat', Arial, sans-serif;
 }
 .map-container {
-  flex: 3;
+  flex: 2.65;
   height: 100%;
 }
 .sidebar {
   width: 300px;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   overflow-y: auto;
   border-left: 1px solid #ccc;
 }
@@ -35,7 +35,7 @@
   text-overflow: ellipsis;
 }
 .inline-item a {
-  color: #1871BD;
+  color: #1871bd;
   text-decoration: underline;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -46,12 +46,18 @@
 /* ========== Mobile styles (≤768 px) ========== */
 .mobile-filter-button,
 .filter-popup,
-.filter-backdrop { display: none; }  /* hidden on desktop */
+.filter-backdrop {
+  display: none;
+} /* hidden on desktop */
 @media (max-width: 768px) {
   /* stack nav + map vertically */
-  .main-container { flex-direction: column; }
+  .main-container {
+    flex-direction: column;
+  }
   /* hide wide sidebar */
-  .sidebar { display: none; }
+  .sidebar {
+    display: none;
+  }
   /* floating circle — defaults to WHITE */
   .mobile-filter-button {
     display: flex;
@@ -68,8 +74,10 @@
     justify-content: center;
     cursor: pointer;
     z-index: 1000;
-    transition: background 0.25s ease, color 0.25s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    transition:
+      background 0.25s ease,
+      color 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   }
   /* turn BLACK when sheet open */
   .mobile-filter-button.open {
@@ -81,7 +89,7 @@
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0, 0, 0, 0.35);
     z-index: 999;
   }
   /* sliding bottom sheet */
@@ -97,13 +105,17 @@
     padding: 1.25rem 1rem 2rem;
     max-height: 70vh;
     overflow-y: auto;
-    box-shadow: 0 -4px 16px rgba(0,0,0,0.25);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
     z-index: 1000;
     animation: slideUp 240ms ease-out forwards;
   }
   @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to   { transform: translateY(0);    }
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
   /* make sidebar look nice inside sheet */
   .bottom-sheet .sidebar {
