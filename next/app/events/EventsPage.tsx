@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import styles from './EventsPage.module.css';
 import Navbar from '../components/Navbar/Navbar';
+import { FiLink, FiCalendar, FiPlus, FiEye, FiCopy } from 'react-icons/fi';
 import EventCalendar from '../components/EventCalendar/EventCalendar';
 
 const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
@@ -61,17 +62,20 @@ export default function EventsPage() {
                 className={styles.subscribeButton}
                 onClick={() => setShowSubscriptionOptions(!showSubscriptionOptions)}
               >
-                📅 Subscribe to Calendar
+                <FiCalendar style={{ verticalAlign: 'middle', marginRight: 6, color: 'inherit', fontSize: 18 }} />
+                Subscribe to Calendar
               </button>
 
               {showSubscriptionOptions && (
                 <div className={styles.subscriptionDropdown}>
                   <button className={styles.subscriptionOption} onClick={handleAddToGoogleCalendar}>
-                    <span className={styles.optionIcon}>🔗</span>
+                    {/* <span className={styles.optionIcon}>🔗</span> */}
+                    <FiPlus style={{ verticalAlign: 'middle', marginRight: 6, color: 'inherit', fontSize: 18 }} />
                     Add to Google Calendar
                   </button>
                   <button className={styles.subscriptionOption} onClick={handleGetCalendarURL}>
-                    <span className={styles.optionIcon}>📋</span>
+                    {/* <span className={styles.optionIcon}>📋</span> */}
+                    <FiLink style={{ verticalAlign: 'middle', marginRight: 6, color: 'inherit', fontSize: 18 }} />
                     Copy Calendar URL
                   </button>
                   <div className={styles.subscriptionNote}>

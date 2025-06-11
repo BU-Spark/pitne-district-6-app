@@ -355,7 +355,14 @@
   padding: 12px;
   background: #f7fafc;
   border-radius: 6px;
-  border-left: 3px solid var(--color-charles-blue);
+  /* border-left: 3px solid var(--color-charles-blue); */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limit to 3 lines */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .dateIcon,
@@ -379,7 +386,7 @@
   padding: 10px 16px;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -402,7 +409,7 @@
   padding: 10px 16px;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -415,6 +422,7 @@
 .viewDetailsButton:hover {
   background: #edf2f7;
   border-color: #cbd5e0;
+  transform: translateY(-1px);
 }
 
 /* Responsive adjustments */

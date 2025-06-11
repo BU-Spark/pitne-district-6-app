@@ -8,6 +8,7 @@ import multiMonthPlugin from '@fullcalendar/multimonth';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventClickArg, EventApi } from '@fullcalendar/core';
+import { FiPlus, FiEye } from 'react-icons/fi';
 import styles from './EventCalendar.module.css';
 
 const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
@@ -209,10 +210,7 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
             </div>
 
             <div className={styles.eventDetails}>
-              <p className={styles.eventDate}>
-                <span className={styles.dateIcon}>📅</span>
-                {formatEventDate(selectedEvent)}
-              </p>
+              <p className={styles.eventDate}>{formatEventDate(selectedEvent)}</p>
 
               {selectedEvent.extendedProps?.location && (
                 <p className={styles.eventLocation}>
@@ -228,12 +226,21 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
 
             <div className={styles.popupActions}>
               <button className={styles.addToCalendarButton} onClick={() => handleAddEventToCalendar(selectedEvent)}>
-                📅 Add to My Calendar
+                <FiPlus
+                  style={{
+                    verticalAlign: 'middle',
+                    marginRight: 6,
+                    color: 'inherit',
+                    fontSize: 20,
+                  }}
+                />
+                Add to Calendar
               </button>
 
               {selectedEvent.url && (
                 <button className={styles.viewDetailsButton} onClick={() => window.open(selectedEvent.url, '_blank')}>
-                  🔗 View Details
+                  <FiEye style={{ verticalAlign: 'middle', marginRight: 6, color: 'inherit', fontSize: 20 }} />
+                  View Details
                 </button>
               )}
             </div>
