@@ -33,13 +33,14 @@
   align-items: center;
   gap: 8px;
   padding: 16px 0 12px 0;
-  margin-bottom: 16px;
-  border-bottom: 2px solid #e2e8f0;
+  /* margin-bottom: 16px; */
+  border-bottom: 2px solid #ccc;
   z-index: 10;
 }
 
 .search-header {
   padding-top: 32px;
+  margin-bottom: 16px;
 }
 
 .search-header h2,
@@ -80,11 +81,6 @@
 
 .separator {
   color: #555;
-}
-
-/* Filter section styles */
-.filter-section {
-  padding: 0 16px;
 }
 
 .sidebar-scroll-area {
@@ -173,7 +169,7 @@
   color: #374151;
   margin-bottom: 12px;
   font-weight: 600;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #ccc;
   padding-bottom: 8px;
 }
 
@@ -187,7 +183,7 @@
 
 .search-result-item {
   padding: 12px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #ccc;
   transition: background-color 0.2s ease;
 }
 
