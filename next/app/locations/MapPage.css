@@ -5,14 +5,15 @@
   font-family: 'Montserrat', Arial, sans-serif;
 }
 .map-container {
-  flex: 2.65;
+  flex: 1;
   height: 100%;
 }
-.sidebar {
-  width: 300px;
+.map-sidebar {
+  width: 350px;
   background-color: #f9f9f9;
   overflow-y: auto;
   border-left: 1px solid #ccc;
+  flex-shrink: 0;
 }
 .leaflet-map {
   width: 100%;
@@ -55,7 +56,7 @@
     flex-direction: column;
   }
   /* hide wide sidebar */
-  .sidebar {
+  .map-sidebar {
     display: none;
   }
   /* floating circle — defaults to WHITE */
@@ -119,10 +120,12 @@
   }
   /* make sidebar look nice inside sheet */
   .bottom-sheet .sidebar {
-    display: block;
+    display: block !important;
     width: 100%;
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     overflow: visible;
+    margin-top: 0 !important;
+    padding: 0 !important;
   }
 }

@@ -1,10 +1,11 @@
 .sidebar {
-  flex: 1;
+  width: 350px;
   margin-top: 28px;
   background-color: #f2f2f2;
   padding: 1rem;
   overflow-y: hidden;
   border-right: 1px solid #ccc;
+  flex-shrink: 0;
 }
 
 .sidebar h2 {
@@ -22,17 +23,32 @@
   -ms-overflow-style: none;
 }
 
-.sidebar-header {
+/* Unified section header styles */
+.search-header,
+.filter-header {
   position: sticky;
   top: 0;
   background-color: #f2f2f2;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 32px 0 12px 0;
+  padding: 16px 0 12px 0;
   margin-bottom: 16px;
   border-bottom: 2px solid #e2e8f0;
   z-index: 10;
+}
+
+.search-header {
+  padding-top: 32px;
+}
+
+.search-header h2,
+.filter-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-charles-blue);
+  flex: 1;
 }
 
 .section-icon {
@@ -41,16 +57,6 @@
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
-}
-
-.sidebar-header h2,
-.search-header h2,
-.filter-header h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-charles-blue);
-  flex: 1;
 }
 
 .sidebar-links {
@@ -76,35 +82,22 @@
   color: #555;
 }
 
+/* Filter section styles */
+.filter-section {
+  padding: 0 16px;
+}
+
+.sidebar-scroll-area {
+  padding: 0;
+}
+
+/* Category and form styles */
 .sidebar form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.sidebar-category {
-  display: flex;
-  align-items: center;
-  font-family: 'Lora', serif;
-  color: var(--color-charles-blue);
-  gap: 0.5rem;
-}
-
-.sidebar-category input[type='checkbox'] {
-  margin-right: 0.5rem;
-  cursor: pointer;
-}
-
-.sidebar-category input[type='checkbox']:checked + span {
-  font-weight: bold;
-  /* font-style: italic; */
-  color: var(--color-optimistic-blue);
-}
-
-.sidebar-category {
-  cursor: pointer;
-  user-select: none;
-}
 .sidebar-category {
   display: flex;
   align-items: center;
@@ -124,10 +117,14 @@
   position: relative;
   cursor: pointer;
   vertical-align: middle;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
   flex-shrink: 0;
+  margin-right: 0.5rem;
+}
+
+.sidebar-category input[type='checkbox']:checked + span {
+  font-weight: bold;
+  color: var(--color-optimistic-blue);
 }
 
 .sidebar-actions {
@@ -233,43 +230,4 @@
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   background-color: #f9fafb;
-}
-
-/* Filter Section Styles */
-.filter-section {
-  padding: 0 16px;
-}
-
-/* Separate styles for Search and Filter section headers */
-.search-header {
-  position: sticky;
-  margin-left: 15px;
-  top: 0;
-  background-color: #f2f2f2;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 32px 0 12px 0;
-  margin-bottom: 16px;
-  border-bottom: 2px solid #ccc;
-  z-index: 10;
-}
-
-.filter-header {
-  position: sticky;
-  top: 0;
-  background-color: #f2f2f2;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0px 0 12px 0;
-  border-bottom: 2px solid #ccc;
-  z-index: 10;
-}
-
-.filter-header h3 {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--color-charles-blue);
-  font-weight: 600;
 }
