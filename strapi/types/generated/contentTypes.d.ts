@@ -556,6 +556,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
         'Education Community Organizations',
         'Boston Public Schools',
         'Youth Community Organizations',
+        'Ongoing Projects',
       ]
     >;
     createdAt: Schema.Attribute.DateTime;

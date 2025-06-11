@@ -95,7 +95,8 @@
         "Arts & Culture Organizations",
         "Education Community Organizations",
         "Boston Public Schools",
-        "Youth Community Organizations"
+        "Youth Community Organizations",
+        "Ongoing Projects"
       ],
       "required": false
     },

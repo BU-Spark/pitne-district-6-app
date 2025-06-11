@@ -10,6 +10,8 @@ export const categoryMeta: Record<string, { group: string; iconPath: string }> =
   'Police & Fire': { group: 'community', iconPath: '/icons/default/PF.svg' },
   'Small Business Organizations': { group: 'community', iconPath: '/icons/default/SBO.svg' },
 
+  'Ongoing Projects': { group: 'community', iconPath: '/icons/default/SBO.svg' },
+
   'Child Care Organizations': { group: 'health', iconPath: '/icons/default/CCO.svg' },
   'Food Community Organizations': { group: 'health', iconPath: '/icons/default/FCO.svg' },
   Healthcare: { group: 'health', iconPath: '/icons/default/HC.svg' },
