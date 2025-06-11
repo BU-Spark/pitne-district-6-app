@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import styles from './EventsPage.module.css';
 import Navbar from '../components/Navbar/Navbar';
-import { FiLink, FiCalendar, FiPlus, FiEye, FiCopy } from 'react-icons/fi';
+import { FiLink, FiCalendar, FiPlus } from 'react-icons/fi';
 import EventCalendar from '../components/EventCalendar/EventCalendar';
 
 const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
