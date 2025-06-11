@@ -35,14 +35,20 @@ export default function AboutPage() {
 
   const getImageUrl = (member: CouncilMember) => {
     if (member.Image?.url) {
-      const baseUrl = 'https://dev--district-6-strapi.up.railway.app';
       const imageUrl = member.Image.url;
 
-      const normalizedImageUrl = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
+      if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+        console.log('Full image URL for', member.Name, ':', imageUrl);
+        return imageUrl;
+      }
 
+      // For relative URLs, prepend the Strapi base URL
+      const baseUrl = 'https://dev--district-6-strapi.up.railway.app';
+
+      const normalizedImageUrl = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
       const url = `${baseUrl}/${normalizedImageUrl}`;
 
-      console.log('Image URL for', member.Name, ':', url);
+      console.log('Relative image URL for', member.Name, ':', url);
       return url;
     }
     return null;
