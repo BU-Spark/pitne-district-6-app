@@ -1,7 +1,6 @@
 .calendarWrapper {
   background: var(--color-white);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   padding: 24px;
   margin: 20px 0;
   overflow: hidden;
@@ -55,8 +54,8 @@
 }
 
 .calendarWrapper :global(.fc-button:disabled) {
-  background: #ddd;
-  color: #aaa;
+  background: var(--color-dark-text) !important;
+  color: var(--color-white);
   cursor: not-allowed;
   transform: none;
 }
@@ -219,58 +218,6 @@
   font-weight: 500;
 }
 
-@media (max-width: 768px) {
-  .calendarWrapper {
-    padding: 16px;
-    margin: 16px 0;
-    border-radius: 8px;
-  }
-
-  .calendarWrapper :global(.fc-toolbar) {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .calendarWrapper :global(.fc-toolbar-title) {
-    font-size: 1.4rem;
-    text-align: center;
-  }
-
-  .calendarWrapper :global(.fc-button) {
-    padding: 6px 12px;
-    font-size: 0.85rem;
-  }
-
-  .calendarWrapper :global(.fc-button-group) {
-    justify-content: center;
-  }
-
-  .calendarWrapper :global(.fc-daygrid-day-number) {
-    font-size: 0.8rem;
-    padding: 4px;
-  }
-
-  .calendarWrapper :global(.fc-event) {
-    font-size: 0.75rem;
-    padding: 2px 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .calendarWrapper {
-    padding: 12px;
-    margin: 12px 0;
-  }
-
-  .calendarWrapper :global(.fc-toolbar-title) {
-    font-size: 1.2rem;
-  }
-
-  .calendarWrapper :global(.fc-daygrid-day-number) {
-    font-size: 0.75rem;
-  }
-}
-
 /* Event Popup Styles */
 .popupOverlay {
   position: fixed;
@@ -284,13 +231,12 @@
 
 .eventPopup {
   position: fixed;
-  background: white;
+  background: var(--color-white);
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   z-index: 1001;
-  min-width: 320px;
-  max-width: 400px;
-  border: 1px solid #e2e8f0;
+  width: 400px;
+  border: 2px solid var(--color-border-light);
 }
 
 .popupHeader {
@@ -298,14 +244,14 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 20px 20px 16px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 2px solid var(--color-border-light);
 }
 
 .eventTitle {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--color-charles-blue);
   line-height: 1.3;
   flex: 1;
   padding-right: 16px;
@@ -315,7 +261,7 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #718096;
+  color: var(--color-alt-gray);
   cursor: pointer;
   padding: 0;
   width: 24px;
@@ -328,8 +274,8 @@
 }
 
 .closeButton:hover {
-  background: #f7fafc;
-  color: #4a5568;
+  background: var(--color-alt-white);
+  color: var(--color-alt-gray);
 }
 
 .eventDetails {
@@ -342,26 +288,23 @@
   align-items: center;
   gap: 8px;
   margin: 0 0 12px 0;
-  color: #4a5568;
+  color: var(--color-alt-gray);
   font-size: 0.95rem;
   line-height: 1.4;
 }
 
 .eventDescription {
   margin: 16px 0 0 0;
-  color: #2d3748;
+  color: var(--color-alt-gray);
   font-size: 0.9rem;
   line-height: 1.5;
   padding: 12px;
-  background: #f7fafc;
+  background: var(--color-alt-white-hover);
   border-radius: 6px;
-  /* border-left: 3px solid var(--color-charles-blue); */
-  display: -webkit-box;
-  -webkit-line-clamp: 4; /* Limit to 3 lines */
-  line-clamp: 4;
-  -webkit-box-orient: vertical;
+
+  max-height: 16.2em;
   overflow: hidden;
-  text-overflow: ellipsis;
+  position: relative;
   white-space: normal;
 }
 
@@ -397,15 +340,15 @@
 }
 
 .addToCalendarButton:hover {
-  background: #2c5aa0;
+  background: var(--color-optimistic-blue);
   transform: translateY(-1px);
 }
 
 .viewDetailsButton {
   font-family: var(--font-primary);
-  background: #f7fafc;
-  color: #4a5568;
-  border: 1px solid #e2e8f0;
+  background: var(--color-alt-white);
+  color: var(--color-charles-blue);
+  border: 1px solid var(--color-border-light);
   padding: 10px 16px;
   border-radius: 6px;
   font-weight: 500;
@@ -420,27 +363,7 @@
 }
 
 .viewDetailsButton:hover {
-  background: #edf2f7;
-  border-color: #cbd5e0;
+  background: var(--color-alt-white-hover);
+  border-color: var(--color-border-light);
   transform: translateY(-1px);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .eventPopup {
-    min-width: 280px;
-    max-width: 320px;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  .popupActions {
-    flex-direction: column;
-  }
-
-  .addToCalendarButton,
-  .viewDetailsButton {
-    flex: none;
-  }
 }

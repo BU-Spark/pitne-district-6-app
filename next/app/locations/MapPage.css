@@ -8,11 +8,12 @@
   flex: 1;
   height: 100%;
 }
+
 .map-sidebar {
-  width: 350px;
-  background-color: #f9f9f9;
+  width: 382px;
+  background-color: var(--color-light-background);
   overflow-y: auto;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid var(--color-border-light);
   flex-shrink: 0;
 }
 .leaflet-map {
@@ -27,6 +28,12 @@
   word-break: break-word;
   font-size: 14px;
 }
+
+.popup-content strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
 .inline-item {
   display: flex;
   align-items: center;
@@ -36,7 +43,7 @@
   text-overflow: ellipsis;
 }
 .inline-item a {
-  color: #1871bd;
+  color: var(--color-optimistic-blue);
   text-decoration: underline;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -44,6 +51,7 @@
   max-width: 160px;
   display: inline-block;
 }
+
 /* ========== Mobile styles (≤768 px) ========== */
 .mobile-filter-button,
 .filter-popup,
@@ -68,8 +76,8 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: #fff;
-    color: #000;
+    background: var(--color-white);
+    color: var(--color-charles-blue);
     font-size: 24px;
     align-items: center;
     justify-content: center;
@@ -78,13 +86,14 @@
     transition:
       background 0.25s ease,
       color 0.25s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
   }
   /* turn BLACK when sheet open */
   .mobile-filter-button.open {
-    background: #000;
-    color: #fff;
+    background: var(--color-charles-blue);
+    color: var(--color-white);
   }
+
   /* dimmed backdrop */
   .filter-backdrop {
     display: block;

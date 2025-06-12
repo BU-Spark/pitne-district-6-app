@@ -4,10 +4,10 @@
   padding: 6px 12px;
   margin: 4px 2px;
   font-size: 0.9rem;
-  border: 2px solid #1871bd;
+  border: 2px solid var(--color-optimistic-blue);
   font-family: 'Montserrat', Arial, sans-serif;
-  color: #1871bd;
-  background-color: white;
+  color: var(--color-optimistic-blue);
+  background-color: var(--color-white);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   font-weight: 500;
@@ -15,13 +15,13 @@
 }
 
 .filter-tag:hover {
-  background-color: #e6f0fb;
+  background-color: var(--color-alt-white-hover);
 }
 
 .filter-tag.selected {
-  background-color: #1871bd;
-  color: white;
-  border-color: #1871bd;
+  background-color: var(--color-optimistic-blue);
+  color: var(--color-white);
+  border-color: var(--color-optimistic-blue);
 }
 
 .tag-content {

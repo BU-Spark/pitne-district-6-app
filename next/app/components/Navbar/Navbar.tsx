@@ -1,11 +1,10 @@
 'use client';
 
-import styles from '../../home/HomePage.module.css';
+import styles from './Navbar.module.css';
 import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
-
 import Image from 'next/image';
 import { fetchCouncilor, CouncilMember } from '../../utils';
 
@@ -63,9 +62,12 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
             DISTRICT 6
           </Link>
           <span className={styles.divider}></span>
-          <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
-            {getCouncilorDisplay()}
-          </a>
+          <div className={styles.desktopOnly}>
+            <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
+              {getCouncilorDisplay()}
+            </a>
+          </div>
+
           <span className={styles.divider}></span>
           <LanguageSelector setLanguage={setLanguage} />
         </div>
@@ -107,11 +109,11 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
               <Link href="/" onClick={closeMobileMenu}>
                 HOME
               </Link>
-              <Link href="/locations" onClick={closeMobileMenu}>
-                LOCATIONS
-              </Link>
               <Link href="/resources" onClick={closeMobileMenu}>
                 RESOURCES
+              </Link>
+              <Link href="/locations" onClick={closeMobileMenu}>
+                LOCATIONS
               </Link>
               <Link href="/events" onClick={closeMobileMenu}>
                 EVENTS

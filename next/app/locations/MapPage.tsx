@@ -9,6 +9,7 @@ import Papa from 'papaparse';
 import wellknown from 'wellknown';
 import { categoryMeta, getIconForCategory } from '../utils/categoryMeta';
 import { FaFilter } from 'react-icons/fa';
+import { FiPhone, FiMail, FiGlobe } from 'react-icons/fi';
 import { Location } from '../utils/strapi.api';
 
 export default function MapPage() {
@@ -141,7 +142,6 @@ export default function MapPage() {
                       <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`}
                         target="_blank"
-                        style={{ color: '#1871BD' }}
                         rel="noopener noreferrer"
                       >
                         {loc.name}
@@ -152,18 +152,27 @@ export default function MapPage() {
                         <i>{loc.category}</i>
                       </div>
                     )}
+
                     {loc.website && (
                       <div className="inline-item">
-                        🌐{' '}
+                        <FiGlobe size={14} style={{ marginRight: 2 }} />
                         <a href={loc.website} target="_blank" rel="noopener noreferrer">
                           {loc.website}
                         </a>
                       </div>
                     )}
-                    {loc.phone && <div className="inline-item">📞 {loc.phone}</div>}
+
+                    {loc.phone && (
+                      <div className="inline-item">
+                        <FiPhone size={14} style={{ marginRight: 2 }} />
+                        {loc.phone}
+                      </div>
+                    )}
+
                     {loc.email && (
                       <div className="inline-item">
-                        📧 <a href={`mailto:${loc.email}`}>{loc.email}</a>
+                        <FiMail size={14} style={{ marginRight: 2 }} />
+                        <a href={`mailto:${loc.email}`}>{loc.email}</a>
                       </div>
                     )}
                   </div>

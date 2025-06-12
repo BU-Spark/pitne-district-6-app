@@ -12,7 +12,7 @@
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.375rem;
-  color: #0c223f;
+  color: var(--color-charles-blue);
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 0.75rem;
@@ -29,15 +29,15 @@
 }
 
 .languageButton.active {
-  background: #fb4d42;
-  border-color: #fb4d42;
-  color: white;
+  background: var(--color-freedom-trail-red);
+  border-color: var(--color-freedom-trail-red);
+  color: var(--color-white);
   font-weight: 700;
 }
 
 .languageButton.active:hover {
-  background: #e64339;
-  border-color: #e64339;
+  background: var(--color-red-hover);
+  border-color: var(--color-red-hover);
 }
 
 .flag {

@@ -5,10 +5,17 @@
   --color-charles-blue: #091f2f;
   --color-optimistic-blue: #1871bd;
   --color-alt-blue: #45789c;
+  --color-alt-gray: #4a5568;
+  --color-alt-white: #f7fafc;
+  --color-alt-white-hover: #edf2f7;
   --color-freedom-trail-red: #fb4d42;
-  --color-white: #ffffff;
+  --color-red-hover: #e64339;
   --color-dark-text: #58585b;
   --color-light-background: #f2f2f2;
+  --color-border-light: #ccc;
+  --color-white: #ffffff;
+
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 
   /* Typography */
   --font-primary: 'Montserrat', Arial, sans-serif;

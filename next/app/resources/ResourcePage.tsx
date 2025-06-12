@@ -150,13 +150,9 @@ export default function ResourcePage() {
           {isSearching && (
             <div className="search-status">
               <h2>
-                Search Results: {searchResults.length} found, {displayLocations.length} match filters
+                {searchResults.length} results found, {displayLocations.length} match filters ({selectedCategories.size}{' '}
+                filter{selectedCategories.size !== 1 ? 's' : ''} selected)
               </h2>
-              <p>
-                Showing search results for your query
-                {selectedCategories.size < allCategories.size &&
-                  ` filtered by ${selectedCategories.size} selected categories`}
-              </p>
             </div>
           )}
 

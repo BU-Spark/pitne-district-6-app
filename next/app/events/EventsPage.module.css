@@ -17,7 +17,7 @@
   box-shadow: none;
   padding: 40px;
   margin: 0 auto;
-  color: white;
+  color: var(--color-white);
 }
 
 .header {
@@ -41,7 +41,7 @@
   font-family: var(--font-montserrat), sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  color: white;
+  color: var(--color-white);
   text-align: left;
   margin-bottom: 16px;
   letter-spacing: 1px;
@@ -51,7 +51,7 @@
 .sectionDescription {
   font-family: var(--font-lora), serif;
   font-size: 1.1rem;
-  color: white;
+  color: var(--color-white);
   text-align: left;
   margin-bottom: 0;
   line-height: 1.6;
@@ -59,7 +59,7 @@
 
 /* Calendar Subscription Styles */
 .subscribeButton {
-  background: white;
+  background: var(--color-white);
   color: var(--color-charles-blue);
   border: none;
   padding: 12px 20px;
@@ -76,7 +76,7 @@
 }
 
 .subscribeButton:hover {
-  background: #f0f0f0;
+  background: var(--color-alt-white);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -86,22 +86,22 @@
   top: 100%;
   right: 0;
   font-family: var(--font-primary);
-  background: white;
+  background: var(--color-white);
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   margin-top: 8px;
   min-width: 280px;
   overflow: hidden;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border-light);
 }
 
 .subscriptionOption {
   width: 100%;
   padding: 16px 20px;
   border: none;
-  background: white;
-  color: #2d3748;
+  background: var(--color-white);
+  color: var(--color-alt-gray);
   text-align: left;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -114,7 +114,7 @@
 }
 
 .subscriptionOption:hover {
-  background: #f7fafc;
+  background: var(--color-alt-white-hover);
 }
 
 .optionIcon {
@@ -123,10 +123,10 @@
 
 .subscriptionNote {
   padding: 12px 20px;
-  background: #f7fafc;
-  color: #4a5568;
+  background: var(--color-alt-white-hover);
+  color: var(--color-alt-gray);
   font-size: 0.85rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border-light);
   line-height: 1.4;
 }
 
@@ -190,25 +190,5 @@
 
   .subscriptionDropdown {
     min-width: 240px;
-  }
-}
-
-/* Optional: dark mode support */
-@media (prefers-color-scheme: dark) {
-  .container {
-    background: #1a365d;
-  }
-
-  .calendarContainer {
-    background: #1a365d;
-    color: white;
-  }
-
-  .sectionTitle {
-    color: white;
-  }
-
-  .sectionDescription {
-    color: #cbd5e1;
   }
 }
