@@ -483,6 +483,32 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFlyerFlyer extends Struct.CollectionTypeSchema {
+  collectionName: 'flyers';
+  info: {
+    displayName: 'Flyer';
+    pluralName: 'flyers';
+    singularName: 'flyer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::flyer.flyer'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -1179,6 +1205,7 @@ declare module '@strapi/strapi' {
       'api::about.about': ApiAboutAbout;
       'api::council.council': ApiCouncilCouncil;
       'api::event.event': ApiEventEvent;
+      'api::flyer.flyer': ApiFlyerFlyer;
       'api::global.global': ApiGlobalGlobal;
       'api::location.location': ApiLocationLocation;
       'api::resource.resource': ApiResourceResource;
