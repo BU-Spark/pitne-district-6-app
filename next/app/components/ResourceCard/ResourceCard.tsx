@@ -31,11 +31,22 @@ interface ResourceCardProps {
   lng?: number | null;
 }
 
+function resolveCssColor(value: string): string {
+  if (value.startsWith('var(')) {
+    const varName = value.match(/var\((--[^)]+)\)/)?.[1];
+    if (varName) {
+      return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    }
+  }
+  return value;
+}
+
 const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, email, contact, website, lat, lng }) => {
   const mapsLink = lat != null && lng != null ? `https://www.google.com/maps?q=${lat},${lng}` : null;
   const meta = categoryMeta[category] || { group: 'community' };
-  const groupColor = groupColors[meta.group] || '#091F2F';
-  const lighterColor = lightenColor(groupColor, 0.8);
+  const rawColor = groupColors[meta.group] || '#091F2F';
+  const groupColor = resolveCssColor(rawColor);
+  const lighterColor = lightenColor(groupColor, 0.75);
 
   return (
     <div className="resource-card">

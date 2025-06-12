@@ -86,17 +86,10 @@ export default function ResourcePage() {
     loadLocations();
   }, []);
 
-  // Only fetch by categories when not searching (to keep all data available for filtering)
-  // The category filtering is now applied in displayLocations
   useEffect(() => {
-    // Skip category API filtering if we're currently searching
     if (isSearching) {
       return;
     }
-
-    // For non-search mode, we always keep all locations loaded
-    // and apply filtering in displayLocations calculation above
-    // This ensures we have all data available when search results need to be filtered by categories
   }, [selectedCategories, isSearching]);
 
   // Transform Strapi location to ResourceCard props

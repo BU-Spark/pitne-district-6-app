@@ -24,6 +24,8 @@ export default function MapPage() {
     email?: string;
   }
 
+  const districtColor = getComputedStyle(document.documentElement).getPropertyValue('--color-optimistic-blue').trim();
+
   const [district6Coords, setDistrict6Coords] = useState<[number, number][]>([]);
   const [locations, setLocations] = useState<LocationData[]>([]);
   const [searchResults, setSearchResults] = useState<LocationData[]>([]);
@@ -181,7 +183,12 @@ export default function MapPage() {
             ))}
             <Polygon
               positions={district6Coords}
-              pathOptions={{ color: '#1871BD', weight: 2, fillColor: '#1871BD', fillOpacity: 0.2 }}
+              pathOptions={{
+                color: districtColor,
+                weight: 2,
+                fillColor: districtColor,
+                fillOpacity: 0.2,
+              }}
             />
           </MapContainer>
           {/* ----- filter button ----- */}

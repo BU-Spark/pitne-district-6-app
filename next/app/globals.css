@@ -2,7 +2,7 @@
 
 :root {
   /* Boston Brand Colors */
-  --color-charles-blue: #1a414d;
+  /* --color-charles-blue: #1a414d;
   --color-optimistic-blue: #408894;
   --color-alt-blue: #00593b;
   --color-alt-gray: #357d90;
@@ -13,13 +13,14 @@
   --color-border-light: #ccc;
   --color-white: #ffffff;
   --color-alt-white: #f7fafc;
-  --color-alt-white-hover: #edf2f7;
+  --color-alt-white-hover: #edf2f7; */
 
-  --color-charles-blue: #1a414d;
-  --color-optimistic-blue: #408894;
+  --color-charles-blue: #10333d;
+  --color-optimistic-blue: #34a6ba;
   --color-alt-blue: #00593b;
-  --color-alt-gray: #357d90;
   --color-freedom-trail-red: #34a17d;
+
+  --color-alt-gray: #357d90;
   --color-red-hover: #b4fbe3;
   --color-dark-text: #58585b;
   --color-light-background: #f2f2f2;

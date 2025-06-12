@@ -1,6 +1,7 @@
 html,
 body {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   display: flex;
@@ -12,6 +13,8 @@ body {
   flex-direction: row;
   height: 100vh;
   font-family: 'Montserrat', Arial, sans-serif;
+
+  overflow-y: hidden !important;
   background: var(--color-light-background);
 }
 
@@ -176,6 +179,80 @@ body {
   margin: 0;
 }
 
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
+  font-family: var(--font-primary);
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  font-family: var(--font-primary);
+  border: 2px solid var(--color-border-light);
+  border-radius: 4px;
+  background-color: var(--color-light-background);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: var(--color-white);
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.page-number {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--color-border-light);
+  font-family: var(--font-primary);
+  border-radius: 4px;
+  background-color: var(--color-light-background);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-number:hover {
+  background-color: var(--color-border-light);
+}
+
+.page-number.active {
+  background-color: var(--color-charles-blue);
+  color: var(--color-white);
+  border-color: var(--color-charles-blue);
+}
+
+.resource-card-container::-webkit-scrollbar {
+  width: 15px;
+}
+
+.resource-card-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.resource-card-container::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-light);
+  border-radius: 15px;
+}
+
+.resource-card-container {
+  scrollbar-width: auto;
+  scrollbar-color: var(--color-border-light) transparent;
+}
+
 /* Responsive Design */
 @media (max-width: 1300px) {
   .resource-card-stack {
@@ -239,60 +316,4 @@ body {
   .resource-card-stack {
     gap: 12px;
   }
-}
-
-/* Pagination Controls */
-.pagination-controls {
-  display: flex;
-  font-family: var(--font-primary);
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin: 2rem 0;
-  padding: 1rem;
-}
-
-.pagination-button {
-  padding: 0.5rem 1rem;
-  font-family: var(--font-primary);
-  border: 2px solid var(--color-border-light);
-  border-radius: 4px;
-  background-color: var(--color-light-background);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.pagination-button:hover:not(:disabled) {
-  background-color: var(--color-white);
-}
-
-.pagination-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.page-numbers {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.page-number {
-  padding: 0.5rem 1rem;
-  border: 2px solid var(--color-border-light);
-  font-family: var(--font-primary);
-  border-radius: 4px;
-  background-color: var(--color-light-background);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.page-number:hover {
-  background-color: var(--color-border-light);
-}
-
-.page-number.active {
-  background-color: var(--color-charles-blue);
-  color: var(--color-white);
-  border-color: var(--color-charles-blue);
 }
