@@ -1,9 +1,9 @@
 .main-container {
   display: flex;
-  flex-direction: row; /* Ensure row direction */
-  height: 100vh;
+  flex-direction: row;
   font-family: 'Montserrat', Arial, sans-serif;
 }
+
 .map-container {
   flex: 1;
   height: 100%;

@@ -18,7 +18,7 @@
 
 .sidebar-scroll-area {
   overflow-y: auto;
-  height: calc(100vh - 240px);
+  height: calc(100vh - 260px);
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 0;
