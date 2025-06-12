@@ -1,9 +1,18 @@
-.main-container {
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: row;
-  font-family: 'Montserrat', Arial, sans-serif;
+  flex-direction: column;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: row; /* Ensure row direction */
+  height: 100vh;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
 .map-container {
   flex: 1;
   height: 100%;
@@ -33,7 +42,6 @@
   display: block;
   margin-bottom: 8px;
 }
-
 .inline-item {
   display: flex;
   align-items: center;
