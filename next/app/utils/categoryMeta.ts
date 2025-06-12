@@ -30,10 +30,10 @@ export const categoryMeta: Record<string, { group: string; iconPath: string }> =
 };
 
 export const groupColors: Record<string, string> = {
-  community: '#091F2F',
-  health: '#FB4D42',
-  environment: '#51ACFF',
-  education: '#45789C',
+  community: 'var(--color-charles-blue)',
+  health: 'var(--color-freedom-trail-red)',
+  environment: 'var(--color-optimistic-blue)',
+  education: 'var(--color-alt-blue)',
 };
 
 export const groupNames: Record<string, string> = {

@@ -4,7 +4,6 @@ import { useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import multiMonthPlugin from '@fullcalendar/multimonth';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventClickArg, EventApi } from '@fullcalendar/core';
@@ -164,7 +163,7 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
       <div className="notranslate">
         <FullCalendar
           key={lang}
-          plugins={[dayGridPlugin, timeGridPlugin, multiMonthPlugin, googleCalendarPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, googleCalendarPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           editable={false}
           selectable={true}
