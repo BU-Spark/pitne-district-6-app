@@ -157,7 +157,7 @@ export default function ResourcePage() {
           ) : (
             <>
               <div className="resource-card-stack">
-                {currentLocations.length > 0 ? (
+                {(!isSearching && currentLocations.length > 0) || (isSearching && searchResults.length > 0) ? (
                   currentLocations
                     .slice() // avoid mutating state
                     .sort((a, b) => a.name.localeCompare(b.name))

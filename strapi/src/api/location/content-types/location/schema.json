@@ -12,16 +12,8 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
-    },
-    "place_type": {
-      "type": "enumeration",
-      "enum": [
-        "BCYF Centers",
-        "Boston Public Libraries",
-        "Parks and Green Space",
-        "Others"
-      ]
+      "type": "string",
+      "required": true
     },
     "description": {
       "type": "text"
@@ -41,24 +33,9 @@
     "website": {
       "type": "string"
     },
-    "hours_of_operation": {
-      "type": "string"
-    },
     "is_active": {
       "type": "boolean",
       "default": true
-    },
-    "resources": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::resource.resource",
-      "mappedBy": "locations"
-    },
-    "events": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::event.event",
-      "mappedBy": "locations"
     },
     "address": {
       "type": "customField",
@@ -71,7 +48,8 @@
       "type": "string"
     },
     "resource": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "category": {
       "type": "enumeration",
@@ -98,7 +76,7 @@
         "Youth Community Organizations",
         "Ongoing Projects"
       ],
-      "required": false
+      "required": true
     },
     "word_embeddings": {
       "type": "string"

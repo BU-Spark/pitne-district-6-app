@@ -469,10 +469,6 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
-    locations: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::location.location'
-    >;
     longitude: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
     start_datetime: Schema.Attribute.DateTime;
@@ -584,15 +580,14 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
         'Youth Community Organizations',
         'Ongoing Projects',
       ]
-    >;
+    > &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     email: Schema.Attribute.String;
-    events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
     geohash: Schema.Attribute.String;
-    hours_of_operation: Schema.Attribute.String;
     is_active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     lat: Schema.Attribute.Float;
     lng: Schema.Attribute.Float;
@@ -602,22 +597,10 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
       'api::location.location'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     phone: Schema.Attribute.BigInteger;
-    place_type: Schema.Attribute.Enumeration<
-      [
-        'BCYF Centers',
-        'Boston Public Libraries',
-        'Parks and Green Space',
-        'Others',
-      ]
-    >;
     publishedAt: Schema.Attribute.DateTime;
-    resource: Schema.Attribute.Boolean;
-    resources: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::resource.resource'
-    >;
+    resource: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -679,10 +662,6 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
       'api::resource.resource'
     > &
       Schema.Attribute.Private;
-    locations: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::location.location'
-    >;
     phone: Schema.Attribute.BigInteger;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;

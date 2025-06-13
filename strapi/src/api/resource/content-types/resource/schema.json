@@ -54,12 +54,6 @@
     "is_active": {
       "type": "boolean"
     },
-    "locations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::location.location",
-      "inversedBy": "resources"
-    },
     "category": {
       "type": "enumeration",
       "enum": [
