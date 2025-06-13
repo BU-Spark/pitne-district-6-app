@@ -7,7 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventClickArg, EventApi } from '@fullcalendar/core';
-import { FiPlus, FiEye } from 'react-icons/fi';
+import { FiPlus, FiEye, FiCalendar, FiMapPin } from 'react-icons/fi';
 import styles from './EventCalendar.module.css';
 
 const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
@@ -94,27 +94,61 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
     const start = new Date(event.start!);
     const end = event.end ? new Date(event.end) : null;
 
-    const formatOptions: Intl.DateTimeFormatOptions = {
+    const formatOptionsFullDate: Intl.DateTimeFormatOptions = {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     };
 
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
+    const formatOptionsShortDate: Intl.DateTimeFormatOptions = {
+      month: 'short',
+      day: 'numeric',
+    };
+
+    const formatTime = (date: Date) => {
+      if (date.getMinutes() === 0) {
+        return date.toLocaleTimeString(lang, { hour: 'numeric', hour12: true }).toLowerCase();
+      }
+      return date.toLocaleTimeString(lang, { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
     };
 
     if (event.allDay) {
-      return start.toLocaleDateString(lang, formatOptions);
-    } else {
-      const dateStr = start.toLocaleDateString(lang, formatOptions);
-      const startTime = start.toLocaleTimeString(lang, timeOptions);
-      const endTime = end ? end.toLocaleTimeString(lang, timeOptions) : '';
-      return `${dateStr} from ${startTime}${endTime ? ` to ${endTime}` : ''}`;
+      // For all-day multi-day events, show start and end dates
+      if (end && start.toDateString() !== end.toDateString()) {
+        return `${start.toLocaleDateString(lang, formatOptionsFullDate)} - ${end.toLocaleDateString(lang, formatOptionsFullDate)}`;
+      }
+      return start.toLocaleDateString(lang, formatOptionsFullDate);
     }
+
+    if (end) {
+      if (start.toDateString() === end.toDateString()) {
+        // Same day event
+
+        const startHour = start.getHours();
+        const endHour = end.getHours();
+        const startIsPM = startHour >= 12;
+        const endIsPM = endHour >= 12;
+
+        const to12Hr = (h: number) => ((h + 11) % 12) + 1;
+
+        const dateStr = start.toLocaleDateString(lang, formatOptionsFullDate);
+
+        if (startIsPM === endIsPM && start.getMinutes() === 0 && end.getMinutes() === 0) {
+          // e.g. "June 10, 2025, 6-7 pm"
+          return `${dateStr}, ${to12Hr(startHour)}-${to12Hr(endHour)} ${startIsPM ? 'pm' : 'am'}`;
+        } else {
+          // e.g. "June 10, 2025, 6:30 pm - 7:15 pm"
+          return `${dateStr}, ${formatTime(start)} - ${formatTime(end)}`;
+        }
+      } else {
+        // Multi-day event: show both dates and times
+        return `${start.toLocaleDateString(lang, formatOptionsShortDate)}, ${formatTime(start)} - ${end.toLocaleDateString(lang, formatOptionsShortDate)}, ${formatTime(end)}`;
+      }
+    }
+
+    // No end time: show only start date and time
+    return `${start.toLocaleDateString(lang, formatOptionsFullDate)}, ${formatTime(start)}`;
   };
 
   const handleAddEventToCalendar = (event: EventApi) => {
@@ -209,12 +243,15 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
             </div>
 
             <div className={styles.eventDetails}>
-              <p className={styles.eventDate}>{formatEventDate(selectedEvent)}</p>
+              <p className={styles.eventDate}>
+                <FiCalendar className={styles.icon} />
+                <span className={styles.textWrap}>{formatEventDate(selectedEvent)}</span>
+              </p>
 
               {selectedEvent.extendedProps?.location && (
                 <p className={styles.eventLocation}>
-                  <span className={styles.locationIcon}>📍</span>
-                  {selectedEvent.extendedProps.location}
+                  <FiMapPin className={styles.icon} />
+                  <span className={styles.textWrap}>{selectedEvent.extendedProps.location}</span>
                 </p>
               )}
 
