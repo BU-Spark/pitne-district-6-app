@@ -1,5 +1,6 @@
 import styles from './HomePage.module.css';
 import Navbar from '../components/Navbar/Navbar';
+import SubscribeFooter from '../components/SubscribeFooter/SubscribeFooter';
 
 export default function HomePage() {
   return (
@@ -22,6 +23,8 @@ export default function HomePage() {
           <h2>Upcoming Events</h2>
         </section>
       </div>
+
+      <SubscribeFooter subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform" />
     </>
   );
 }

@@ -21,13 +21,13 @@
   --color-freedom-trail-red: #34a17d;
 
   --color-alt-gray: #357d90;
-  --color-red-hover: #b4fbe3;
+  --color-red-hover: rgb(61, 208, 159);
   --color-dark-text: #58585b;
   --color-light-background: #f2f2f2;
   --color-border-light: #ccc;
   --color-white: #ffffff;
   --color-alt-white: #f7fafc;
-  --color-alt-white-hover: #edf2f7;
+  --color-alt-white-hover: #ebf2f9;
 
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 
