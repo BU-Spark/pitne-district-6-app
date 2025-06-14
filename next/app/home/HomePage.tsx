@@ -4,6 +4,7 @@ import styles from './HomePage.module.css';
 import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import SubscribeFooter from '../components/SubscribeFooter/SubscribeFooter';
+import NewsletterArchive from '../components/NewsletterArchive/NewsletterArchive';
 import Masonry from 'react-masonry-css';
 import { fetchFlyers, Flyer } from '../utils/strapi.api';
 
@@ -33,7 +34,7 @@ const photos = [
 const HomePage = () => {
   const [flyers, setFlyers] = useState<Flyer[]>([]);
   const [loadedImages, setLoadedImages] = useState<{ [key: number]: boolean }>({});
-
+  const [imageAnimationClass, setImageAnimationClass] = useState<string>('zoom-animate-in');
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
 
@@ -48,13 +49,21 @@ const HomePage = () => {
 
   const showPrev = () => {
     if (selectedPhotoIndex !== null) {
-      setSelectedPhotoIndex((prev) => (prev! + photos.length - 1) % photos.length);
+      setImageAnimationClass('zoom-animate-out');
+      setTimeout(() => {
+        setSelectedPhotoIndex((prev) => (prev! + photos.length - 1) % photos.length);
+        setImageAnimationClass('zoom-animate-in');
+      }, 300);
     }
   };
 
   const showNext = () => {
     if (selectedPhotoIndex !== null) {
-      setSelectedPhotoIndex((prev) => (prev! + 1) % photos.length);
+      setImageAnimationClass('zoom-animate-out');
+      setTimeout(() => {
+        setSelectedPhotoIndex((prev) => (prev! + 1) % photos.length);
+        setImageAnimationClass('zoom-animate-in');
+      }, 300);
     }
   };
 
@@ -83,6 +92,8 @@ const HomePage = () => {
             <div className={styles.photoCredit}>Photo by Korri Crowley (2025)</div>
           </div>
         </section>
+
+        <NewsletterArchive />
 
         <section className={styles.dateSection}>
           <h2>Upcoming Events</h2>
@@ -126,7 +137,7 @@ const HomePage = () => {
                     src={photos[selectedPhotoIndex].image}
                     alt={photos[selectedPhotoIndex].title}
                     fill
-                    className={styles.zoomedImage}
+                    className={`${styles.zoomedImage} ${styles[imageAnimationClass]}`}
                     unoptimized
                   />
                 </div>
