@@ -2,8 +2,9 @@
   font-family: 'Montserrat', Arial, sans-serif;
   background: var(--color-light-background);
   color: var(--color-charles-blue);
-  width: 100vw;
-  max-width: 100vw;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   padding: 0;
   padding-top: 50px;
@@ -85,6 +86,7 @@
 }
 
 .dateSection {
+  overflow-x: hidden;
   background: var(--color-white);
   padding: 2rem;
   text-align: center;
@@ -96,12 +98,64 @@
 
 .photoCredit {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 25px;
+  right: 25px;
   font-size: 0.75rem;
   color: var(--color-alt-white);
   opacity: 0.7;
   font-style: italic;
   z-index: 10;
   pointer-events: none;
+}
+
+/*Masonry stuff*/
+
+.masonryWrapper {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.photoCard {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.photo {
+  width: 100%;
+  display: block;
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.photo.loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.caption {
+  font-family: var(--font-primary);
+  color: var(--color-charles-blue);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: var(--color-alt-white);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.myMasonryGrid {
+  margin-top: 20px;
+  display: flex;
+  width: auto;
+}
+
+.myMasonryGridColumn {
+  padding-left: 16px;
+  background-clip: padding-box;
 }
