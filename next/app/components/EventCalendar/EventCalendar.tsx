@@ -265,7 +265,7 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
                 <FiPlus
                   style={{
                     verticalAlign: 'middle',
-                    marginRight: 6,
+                    marginRight: 3,
                     color: 'inherit',
                     fontSize: 20,
                   }}
@@ -275,7 +275,7 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
 
               {selectedEvent.url && (
                 <button className={styles.viewDetailsButton} onClick={() => window.open(selectedEvent.url, '_blank')}>
-                  <FiEye style={{ verticalAlign: 'middle', marginRight: 6, color: 'inherit', fontSize: 20 }} />
+                  <FiEye style={{ verticalAlign: 'middle', marginRight: 3, color: 'inherit', fontSize: 20 }} />
                   View Details
                 </button>
               )}

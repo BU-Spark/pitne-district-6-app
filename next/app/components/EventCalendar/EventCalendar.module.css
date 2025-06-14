@@ -360,7 +360,7 @@
   background: var(--color-alt-white);
   color: var(--color-charles-blue);
   border: 1px solid var(--color-border-light);
-  padding: 10px 16px;
+  padding: 10px;
   border-radius: 6px;
   font-weight: 500;
   font-size: 0.8rem;

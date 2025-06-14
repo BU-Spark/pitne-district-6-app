@@ -42,7 +42,10 @@ export default function ResourcePage() {
   const totalPages = Math.ceil(displayLocations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentLocations = displayLocations.slice(startIndex, endIndex);
+  const currentLocations = displayLocations
+    .slice()
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(startIndex, endIndex);
 
   // Handle page change
   const handlePageChange = (pageNumber: number) => {
@@ -158,25 +161,22 @@ export default function ResourcePage() {
             <>
               <div className="resource-card-stack">
                 {(!isSearching && currentLocations.length > 0) || (isSearching && searchResults.length > 0) ? (
-                  currentLocations
-                    .slice() // avoid mutating state
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((location) => {
-                      const cardProps = transformLocation(location);
-                      return (
-                        <ResourceCard
-                          key={location.documentId || location.id}
-                          icon={cardProps.icon}
-                          category={cardProps.category}
-                          title={cardProps.title}
-                          email={cardProps.email}
-                          contact={cardProps.contact}
-                          website={cardProps.website}
-                          lat={cardProps.lat}
-                          lng={cardProps.lng}
-                        />
-                      );
-                    })
+                  currentLocations.map((location) => {
+                    const cardProps = transformLocation(location);
+                    return (
+                      <ResourceCard
+                        key={location.documentId || location.id}
+                        icon={cardProps.icon}
+                        category={cardProps.category}
+                        title={cardProps.title}
+                        email={cardProps.email}
+                        contact={cardProps.contact}
+                        website={cardProps.website}
+                        lat={cardProps.lat}
+                        lng={cardProps.lng}
+                      />
+                    );
+                  })
                 ) : (
                   <div className="no-resources-container">
                     <h3>{isSearching ? 'No search results match your filters' : 'No resources found'}</h3>
