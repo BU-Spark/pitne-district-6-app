@@ -122,6 +122,11 @@
   overflow: hidden;
   background: var(--color-white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.photoCard:hover {
+  transform: translateY(-2px);
 }
 
 .photo {
@@ -158,4 +163,104 @@
 .myMasonryGridColumn {
   padding-left: 16px;
   background-clip: padding-box;
+}
+.zoomOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(16, 51, 61, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.zoomImageWrapper {
+  position: relative;
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.zoomedImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  animation: zoomIn 0.3s ease;
+  transition: transform 0.3s ease;
+}
+
+.zoomedImage {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  animation: zoomIn 0.3s ease;
+  transition: transform 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.zoomCaption {
+  margin-top: 12px;
+  font-weight: 400;
+  color: var(--color-white);
+  font-size: 1rem;
+}
+
+.closeBtn,
+.prevBtn,
+.nextBtn {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  z-index: 10000;
+  transition: color 0.2s;
+}
+
+.closeBtn {
+  font-size: 2.5rem;
+}
+
+.prevBtn,
+.nextBtn {
+  font-size: 5rem;
+}
+
+.closeBtn:hover,
+.prevBtn:hover,
+.nextBtn:hover {
+  color: var(--color-border-light);
+}
+
+.closeBtn {
+  top: 20px;
+  right: 30px;
+}
+
+.prevBtn {
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nextBtn {
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
 }
