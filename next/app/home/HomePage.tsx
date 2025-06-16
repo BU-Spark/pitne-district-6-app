@@ -150,7 +150,7 @@ const HomePage = () => {
             )}
           </div>
 
-          {/* <div className={styles.masonryWrapper}>
+          <div className={styles.masonryWrapper}>
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className={styles.myMasonryGrid}
@@ -178,7 +178,7 @@ const HomePage = () => {
                 </div>
               ))}
             </Masonry>
-          </div> */}
+          </div>
         </section>
 
         <SubscribeFooter subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform" />
