@@ -82,8 +82,8 @@ body {
     position: fixed;
     bottom: 30px; /* previously 80px — now aligned better with screen */
     right: 30px;
-    width: 76px;
-    height: 76px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--color-white);
     color: var(--color-charles-blue);
@@ -97,6 +97,11 @@ body {
       color 0.25s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
     pointer-events: auto;
+  }
+
+  .mobile-filter-button svg {
+    width: 20px;
+    height: 20px;
   }
 
   .mobile-filter-button.open {

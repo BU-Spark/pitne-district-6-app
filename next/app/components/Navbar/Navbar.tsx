@@ -11,6 +11,7 @@ import { fetchCouncilor, CouncilMember } from '../../utils';
 export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const [councilor, setCouncilor] = useState<CouncilMember | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -44,7 +45,11 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
   };
 
   const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
+    setIsAnimatingOut(true);
+    setTimeout(() => {
+      setIsMobileMenuOpen(false);
+      setIsAnimatingOut(false);
+    }, 300);
   };
 
   const getCouncilorDisplay = () => {
@@ -106,7 +111,10 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
       {/* ✅ Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className={styles.mobileMenuOverlay} onClick={closeMobileMenu}>
-          <div className={styles.mobileMenu} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={`${styles.mobileMenu} ${isAnimatingOut ? styles.slideOut : ''}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className={styles.mobileMenuLogo}>
               <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={120} height={120} priority />
             </div>
