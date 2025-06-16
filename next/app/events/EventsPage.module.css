@@ -130,64 +130,37 @@
 }
 
 /* Responsive Design */
+
 @media (max-width: 768px) {
-  .calendarSection {
-    padding: 40px 16px;
-  }
-
-  .calendarContainer {
-    padding: 24px;
-    border-radius: 0;
-  }
-
   .header {
     flex-direction: column;
     align-items: stretch;
-    gap: 1.5rem;
   }
 
-  .sectionTitle {
-    font-size: 2rem;
-    text-align: center;
+  .titleSection {
+    order: 1;
   }
 
   .sectionDescription {
-    font-size: 1rem;
-    text-align: center;
-    margin-bottom: 0;
+    margin-top: 0.5rem;
   }
 
   .calendarActions {
-    align-self: center;
-  }
-
-  .subscriptionDropdown {
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 260px;
-  }
-}
-
-@media (max-width: 480px) {
-  .calendarSection {
-    padding: 24px 12px;
-  }
-
-  .calendarContainer {
-    padding: 16px;
-  }
-
-  .sectionTitle {
-    font-size: 1.6rem;
+    order: 2;
+    width: 100%;
   }
 
   .subscribeButton {
-    padding: 10px 16px;
-    font-size: 0.9rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.75rem 1rem;
+    text-align: center;
   }
 
   .subscriptionDropdown {
-    min-width: 240px;
+    width: 100%;
   }
 }
