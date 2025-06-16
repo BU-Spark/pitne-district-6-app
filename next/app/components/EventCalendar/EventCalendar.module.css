@@ -422,5 +422,37 @@
     width: fit-content;
     padding: 8px 16px;
     font-size: 0.85rem;
+    border-radius: 10px;    
   }
+
+  @media (max-width: 480px) {
+  .calendarWrapper {
+    padding: 16px;                 
+  }
+
+  /* Toolbar headline */
+  .calendarWrapper :global(.fc-toolbar-title) {
+    font-size: 1.1rem;
+  }
+
+  /* Month / Week / Day buttons */
+  .calendarWrapper :global(.fc-button) {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+  }
+
+  /* Column headers & day numbers */
+  .calendarWrapper :global(.fc-col-header-cell),
+  .calendarWrapper :global(.fc-daygrid-day-number) {
+    font-size: 0.75rem;
+  }
+
+  /* Events */
+  .calendarWrapper :global(.fc-event) {
+    padding: 2px 4px;
+    font-size: 0.7rem;
+  }
+}
+
+
 }
