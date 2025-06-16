@@ -55,7 +55,7 @@
 .linkButtons a {
   color: var(--color-optimistic-blue);
   text-decoration: none;
-  font-weight: 300;
+  font-weight: 500;
   transition: color 0.3s ease;
 }
 
@@ -336,20 +336,27 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .linkButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
   .aboutSection {
     padding: 80px 16px 60px;
   }
 
   .mainTitle {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
   }
 
   .aboutText {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    padding: 0 24px;
   }
 
   .teamSection {
-    padding: 60px 16px;
+    padding: 10px 16px;
   }
 
   .sectionTitle {
@@ -369,39 +376,5 @@
   .memberCard {
     margin: 0 auto;
     max-width: 400px;
-  }
-}
-
-@media (max-width: 480px) {
-  .aboutSection {
-    padding: 60px 12px 40px;
-  }
-
-  .mainTitle {
-    font-size: 1.8rem;
-  }
-
-  .aboutText {
-    font-size: 1rem;
-  }
-
-  .teamSection {
-    padding: 40px 12px;
-  }
-
-  .sectionTitle {
-    font-size: 1.6rem;
-  }
-
-  .memberInfo {
-    padding: 1rem;
-  }
-
-  .memberName {
-    font-size: 1.2rem;
-  }
-
-  .memberRole {
-    font-size: 1rem;
   }
 }

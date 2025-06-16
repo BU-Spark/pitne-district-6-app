@@ -43,8 +43,8 @@ export default function ResourcePage() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentLocations = displayLocations
-    .slice()
-    .sort((a, b) => a.name.localeCompare(b.name))
+    // .slice()
+    // .sort((a, b) => a.name.localeCompare(b.name))
     .slice(startIndex, endIndex);
 
   // Handle page change

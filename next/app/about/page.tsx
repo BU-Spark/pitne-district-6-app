@@ -10,10 +10,24 @@ import { fetchCouncilMembers, CouncilMember } from '../utils/strapi.api';
 import styles from './AboutPage.module.css';
 import { FaInstagram } from 'react-icons/fa';
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 export default function AboutPage() {
   const [councilMembers, setCouncilMembers] = useState<CouncilMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const loadCouncilMembers = async () => {
@@ -196,21 +210,21 @@ export default function AboutPage() {
             {councilMembers
               .filter((member) => member.Role.toLowerCase() === 'councilor')
               .map((member) => (
-                <div key={member.id} className={styles.wideMemberCard}>
-                  <div className={styles.wideMemberImage}>
+                <div key={member.id} className={isMobile ? styles.memberCard : styles.wideMemberCard}>
+                  <div className={isMobile ? styles.memberImage : styles.wideMemberImage}>
                     {getImageUrl(member) ? (
                       <Image
                         src={getImageUrl(member)!}
                         alt={member.Name}
-                        width={300}
-                        height={300}
-                        className={styles.wideAvatar}
+                        width={isMobile ? 200 : 300}
+                        height={isMobile ? 200 : 300}
+                        className={isMobile ? styles.avatar : styles.wideAvatar}
                       />
                     ) : (
                       <div className={styles.avatarPlaceholder}>👤</div>
                     )}
                   </div>
-                  <div className={styles.wideMemberInfo}>
+                  <div className={isMobile ? styles.memberInfo : styles.wideMemberInfo}>
                     <h3 className={styles.memberName} translate="no">
                       {member.Name}
                     </h3>
