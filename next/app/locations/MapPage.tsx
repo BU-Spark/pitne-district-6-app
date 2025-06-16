@@ -1,6 +1,7 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapPage.css';
 import Navbar from '../components/Navbar/Navbar';
@@ -32,46 +33,33 @@ export default function MapPage() {
   const [isSearching, setIsSearching] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(Object.keys(categoryMeta)));
   const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Toggle filter popup for mobile
   const togglePopup = () => {
-    setShowFilterPopup(!showFilterPopup);
+    setShowFilterPopup((prev) => !prev);
   };
 
-  // Apply category filtering to search results or regular locations (similar to ResourcePage)
   const getFilteredLocations = (locationsToFilter: LocationData[]) => {
-    if (selectedCategories.size === 0) {
-      return [];
-    }
-
-    // If all categories are selected, return all locations
-    if (selectedCategories.size === Object.keys(categoryMeta).length) {
-      return locationsToFilter;
-    }
-
-    // Filter by selected categories
-    return locationsToFilter.filter((location) => location.category && selectedCategories.has(location.category));
+    if (selectedCategories.size === 0) return [];
+    if (selectedCategories.size === Object.keys(categoryMeta).length) return locationsToFilter;
+    return locationsToFilter.filter((loc) => loc.category && selectedCategories.has(loc.category));
   };
 
-  // Combine search and category filtering for map markers
   const filteredLocations = isSearching
     ? getFilteredLocations(searchResults)
-    : getFilteredLocations(locations.filter((location) => location.lat !== null && location.lng !== null));
+    : getFilteredLocations(locations.filter((loc) => loc.lat && loc.lng));
 
-  // Handle search results from Sidebar
   const handleSearchResults = (results: Location[], searching: boolean) => {
-    // Convert Location[] to LocationData[] for map compatibility
-    const convertedResults = results.map((location) => ({
-      id: location.id,
-      name: location.name,
-      lat: location.lat || 0,
-      lng: location.lng || 0,
-      category: location.category,
-      phone: location.phone?.toString(),
-      website: location.website,
-      email: location.email,
+    const convertedResults = results.map((loc) => ({
+      id: loc.id,
+      name: loc.name,
+      lat: loc.lat || 0,
+      lng: loc.lng || 0,
+      category: loc.category,
+      phone: loc.phone?.toString(),
+      website: loc.website,
+      email: loc.email,
     }));
-
     setSearchResults(convertedResults);
     setIsSearching(searching);
   };
@@ -85,7 +73,7 @@ export default function MapPage() {
           complete: (result) => {
             const firstRow = result.data[0] as { WKT: string };
             if (firstRow?.WKT) {
-              const parsed = wellknown.parse(firstRow.WKT) as { coordinates: number[][][] } | null;
+              const parsed = wellknown.parse(firstRow.WKT) as { coordinates: number[][][] };
               if (parsed?.coordinates) {
                 const coords = parsed.coordinates[0].map(([lng, lat]) => [lat, lng] as [number, number]);
                 setDistrict6Coords(coords);
@@ -107,20 +95,33 @@ export default function MapPage() {
       .catch((err) => console.error('Error loading locations:', err));
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle('no-scroll', showFilterPopup);
+  }, [showFilterPopup]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
       <Navbar />
       <div className="main-container">
-        <Sidebar
-          selectedCategories={selectedCategories}
-          setSelectedCategories={setSelectedCategories}
-          onSearchResults={handleSearchResults}
-        />
-        <div className="map-container">
+        {!isMobile && (
+          <Sidebar
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            onSearchResults={handleSearchResults}
+          />
+        )}
+        <div className="map-container" style={isMobile ? { marginTop: '12px' } : {}}>
           <MapContainer
             center={[42.3061, -71.1204]}
             zoom={16}
-            zoomControl
+            zoomControl={false}
             className="leaflet-map"
             style={{ height: '100%', width: '100%' }}
             maxBounds={[
@@ -132,9 +133,14 @@ export default function MapPage() {
             dragging
             doubleClickZoom
           >
+            <ZoomControl position={isMobile ? 'topright' : 'topleft'} />
             <TileLayer
               url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
+              attribution={
+                isMobile
+                  ? ''
+                  : '&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
+              }
             />
             {filteredLocations.map((loc) => (
               <Marker key={loc.id} position={[loc.lat, loc.lng]} icon={getIconForCategory(loc.category)}>
@@ -154,7 +160,6 @@ export default function MapPage() {
                         <i>{loc.category}</i>
                       </div>
                     )}
-
                     {loc.website && (
                       <div className="inline-item">
                         <FiGlobe size={14} style={{ marginRight: 2 }} />
@@ -163,14 +168,12 @@ export default function MapPage() {
                         </a>
                       </div>
                     )}
-
                     {loc.phone && (
                       <div className="inline-item">
                         <FiPhone size={14} style={{ marginRight: 2 }} />
                         {loc.phone}
                       </div>
                     )}
-
                     {loc.email && (
                       <div className="inline-item">
                         <FiMail size={14} style={{ marginRight: 2 }} />
@@ -191,12 +194,14 @@ export default function MapPage() {
               }}
             />
           </MapContainer>
-          {/* ----- filter button ----- */}
-          <div className={`mobile-filter-button ${showFilterPopup ? 'open' : ''}`} onClick={togglePopup}>
-            <FaFilter />
-          </div>
-          {/* ----- Backdrop + bottom sheet (only when open) ----- */}
-          {showFilterPopup && (
+
+          {isMobile && (
+            <div className={`mobile-filter-button ${showFilterPopup ? 'open' : ''}`} onClick={togglePopup}>
+              <FaFilter />
+            </div>
+          )}
+
+          {showFilterPopup && isMobile && (
             <>
               <div className="filter-backdrop" onClick={togglePopup} />
               <div className="filter-popup bottom-sheet">

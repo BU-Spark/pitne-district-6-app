@@ -8,9 +8,14 @@ const languages = [
   { code: 'es', name: 'Español', flag: '🇪🇸' },
 ];
 
-const shortLabels: Record<string, string> = {
+const fullLabels: Record<string, string> = {
   en: 'ENGLISH',
   es: 'Español',
+};
+
+const shortLabels: Record<string, string> = {
+  en: 'ENG',
+  es: 'ESP',
 };
 
 declare global {
@@ -43,6 +48,17 @@ declare global {
 export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang: string) => void }) {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateDeviceType = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    updateDeviceType();
+    window.addEventListener('resize', updateDeviceType);
+    return () => window.removeEventListener('resize', updateDeviceType);
+  }, []);
 
   // Initialize Google Translate
   useEffect(() => {
@@ -150,7 +166,7 @@ export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang:
           title={language.name}
         >
           <span className={styles.flag}>{language.flag}</span>
-          <span className={styles.langCode}>{shortLabels[language.code].toUpperCase()}</span>
+          <span className={styles.langCode}>{(isMobile ? shortLabels : fullLabels)[language.code].toUpperCase()}</span>
         </button>
       ))}
     </div>

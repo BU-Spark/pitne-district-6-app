@@ -66,23 +66,24 @@ body {
 .filter-backdrop {
   display: none;
 } /* hidden on desktop */
+
 @media (max-width: 768px) {
-  /* stack nav + map vertically */
   .main-container {
     flex-direction: column;
+    margin-top: 0; /* removed to align with full screen */
   }
-  /* hide wide sidebar */
+
   .map-sidebar {
     display: none;
   }
-  /* floating circle — defaults to WHITE */
+
   .mobile-filter-button {
     display: flex;
     position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
+    bottom: 30px; /* previously 80px — now aligned better with screen */
+    right: 30px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     background: var(--color-white);
     color: var(--color-charles-blue);
@@ -90,16 +91,24 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 1100; /* raised above map controls */
     transition:
       background 0.25s ease,
       color 0.25s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    pointer-events: auto;
   }
-  /* turn BLACK when sheet open */
+
   .mobile-filter-button.open {
     background: var(--color-charles-blue);
     color: var(--color-white);
+  }
+
+  /* Make sure the container or body doesn't interfere with position */
+  html,
+  body {
+    position: relative;
+    overflow-x: hidden;
   }
 
   /* dimmed backdrop */
@@ -110,6 +119,7 @@ body {
     background: rgba(0, 0, 0, 0.35);
     z-index: 999;
   }
+
   /* sliding bottom sheet */
   .filter-popup.bottom-sheet {
     display: block;
@@ -127,6 +137,7 @@ body {
     z-index: 1000;
     animation: slideUp 240ms ease-out forwards;
   }
+
   @keyframes slideUp {
     from {
       transform: translateY(100%);
@@ -135,14 +146,65 @@ body {
       transform: translateY(0);
     }
   }
-  /* make sidebar look nice inside sheet */
-  .bottom-sheet .sidebar {
-    display: block !important;
+
+  /* Fix map z-index vs popup */
+  .map-container .leaflet-container {
+    z-index: 1;
+  }
+
+  /* Ensure map always fills below navbar */
+  .map-container {
+    position: relative;
+    flex: 1;
+    margin-top: 56px; /* height of Navbar */
+    height: calc(100vh - 56px); /* full height minus navbar */
+  }
+
+  .leaflet-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
     width: 100%;
-    background: transparent !important;
-    border: none !important;
-    overflow: visible;
-    margin-top: 0 !important;
+  }
+
+  body.no-scroll {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .bottom-sheet .sidebar {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
     padding: 0 !important;
+    margin: 0 !important;
+    background-color: var(--color-light-background);
+    border: none !important;
+  }
+
+  .bottom-sheet .sidebar .search-header,
+  .bottom-sheet .sidebar .filter-header {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-light-background);
+    z-index: 10;
+    padding: 16px 1rem 12px;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .bottom-sheet {
+    display: flex;
+    flex-direction: column;
+    height: 70hv;
+    overflow: hidden;
+  }
+
+  .bottom-sheet .sidebar-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 1rem 2rem;
+    min-height: 0;
   }
 }

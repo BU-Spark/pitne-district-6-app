@@ -50,61 +50,66 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
   const getCouncilorDisplay = () => {
     if (loading) return 'Loading...';
     if (councilor) return `Councilor ${councilor.Name}`;
-    return 'Councilor Benjamin Weber'; // Fallback
+    return 'Councilor Benjamin Weber';
   };
 
   return (
     <>
       <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
-        {/* Desktop Layout */}
-        <div className={styles.logoSection}>
-          <Link href="/" className={styles.cityName}>
-            DISTRICT 6
-          </Link>
-          <span className={styles.divider}></span>
-          <div className={styles.desktopOnly}>
-            <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
-              {getCouncilorDisplay()}
-            </a>
+        {/* ✅ Mobile Only */}
+        <div className={styles.mobileOnly}>
+          <div className={styles.mobileHeaderLeft}>
+            <button className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+            <Link href="/" className={styles.cityName}>
+              DISTRICT 6
+            </Link>
           </div>
-
-          <span className={styles.divider}></span>
-          <LanguageSelector setLanguage={setLanguage} />
+          <div className={styles.mobileHeaderRight}>
+            <LanguageSelector setLanguage={setLanguage} />
+          </div>
         </div>
 
-        {/* Boston Logo in Center */}
+        {/* ✅ Boston Logo Centered */}
         <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
           <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={110} height={110} priority />
         </div>
 
-        {/* Desktop Navigation */}
+        {/* ✅ Desktop Only */}
+        <div className={styles.desktopOnly}>
+          <div className={styles.logoSection}>
+            <Link href="/" className={styles.cityName}>
+              DISTRICT 6
+            </Link>
+            <span className={styles.divider}></span>
+            <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
+              {getCouncilorDisplay()}
+            </a>
+            <span className={styles.divider}></span>
+            <LanguageSelector setLanguage={setLanguage} />
+          </div>
+        </div>
+
+        {/* ✅ Navigation */}
         <nav className={styles.nav}>
           <Link href="/resources">RESOURCES</Link>
           <Link href="/locations">LOCATIONS</Link>
           <Link href="/events">EVENTS</Link>
           <Link href="/about">ABOUT US</Link>
-
           <span className={styles.searchIcon}>
             <Search size={18} strokeWidth={4} />
           </span>
         </nav>
-
-        {/* Mobile Hamburger Button */}
-        <button className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* ✅ Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className={styles.mobileMenuOverlay} onClick={closeMobileMenu}>
           <div className={styles.mobileMenu} onClick={(e) => e.stopPropagation()}>
-            {/* Boston Logo at Top */}
             <div className={styles.mobileMenuLogo}>
               <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={120} height={120} priority />
             </div>
-
-            {/* Mobile Navigation Links */}
             <nav className={styles.mobileNav}>
               <Link href="/" onClick={closeMobileMenu}>
                 HOME
@@ -122,11 +127,6 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
                 ABOUT US
               </Link>
             </nav>
-
-            {/* Language Selector in Mobile Menu */}
-            <div className={styles.mobileLanguageSelector}>
-              <LanguageSelector setLanguage={setLanguage} />
-            </div>
           </div>
         </div>
       )}

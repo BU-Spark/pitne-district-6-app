@@ -90,7 +90,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   padding: 12px 0;
   text-align: center;
   background: transparent;
@@ -380,6 +380,18 @@
 }
 
 @media (max-width: 768px) {
+  /* Wrapper adjustments */
+  .calendarWrapper {
+    padding: 16px;
+    margin: 12px 0;
+    border-radius: 8px;
+  }
+
+  .calendarWrapper :global(.fc) {
+    font-size: 0.85rem;
+  }
+
+  /* Header toolbar layout */
   .calendarWrapper :global(.fc-header-toolbar) {
     display: flex;
     flex-direction: column;
@@ -401,6 +413,7 @@
     width: 100%;
   }
 
+  /* Button group layout */
   .calendarWrapper :global(.fc-button-group) {
     justify-content: center;
     width: 100%;
@@ -414,13 +427,82 @@
     flex: 1 1 100px;
   }
 
+  /* Centered "Today" button */
   .calendarWrapper :global(.fc-today-button) {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
-    width: fit-content;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    width: max-content;
     padding: 8px 16px;
-    font-size: 0.85rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  /* Horizontal scroll for calendar grid */
+  .calendarWrapper :global(.fc-view-harness) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .calendarWrapper :global(.fc-scrollgrid),
+  .calendarWrapper :global(.fc-daygrid-body),
+  .calendarWrapper :global(.fc-daygrid-header) {
+    min-width: 768px;
+  }
+
+  /* Optional: smoother scrollbars */
+  .calendarWrapper :global(.fc-scrollgrid)::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .calendarWrapper :global(.fc-scrollgrid)::-webkit-scrollbar-thumb {
+    background: var(--color-alt-gray);
+    border-radius: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .eventPopup {
+    width: 92vw;
+    width: 100px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px 12px;
+  }
+
+  .popupHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 0 8px;
+  }
+
+  .eventTitle {
+    font-size: 1rem;
+    line-height: 1.3;
+    padding-right: 0;
+  }
+
+  .popupActions {
+    flex-direction: column;
+    padding: 12px 0 0;
+    gap: 8px;
+  }
+
+  .addToCalendarButton,
+  .viewDetailsButton {
+    width: 100%;
+    font-size: 0.75rem;
+    padding: 10px;
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 1.25rem;
   }
 }

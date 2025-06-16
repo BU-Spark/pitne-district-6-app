@@ -102,26 +102,13 @@
     display: none;
   }
 }
-
-/* Mobile Menu Styles */
-.mobileMenuButton {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--color-charles-blue);
-  cursor: pointer;
-  padding: 0.5rem;
-  z-index: 1002;
-  order: -1;
-}
-
 .mobileMenuOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(var(--charles-blue-rgb), 0.95); /* requires variable as RGB */
   z-index: 1003;
   display: flex;
   justify-content: flex-start;
@@ -131,12 +118,58 @@
   background: var(--color-white);
   width: 80%;
   height: 100vh;
-  padding: 0;
+  padding: 1.5rem 2rem;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: stretch;
   animation: slideInLeft 0.3s ease-out;
+  gap: 1.5rem;
+}
+
+.mobileMenuLogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 0.5rem;
+}
+
+.mobileMenuLogo img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--color-white);
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.mobileNav a {
+  font-weight: 600;
+  font-size: 1.5rem;
+  padding: 1.25rem 0;
+  color: var(--color-charles-blue);
+  letter-spacing: 0.8px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.mobileNav a:hover {
+  color: var(--color-freedom-trail-red);
+  background: rgba(0, 0, 0, 0.025);
+}
+
+.mobileLanguageSelector {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
 }
 
 @keyframes slideInLeft {
@@ -148,104 +181,51 @@
   }
 }
 
-.mobileMenuLogo {
-  background: var(--color-white);
-  padding: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobileNav {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  width: 100%;
-  margin: 0;
-  flex: 1;
-  background: var(--color-white);
-}
-
-.mobileNav a {
-  color: var(--color-optimistic-blue);
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
-  padding: 1.5rem 2rem;
-  text-align: left;
-  /* border-bottom: 2px solid rgba(255, 255, 255, 0.1); */
-  transition: background-color 0.2s;
-  display: block;
-}
-
-.mobileNav a:hover {
-  opacity: 0.8;
-  color: var(--color-freedom-trail-red);
-}
-
-/* Medium Screen Responsive Styles */
-@media (max-width: 1224px) {
-  .bostonLogo {
+@media (max-width: 768px) {
+  .logoSection,
+  .nav,
+  .divider,
+  .desktopOnly,
+  .mayor {
     display: none;
   }
-}
 
-/* Mobile Responsive Styles */
-@media (max-width: 768px) {
-  .header {
-    padding: 1rem;
-    flex-direction: row;
-    justify-content: space-between;
+  .mobileHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 
-  .logoSection {
-    order: 0;
+  .mobileHeaderRight {
+    display: flex;
     align-items: center;
   }
 
-  .divider {
-    display: none;
-  }
-
-  .mayor {
-    font-size: 0.85rem;
-  }
-
-  .cityName {
-    font-size: 0.9rem;
-  }
-
-  .nav {
-    display: none;
+  .header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    height: 56px;
   }
 
   .mobileMenuButton {
     display: block;
-    order: -1;
+    background: none;
+    border: none;
+    color: var(--color-charles-blue);
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .cityName {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--color-charles-blue);
+    letter-spacing: 0.5px;
   }
 
   .bostonLogo {
     display: none;
-  }
-
-  .container {
-    padding-top: 70px;
-  }
-
-  .welcome {
-    font-size: 1.5rem;
-  }
-
-  .district {
-    font-size: 4rem;
-  }
-
-  .tracker {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
   }
 }
 
@@ -274,4 +254,30 @@
   top: 2px;
   margin-left: 1rem;
   font-size: 1.2rem;
+}
+
+/* Show only on screens 768px and below */
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobileOnly {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .desktopOnly {
+    display: none !important;
+  }
+}
+
+/* Hide on mobile */
+@media (min-width: 769px) {
+  .desktopOnly {
+    display: flex;
+    align-items: center;
+  }
 }
