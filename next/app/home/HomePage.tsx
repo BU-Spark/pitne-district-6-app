@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar/Navbar';
 import SubscribeFooter from '../components/SubscribeFooter/SubscribeFooter';
 import NewsletterArchive from '../components/NewsletterArchive/NewsletterArchive';
 import Masonry from 'react-masonry-css';
+import { ChevronLeft, ChevronRight, X, Download } from 'lucide-react';
 import { fetchFlyers, Flyer } from '../utils/strapi.api';
 
 const breakpointColumnsObj = {
@@ -15,7 +16,6 @@ const breakpointColumnsObj = {
   480: 1,
 };
 
-// Mockup photos data for development/testing without backend
 const photos = [
   { id: 1, title: 'Clean-up', image: 'https://picsum.photos/400/300?random=1' },
   { id: 2, title: 'Town Hall', image: 'https://picsum.photos/400/500?random=2' },
@@ -34,12 +34,13 @@ const photos = [
 const HomePage = () => {
   const [flyers, setFlyers] = useState<Flyer[]>([]);
   const [loadedImages, setLoadedImages] = useState<{ [key: number]: boolean }>({});
-  const [imageAnimationClass, setImageAnimationClass] = useState<string>('zoom-animate-in');
+  const [imageAnimationClass, setImageAnimationClass] = useState<string>('in-right');
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
 
   const openZoom = (index: number) => {
     setSelectedPhotoIndex(index);
+    setImageAnimationClass('in-right');
     setIsZoomed(true);
   };
 
@@ -49,20 +50,20 @@ const HomePage = () => {
 
   const showPrev = () => {
     if (selectedPhotoIndex !== null) {
-      setImageAnimationClass('zoom-animate-out');
+      setImageAnimationClass('out-left');
       setTimeout(() => {
         setSelectedPhotoIndex((prev) => (prev! + photos.length - 1) % photos.length);
-        setImageAnimationClass('zoom-animate-in');
+        setImageAnimationClass('in-left');
       }, 300);
     }
   };
 
   const showNext = () => {
     if (selectedPhotoIndex !== null) {
-      setImageAnimationClass('zoom-animate-out');
+      setImageAnimationClass('out-right');
       setTimeout(() => {
         setSelectedPhotoIndex((prev) => (prev! + 1) % photos.length);
-        setImageAnimationClass('zoom-animate-in');
+        setImageAnimationClass('in-right');
       }, 300);
     }
   };
@@ -97,14 +98,12 @@ const HomePage = () => {
 
         <section className={styles.dateSection}>
           <h2>Upcoming Events</h2>
-          {/* Mockup Masonry grid with photos */}
           <div className={styles.masonryWrapper}>
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className={styles.myMasonryGrid}
               columnClassName={styles.myMasonryGridColumn}
             >
-              {/* Render mockup photos inside Masonry */}
               {photos.map(({ id, title, image }, index) => (
                 <div key={id} className={styles.photoCard}>
                   <Image
@@ -125,25 +124,35 @@ const HomePage = () => {
 
             {isZoomed && selectedPhotoIndex !== null && (
               <div className={styles.zoomOverlay}>
-                <button className={styles.closeBtn} onClick={closeZoom}>
-                  ×
-                </button>
+                <div className={styles.topButtons}>
+                  <a
+                    className={styles.iconBtn}
+                    href={photos[selectedPhotoIndex].image}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Download"
+                  >
+                    <Download size={28} />
+                  </a>
+                  <button className={styles.iconBtn} onClick={closeZoom} title="Close">
+                    <X size={28} />
+                  </button>
+                </div>
                 <button className={styles.prevBtn} onClick={showPrev}>
-                  ‹
+                  <ChevronLeft size={48} />
                 </button>
-
                 <div className={styles.zoomImageWrapper}>
                   <Image
                     src={photos[selectedPhotoIndex].image}
                     alt={photos[selectedPhotoIndex].title}
                     fill
-                    className={`${styles.zoomedImage} ${styles[imageAnimationClass]}`}
+                    className={`${styles.zoomedImage} ${styles[`zoom-animate-${imageAnimationClass}`]}`}
                     unoptimized
                   />
                 </div>
-
                 <button className={styles.nextBtn} onClick={showNext}>
-                  ›
+                  <ChevronRight size={48} />
                 </button>
                 <div className={styles.zoomCaption}>{photos[selectedPhotoIndex].title}</div>
               </div>
