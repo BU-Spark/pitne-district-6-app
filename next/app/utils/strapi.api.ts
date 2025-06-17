@@ -96,6 +96,17 @@ export interface Flyer {
   publishedAt: string;
 }
 
+export interface Newsletter {
+  id: number;
+  documentId: string;
+  month_year: string;
+  english_pdf?: StrapiMedia[];
+  spanish_pdf?: StrapiMedia[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
 export interface Poll {
   id: number;
   documentId: string;
@@ -394,6 +405,28 @@ export async function fetchFlyers(): Promise<Flyer[]> {
     return result.data;
   } catch (error) {
     console.error('Error fetching flyers:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch all newsletters with PDF files
+ */
+export async function fetchNewsletters(): Promise<Newsletter[]> {
+  try {
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/newsletters?populate=*&publicationState=live&sort=createdAt:desc`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch newsletters: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Newsletter[]> = await response.json();
+    console.log('Newsletters API response:', result); // Debug log
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching newsletters:', error);
     return [];
   }
 }
