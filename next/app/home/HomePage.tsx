@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import SubscribeFooter from '../components/SubscribeFooter/SubscribeFooter';
 import NewsletterArchive from '../components/NewsletterArchive/NewsletterArchive';
+import PollButton from '../components/PollButton/PollButton';
 import Masonry from 'react-masonry-css';
 import { ChevronLeft, ChevronRight, X, Download } from 'lucide-react';
 import { fetchFlyers, Flyer } from '../utils/strapi.api';
@@ -185,6 +186,9 @@ const HomePage = () => {
 
         <SubscribeFooter subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform" />
       </div>
+
+      {/* Poll Button - floating on the page */}
+      <PollButton />
     </>
   );
 };

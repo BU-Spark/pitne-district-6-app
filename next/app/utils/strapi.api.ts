@@ -96,6 +96,32 @@ export interface Flyer {
   publishedAt: string;
 }
 
+export interface Poll {
+  id: number;
+  documentId: string;
+  Question: string;
+  choices: string[];
+  is_active: boolean;
+  start_date?: string;
+  end_date?: string;
+  poll_responses?: PollResponse[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface PollResponse {
+  id: number;
+  documentId: string;
+  email: string;
+  selected_choice: string;
+  submitted_at: string;
+  poll?: Poll;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
 export interface StrapiResponse<T> {
   data: T;
   meta: {
@@ -352,5 +378,95 @@ export async function fetchFlyers(): Promise<Flyer[]> {
   } catch (error) {
     console.error('Error fetching flyers:', error);
     return [];
+  }
+}
+
+/**
+ * Fetch the currently active poll
+ */
+export async function fetchActivePoll(): Promise<Poll | null> {
+  try {
+    const now = new Date().toISOString();
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/polls?filters[is_active][$eq]=true&publicationState=live&sort=createdAt:desc&pagination[limit]=1`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch active poll: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Poll[]> = await response.json();
+
+    // Filter by date range on client side for now
+    const activePolls = result.data.filter((poll) => {
+      if (!poll.start_date || !poll.end_date) return true; // No date restrictions
+      const startDate = new Date(poll.start_date);
+      const endDate = new Date(poll.end_date);
+      const currentDate = new Date(now);
+      return currentDate >= startDate && currentDate <= endDate;
+    });
+
+    return activePolls.length > 0 ? activePolls[0] : null;
+  } catch (error) {
+    console.error('Error fetching active poll:', error);
+    return null;
+  }
+}
+
+/**
+ * Submit a poll response
+ */
+export async function submitPollResponse(
+  pollId: number,
+  email: string,
+  selectedChoice: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    // First check if user already voted for this poll
+    const existingResponse = await fetch(
+      `${STRAPI_BASE_URL}/api/poll-responses?filters[email][$eq]=${encodeURIComponent(email)}&filters[poll][id][$eq]=${pollId}&publicationState=live`
+    );
+
+    if (existingResponse.ok) {
+      const existingResult: StrapiResponse<PollResponse[]> = await existingResponse.json();
+      if (existingResult.data.length > 0) {
+        return {
+          success: false,
+          message: 'You have already voted in this poll.',
+        };
+      }
+    }
+
+    // Submit the poll response
+    const response = await fetch(`${STRAPI_BASE_URL}/api/poll-responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: {
+          email,
+          selected_choice: selectedChoice,
+          submitted_at: new Date().toISOString(),
+          poll: pollId,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || 'Failed to submit poll response');
+    }
+
+    return {
+      success: true,
+      message: 'Thank you for your vote!',
+    };
+  } catch (error) {
+    console.error('Error submitting poll response:', error);
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to submit your vote. Please try again.',
+    };
   }
 }
