@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { searchLocations, Location } from '../../utils/strapi.api';
+import { FaHourglassHalf } from 'react-icons/fa';
 import './SearchBar.css';
 
 interface SearchBarProps {
@@ -12,7 +13,7 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateChange }) => {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [lastSearchQuery, setLastSearchQuery] = useState('');
+  // const [lastSearchQuery, setLastSearchQuery] = useState('');
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearch = async (searchQuery: string) => {
@@ -21,7 +22,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
       onSearchResults([]);
       onSearchStateChange(false);
       setIsLoading(false);
-      setLastSearchQuery('');
+      // setLastSearchQuery('');
       return;
     }
 
@@ -40,7 +41,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
       const results = await searchLocations(searchQuery);
       onSearchResults(results);
       onSearchStateChange(true);
-      setLastSearchQuery(searchQuery);
+      // setLastSearchQuery(searchQuery);
 
       console.log(`✅ Found ${results.length} results for "${searchQuery}"`);
 
@@ -77,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
       onSearchResults([]);
       onSearchStateChange(false);
       setIsLoading(false);
-      setLastSearchQuery('');
+      // setLastSearchQuery('');
       return;
     }
 
@@ -97,7 +98,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
     onSearchResults([]);
     onSearchStateChange(false);
     setIsLoading(false);
-    setLastSearchQuery('');
+    // setLastSearchQuery('');
 
     // Clear any pending search
     if (timeoutRef.current) {
@@ -115,28 +116,28 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
   }, []);
 
   // Generate search hint text
-  const getSearchHint = () => {
-    if (query.length === 0) {
-      return "Try searching for 'rent', 'food', 'housing', 'kids'...";
-    }
-    if (query.length === 1) {
-      return 'Keep typing for semantic search...';
-    }
-    if (isLoading) {
-      return 'Searching with AI embeddings...';
-    }
-    if (lastSearchQuery) {
-      return `Found semantic matches for "${lastSearchQuery}"`;
-    }
-    return '';
-  };
+  // const getSearchHint = () => {
+  //   if (query.length === 0) {
+  //     return "Try searching for 'rent', 'food', 'housing', 'kids'...";
+  //   }
+  //   if (query.length === 1) {
+  //     return 'Keep typing for semantic search...';
+  //   }
+  //   if (isLoading) {
+  //     return 'Searching with AI embeddings...';
+  //   }
+  //   if (lastSearchQuery) {
+  //     return `Found semantic matches for "${lastSearchQuery}"`;
+  //   }
+  //   return '';
+  // };
 
   return (
     <div className="search-bar">
       <div className="search-input-container">
         <input
           type="text"
-          placeholder="Explore resources with smart search..."
+          placeholder="Explore resources..."
           value={query}
           onChange={handleInputChange}
           className="search-input"
@@ -146,11 +147,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
             ✕
           </button>
         )}
-        {isLoading && <div className="search-loading">⏳</div>}
+        {isLoading && (
+          <div className="search-loading" aria-label="Searching">
+            <FaHourglassHalf className="timepiece-icon" />
+          </div>
+        )}
       </div>
 
       {/* Search hint/status */}
-      <div className="search-hint">{getSearchHint()}</div>
+      {/* <div className="search-hint">{getSearchHint()}</div> */}
     </div>
   );
 };
