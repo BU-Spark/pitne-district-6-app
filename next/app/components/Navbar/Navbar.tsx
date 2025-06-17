@@ -2,7 +2,7 @@
 
 import styles from './Navbar.module.css';
 import Link from 'next/link';
-import { Search, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import Image from 'next/image';
@@ -102,9 +102,9 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
           <Link href="/locations">LOCATIONS</Link>
           <Link href="/events">EVENTS</Link>
           <Link href="/about">ABOUT US</Link>
-          <span className={styles.searchIcon}>
+          {/* <span className={styles.searchIcon}>
             <Search size={18} strokeWidth={4} />
-          </span>
+          </span> */}
         </nav>
       </header>
 
