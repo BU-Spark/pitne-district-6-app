@@ -122,6 +122,23 @@ export interface PollResponse {
   publishedAt: string;
 }
 
+export interface PollResult {
+  choice: string;
+  votes: number;
+  percentage: number;
+}
+
+export interface PollResultsResponse {
+  poll: {
+    id: number;
+    documentId: string;
+    Question: string;
+    choices: string[];
+  };
+  results: PollResult[];
+  totalVotes: number;
+}
+
 export interface StrapiResponse<T> {
   data: T;
   meta: {
@@ -468,5 +485,73 @@ export async function submitPollResponse(
       success: false,
       message: error instanceof Error ? error.message : 'Failed to submit your vote. Please try again.',
     };
+  }
+}
+
+/**
+ * Fetch poll results for a specific poll
+ */
+export async function fetchPollResults(pollId: number): Promise<PollResultsResponse> {
+  try {
+    // First fetch all polls and find the one with matching ID
+    const pollsResponse = await fetch(`${STRAPI_BASE_URL}/api/polls?publicationState=live`);
+    if (!pollsResponse.ok) {
+      throw new Error(`Failed to fetch polls: ${pollsResponse.statusText}`);
+    }
+    const pollsResult: StrapiResponse<Poll[]> = await pollsResponse.json();
+
+    const poll = pollsResult.data.find((p) => p.id === pollId);
+    if (!poll) {
+      throw new Error('Poll not found');
+    }
+
+    // Fetch all poll responses with populated poll relation and filter by poll ID on client side
+    const responsesResponse = await fetch(
+      `${STRAPI_BASE_URL}/api/poll-responses?populate=poll&publicationState=live&pagination[limit]=1000`
+    );
+    if (!responsesResponse.ok) {
+      throw new Error(`Failed to fetch poll responses: ${responsesResponse.statusText}`);
+    }
+    const responsesResult: StrapiResponse<PollResponse[]> = await responsesResponse.json();
+    // Filter responses for this specific poll
+    const responses = responsesResult.data.filter((response) => {
+      // Check if response has poll relation and matches our poll ID
+      return response.poll && (response.poll as Poll).id === pollId;
+    });
+
+    // Calculate vote counts for each choice
+    const voteCounts: Record<string, number> = {};
+    poll.choices.forEach((choice) => {
+      voteCounts[choice] = 0;
+    });
+
+    responses.forEach((response) => {
+      if (poll.choices.includes(response.selected_choice)) {
+        voteCounts[response.selected_choice]++;
+      }
+    });
+
+    const totalVotes = responses.length;
+
+    // Calculate percentages and prepare results
+    const results: PollResult[] = poll.choices.map((choice) => ({
+      choice,
+      votes: voteCounts[choice],
+      percentage: totalVotes > 0 ? Math.round((voteCounts[choice] / totalVotes) * 100) : 0,
+    }));
+
+    return {
+      poll: {
+        id: poll.id,
+        documentId: poll.documentId,
+        Question: poll.Question,
+        choices: poll.choices,
+      },
+      results,
+      totalVotes,
+    };
+  } catch (error) {
+    console.error('Error fetching poll results:', error);
+    throw error;
   }
 }

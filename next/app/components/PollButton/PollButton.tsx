@@ -34,12 +34,6 @@ const PollButton: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handlePollSubmitted = () => {
-    // Hide the poll button after successful submission
-    setActivePoll(null);
-    setIsModalOpen(false);
-  };
-
   // Don't render if no active poll or still loading
   if (isLoading || !activePoll) {
     return null;
@@ -58,7 +52,7 @@ const PollButton: React.FC = () => {
         <div className={styles.pulse}></div>
       </button>
 
-      {isModalOpen && <PollModal poll={activePoll} onClose={handleCloseModal} onSubmitted={handlePollSubmitted} />}
+      {isModalOpen && <PollModal poll={activePoll} onClose={handleCloseModal} />}
     </>
   );
 };
