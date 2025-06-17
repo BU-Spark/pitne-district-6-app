@@ -40,7 +40,9 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
   };
 
   const handleSearchResults = (results: Location[]) => {
-    onSearchResults(results, results.length > 0);
+    // Always set searching to true when we get search results (even if empty)
+    // This ensures we show "No results" instead of falling back to all locations
+    onSearchResults(results, true);
   };
 
   const handleSearchStateChange = (searching: boolean) => {

@@ -587,6 +587,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     email: Schema.Attribute.String;
+    embeddings: Schema.Attribute.Text;
     geohash: Schema.Attribute.String;
     is_active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     lat: Schema.Attribute.Float;
@@ -605,7 +606,6 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     website: Schema.Attribute.String;
-    word_embeddings: Schema.Attribute.String;
   };
 }
 
