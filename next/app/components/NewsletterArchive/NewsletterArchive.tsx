@@ -22,57 +22,10 @@ const months = [
   { name: 'December', eng: true, esp: false },
 ];
 const keyLinks = [
-  // 📧 Newsletters
   {
     href: 'https://newsletters.boston.gov/subscribe',
     icon: <MdEmail size={16} />,
     label: 'City of Boston Newsletters',
-  },
-  {
-    href: 'https://www.boston.gov/departments/city-council#newsletter',
-    icon: <MdEmail size={16} />,
-    label: 'Boston City Council Newsletter',
-  },
-  {
-    href: 'https://newsletters.boston.gov/subscribe?category=My%20Neighborhood',
-    icon: <MdEmail size={16} />,
-    label: 'ONS JP & West Roxbury Newsletters',
-  },
-
-  // 🚨 Alerts
-  {
-    href: 'https://www.boston.gov/departments/emergency-management/city-boston-alerts-and-notifications',
-    icon: <FiAlertCircle size={16} />,
-    label: 'City of Boston Alerts',
-  },
-
-  // 📰 Local News
-  {
-    href: 'https://jamaicaplainnews.com/',
-    icon: <FaNewspaper size={16} />,
-    label: 'Jamaica Plain News',
-  },
-  {
-    href: 'https://jamaicaplaingazette.com/',
-    icon: <FaNewspaper size={16} />,
-    label: 'Jamaica Plain Gazette',
-  },
-  {
-    href: 'https://bulletinnewspapers.weebly.com/',
-    icon: <FaNewspaper size={16} />,
-    label: 'The Bulletin – WR/Roslindale',
-  },
-
-  // 👥 Facebook Groups
-  {
-    href: 'https://www.facebook.com/groups/jamaicaplainma/',
-    icon: <FaFacebook size={16} />,
-    label: 'Jamaica Plain Facebook Page',
-  },
-  {
-    href: 'https://www.facebook.com/groups/639547626202086/',
-    icon: <FaFacebook size={16} />,
-    label: 'West Roxbury Connect',
   },
   {
     href: 'https://www.facebook.com/groups/2553951258022030/',
@@ -80,33 +33,71 @@ const keyLinks = [
     label: 'West Roxbury Association',
   },
   {
-    href: 'https://www.facebook.com/groups/2678131715738649/',
-    icon: <FaFacebook size={16} />,
-    label: 'Parkway Respectful Discourse',
-  },
-
-  // 🏗️ Housing & Development
-  {
     href: 'https://www.bostonplans.org/neighborhoods/jamaica-plain/at-a-glance',
     icon: <FaBuilding size={16} />,
     label: 'JP Housing Developments',
+  },
+  {
+    href: 'https://www.boston.gov/departments/city-council#newsletter',
+    icon: <MdEmail size={16} />,
+    label: 'Boston City Council Newsletter',
+  },
+  {
+    href: 'https://www.facebook.com/groups/639547626202086/',
+    icon: <FaFacebook size={16} />,
+    label: 'West Roxbury Connect',
   },
   {
     href: 'https://www.bostonplans.org/neighborhoods/west-roxbury/at-a-glance',
     icon: <FaBuilding size={16} />,
     label: 'West Roxbury Housing Developments',
   },
-
-  // 🚧 Streets & Traffic
+  {
+    href: 'https://newsletters.boston.gov/subscribe?category=My%20Neighborhood',
+    icon: <MdEmail size={16} />,
+    label: 'ONS JP & West Roxbury Newsletters',
+  },
+  {
+    href: 'https://www.facebook.com/groups/jamaicaplainma/',
+    icon: <FaFacebook size={16} />,
+    label: 'Jamaica Plain Facebook Page',
+  },
+  {
+    href: 'https://jamaicaplaingazette.com/',
+    icon: <FaNewspaper size={16} />,
+    label: 'Jamaica Plain Gazette',
+  },
+  {
+    href: 'https://www.boston.gov/departments/emergency-management/city-boston-alerts-and-notifications',
+    icon: <FiAlertCircle size={16} />,
+    label: 'City of Boston Alerts',
+  },
+  {
+    href: 'https://www.facebook.com/groups/2678131715738649/',
+    icon: <FaFacebook size={16} />,
+    label: 'Parkway Respectful Discourse',
+  },
+  {
+    href: 'https://jamaicaplainnews.com/',
+    icon: <FaNewspaper size={16} />,
+    label: 'Jamaica Plain News',
+  },
   {
     href: 'https://www.boston.gov/departments/public-works/roadway-resurfacing-boston',
     icon: <FaRoad size={16} />,
     label: 'Street Resurfacing List',
   },
+
   {
     href: 'https://www.boston.gov/departments/transportation/making-neighborhood-streets-safer',
     icon: <FiMapPin size={16} />,
     label: 'Speed Hump Eligibility Map',
+  },
+
+  {
+    href: 'https://bulletinnewspapers.weebly.com/',
+    icon: <FaNewspaper size={16} />,
+    label: 'The Bulletin – WR/Roslindale',
   },
 ];
 
@@ -114,7 +105,11 @@ const NewsletterArchive = () => {
   return (
     <section className={styles.newsSection}>
       <div className={styles.keyLinksContainer}>
-        <h3>Key Links</h3>
+        <div className={styles.keyLinksTitleRow}>
+          <h3>Key Links</h3>
+          <div className={styles.keyLinksLine}></div>
+        </div>
+
         <div className={styles.keyLinksGrid}>
           {keyLinks.map(({ href, icon, label }) => (
             <a key={label} href={href} className={styles.keyLink} aria-label={label}>
@@ -135,9 +130,9 @@ const NewsletterArchive = () => {
                     <span className={styles.monthLabel}>{name} 2024</span>
                     <div className={styles.buttonGroup}>
                       <button className={styles.archiveButton} disabled={!eng}>
-                        {eng ? 'English' : ''}
+                        English
                       </button>
-                      <button className={styles.archiveButton} disabled={!esp}>
+                      <button className={`${styles.archiveButton} ${!esp ? styles.empty : ''}`} disabled={!esp}>
                         {esp ? 'Spanish' : ''}
                       </button>
                     </div>
@@ -156,7 +151,7 @@ const NewsletterArchive = () => {
                   )
                 }
               >
-                <FiExternalLink size={18} />
+                <FiExternalLink size={25} />
               </button>
               <iframe
                 src="https://myemail.constantcontact.com/District-6-Newsletter.html?soid=1140955148580&aid=NPruGTxG870"
