@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="3"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -84,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.6"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
