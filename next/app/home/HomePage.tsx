@@ -38,6 +38,20 @@ const HomePage = () => {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
 
+  // Combine photos and flyers for zoom functionality
+  const allPhotos = [
+    ...photos,
+    ...flyers
+      .filter((flyer) => flyer.image && Array.isArray(flyer.image) && flyer.image.length > 0)
+      .map((flyer) => ({
+        id: flyer.id + 1000,
+        title: flyer.title,
+        image: flyer.image![0].url.startsWith('http')
+          ? flyer.image![0].url
+          : `${process.env.NEXT_PUBLIC_STRAPI_URL}${flyer.image![0].url}`,
+      })),
+  ];
+
   const openZoom = (index: number) => {
     setSelectedPhotoIndex(index);
     setImageAnimationClass('in-right');
@@ -49,20 +63,20 @@ const HomePage = () => {
   };
 
   const showPrev = () => {
-    if (selectedPhotoIndex !== null) {
+    if (selectedPhotoIndex !== null && allPhotos.length > 0) {
       setImageAnimationClass('out-left');
       setTimeout(() => {
-        setSelectedPhotoIndex((prev) => (prev! + photos.length - 1) % photos.length);
+        setSelectedPhotoIndex((prev) => (prev! + allPhotos.length - 1) % allPhotos.length);
         setImageAnimationClass('in-left');
       }, 300);
     }
   };
 
   const showNext = () => {
-    if (selectedPhotoIndex !== null) {
+    if (selectedPhotoIndex !== null && allPhotos.length > 0) {
       setImageAnimationClass('out-right');
       setTimeout(() => {
-        setSelectedPhotoIndex((prev) => (prev! + 1) % photos.length);
+        setSelectedPhotoIndex((prev) => (prev! + 1) % allPhotos.length);
         setImageAnimationClass('in-right');
       }, 300);
     }
@@ -70,7 +84,9 @@ const HomePage = () => {
 
   useEffect(() => {
     const loadFlyers = async () => {
+      console.log('Fetching flyers...');
       const fetched = await fetchFlyers();
+      console.log('Fetched flyers:', fetched);
       setFlyers(fetched);
     };
     loadFlyers();
@@ -122,12 +138,12 @@ const HomePage = () => {
               ))}
             </Masonry>
 
-            {isZoomed && selectedPhotoIndex !== null && (
+            {isZoomed && selectedPhotoIndex !== null && allPhotos[selectedPhotoIndex] && (
               <div className={styles.zoomOverlay}>
                 <div className={styles.topButtons}>
                   <a
                     className={styles.iconBtn}
-                    href={photos[selectedPhotoIndex].image}
+                    href={allPhotos[selectedPhotoIndex].image}
                     download
                     target="_blank"
                     rel="noopener noreferrer"
@@ -144,8 +160,8 @@ const HomePage = () => {
                 </button>
                 <div className={styles.zoomImageWrapper}>
                   <Image
-                    src={photos[selectedPhotoIndex].image}
-                    alt={photos[selectedPhotoIndex].title}
+                    src={allPhotos[selectedPhotoIndex].image}
+                    alt={allPhotos[selectedPhotoIndex].title}
                     fill
                     className={`${styles.zoomedImage} ${styles[`zoom-animate-${imageAnimationClass}`]}`}
                     unoptimized
@@ -154,7 +170,7 @@ const HomePage = () => {
                 <button className={styles.nextBtn} onClick={showNext}>
                   <ChevronRight size={48} />
                 </button>
-                <div className={styles.zoomCaption}>{photos[selectedPhotoIndex].title}</div>
+                <div className={styles.zoomCaption}>{allPhotos[selectedPhotoIndex].title}</div>
               </div>
             )}
           </div>
@@ -165,20 +181,21 @@ const HomePage = () => {
               className={styles.myMasonryGrid}
               columnClassName={styles.myMasonryGridColumn}
             >
-              {flyers.map((flyer) => (
+              {flyers.map((flyer, index) => (
                 <div key={flyer.id} className={styles.photoCard}>
-                  {flyer.image?.url && (
+                  {flyer.image && Array.isArray(flyer.image) && flyer.image.length > 0 && (
                     <Image
                       src={
-                        flyer.image.url.startsWith('http')
-                          ? flyer.image.url
-                          : `${process.env.NEXT_PUBLIC_STRAPI_URL}${flyer.image.url}`
+                        flyer.image[0].url.startsWith('http')
+                          ? flyer.image[0].url
+                          : `${process.env.NEXT_PUBLIC_STRAPI_URL}${flyer.image[0].url}`
                       }
                       alt={flyer.title}
                       width={400}
                       height={400}
                       className={`${styles.photo} ${loadedImages[flyer.id] ? styles.loaded : ''}`}
                       onLoad={() => handleImageLoad(flyer.id)}
+                      onClick={() => openZoom(photos.length + index)}
                       style={{ width: '100%', height: 'auto' }}
                       unoptimized
                     />

@@ -88,8 +88,12 @@ export interface Location {
 
 export interface Flyer {
   id: number;
+  documentId: string;
   title: string;
-  image?: StrapiMedia;
+  image?: StrapiMedia[]; // Array of images since schema has multiple: true
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
 export interface StrapiResponse<T> {
@@ -336,13 +340,14 @@ function deduplicateLocations(locations: Location[]): Location[] {
  */
 export async function fetchFlyers(): Promise<Flyer[]> {
   try {
-    const response = await fetch(`${STRAPI_BASE_URL}/api/flyers?populate=image`);
+    const response = await fetch(`${STRAPI_BASE_URL}/api/flyers?populate=image&publicationState=live`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch flyers: ${response.statusText}`);
     }
 
     const result: StrapiResponse<Flyer[]> = await response.json();
+    console.log('Flyers API response:', result); // Debug log
     return result.data;
   } catch (error) {
     console.error('Error fetching flyers:', error);
