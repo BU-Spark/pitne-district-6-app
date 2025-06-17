@@ -78,8 +78,8 @@
       ],
       "required": true
     },
-    "word_embeddings": {
-      "type": "string"
+    "embeddings": {
+      "type": "text"
     }
   }
 }

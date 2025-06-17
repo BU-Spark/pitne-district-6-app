@@ -160,7 +160,7 @@ export default function ResourcePage() {
           ) : (
             <>
               <div className="resource-card-stack">
-                {(!isSearching && currentLocations.length > 0) || (isSearching && searchResults.length > 0) ? (
+                {currentLocations.length > 0 ? (
                   currentLocations.map((location) => {
                     const cardProps = transformLocation(location);
                     return (

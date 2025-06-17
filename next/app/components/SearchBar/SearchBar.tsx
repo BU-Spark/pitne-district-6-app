@@ -12,6 +12,7 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateChange }) => {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [lastSearchQuery, setLastSearchQuery] = useState('');
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearch = async (searchQuery: string) => {
@@ -20,6 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
       onSearchResults([]);
       onSearchStateChange(false);
       setIsLoading(false);
+      setLastSearchQuery('');
       return;
     }
 
@@ -33,12 +35,27 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
 
     try {
       setIsLoading(true);
-      console.log(`Searching for: "${searchQuery}"`);
+      console.log(`🔍 Semantic search for: "${searchQuery}"`);
+
       const results = await searchLocations(searchQuery);
       onSearchResults(results);
       onSearchStateChange(true);
+      setLastSearchQuery(searchQuery);
+
+      console.log(`✅ Found ${results.length} results for "${searchQuery}"`);
+
+      // Log some examples for debugging semantic search
+      if (results.length > 0) {
+        console.log(
+          '📍 Top results:',
+          results.slice(0, 3).map((r) => ({
+            name: r.name,
+            category: r.category,
+          }))
+        );
+      }
     } catch (error) {
-      console.error('Search error:', error);
+      console.error('❌ Search error:', error);
       onSearchResults([]);
       onSearchStateChange(false);
     } finally {
@@ -60,6 +77,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
       onSearchResults([]);
       onSearchStateChange(false);
       setIsLoading(false);
+      setLastSearchQuery('');
       return;
     }
 
@@ -68,10 +86,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
       setIsLoading(true);
     }
 
-    // Debounce the actual search call by 300ms
+    // Debounce the actual search call by 400ms (slightly longer for API calls)
     timeoutRef.current = setTimeout(() => {
       handleSearch(newQuery);
-    }, 300);
+    }, 400);
   };
 
   const handleClear = () => {
@@ -79,6 +97,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
     onSearchResults([]);
     onSearchStateChange(false);
     setIsLoading(false);
+    setLastSearchQuery('');
 
     // Clear any pending search
     if (timeoutRef.current) {
@@ -95,12 +114,29 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
     };
   }, []);
 
+  // Generate search hint text
+  const getSearchHint = () => {
+    if (query.length === 0) {
+      return "Try searching for 'rent', 'food', 'housing', 'kids'...";
+    }
+    if (query.length === 1) {
+      return 'Keep typing for semantic search...';
+    }
+    if (isLoading) {
+      return 'Searching with AI embeddings...';
+    }
+    if (lastSearchQuery) {
+      return `Found semantic matches for "${lastSearchQuery}"`;
+    }
+    return '';
+  };
+
   return (
     <div className="search-bar">
       <div className="search-input-container">
         <input
           type="text"
-          placeholder="Search locations..."
+          placeholder="Explore resources with smart search..."
           value={query}
           onChange={handleInputChange}
           className="search-input"
@@ -112,6 +148,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
         )}
         {isLoading && <div className="search-loading">⏳</div>}
       </div>
+
+      {/* Search hint/status */}
+      <div className="search-hint">{getSearchHint()}</div>
     </div>
   );
 };
