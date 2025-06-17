@@ -79,6 +79,16 @@
   display: block;
 }
 
+.pdfPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  font-style: italic;
+}
+
 .archiveList {
   flex: 0.6;
   flex: 0.8;

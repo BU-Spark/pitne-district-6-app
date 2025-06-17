@@ -1,26 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './NewsletterArchive.module.css';
 import { FiExternalLink } from 'react-icons/fi';
 import { FaBuilding, FaFacebook, FaNewspaper, FaRoad } from 'react-icons/fa';
 import { FiAlertCircle, FiMapPin } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
-
-const months = [
-  { name: 'January', eng: true, esp: false },
-  { name: 'February', eng: true, esp: false },
-  { name: 'March', eng: true, esp: false },
-  { name: 'April', eng: true, esp: true },
-  { name: 'May', eng: true, esp: false },
-  { name: 'June', eng: true, esp: true },
-  { name: 'July', eng: true, esp: false },
-  { name: 'August', eng: true, esp: false },
-  { name: 'September', eng: true, esp: false },
-  { name: 'October', eng: true, esp: false },
-  { name: 'November', eng: true, esp: false },
-  { name: 'December', eng: true, esp: false },
-];
+import { fetchNewsletters, Newsletter } from '../../utils/strapi.api';
 const keyLinks = [
   {
     href: 'https://newsletters.boston.gov/subscribe',
@@ -102,6 +88,40 @@ const keyLinks = [
 ];
 
 const NewsletterArchive = () => {
+  const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
+  const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadNewsletters = async () => {
+      try {
+        const fetched = await fetchNewsletters();
+        console.log('Fetched newsletters:', fetched);
+        setNewsletters(fetched);
+
+        // Set the first available PDF as selected by default
+        if (fetched.length > 0) {
+          const firstNewsletter = fetched[0];
+          if (firstNewsletter.english_pdf && firstNewsletter.english_pdf.length > 0) {
+            setSelectedPdf(firstNewsletter.english_pdf[0].url);
+          } else if (firstNewsletter.spanish_pdf && firstNewsletter.spanish_pdf.length > 0) {
+            setSelectedPdf(firstNewsletter.spanish_pdf[0].url);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading newsletters:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadNewsletters();
+  }, []);
+
+  const handlePdfSelect = (pdfUrl: string) => {
+    setSelectedPdf(pdfUrl);
+  };
+
   return (
     <section className={styles.newsSection}>
       <div className={styles.keyLinksContainer}>
@@ -124,40 +144,55 @@ const NewsletterArchive = () => {
           <div className={styles.viewerAndArchive}>
             <div className={styles.archiveList}>
               <h3>Newsletter Archive</h3>
-              <ul>
-                {months.map(({ name, eng, esp }) => (
-                  <li key={name} className={styles.archiveItem}>
-                    <span className={styles.monthLabel}>{name} 2024</span>
-                    <div className={styles.buttonGroup}>
-                      <button className={styles.archiveButton} disabled={!eng}>
-                        English
-                      </button>
-                      <button className={`${styles.archiveButton} ${!esp ? styles.empty : ''}`} disabled={!esp}>
-                        {esp ? 'Spanish' : ''}
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {isLoading ? (
+                <p>Loading newsletters...</p>
+              ) : (
+                <ul>
+                  {newsletters.map((newsletter) => {
+                    const hasEnglish = newsletter.english_pdf && newsletter.english_pdf.length > 0;
+                    const hasSpanish = newsletter.spanish_pdf && newsletter.spanish_pdf.length > 0;
+
+                    return (
+                      <li key={newsletter.id} className={styles.archiveItem}>
+                        <span className={styles.monthLabel}>{newsletter.month_year}</span>
+                        <div className={styles.buttonGroup}>
+                          <button
+                            className={styles.archiveButton}
+                            disabled={!hasEnglish}
+                            onClick={() => hasEnglish && handlePdfSelect(newsletter.english_pdf![0].url)}
+                          >
+                            English
+                          </button>
+                          <button
+                            className={`${styles.archiveButton} ${!hasSpanish ? styles.empty : ''}`}
+                            disabled={!hasSpanish}
+                            onClick={() => hasSpanish && handlePdfSelect(newsletter.spanish_pdf![0].url)}
+                          >
+                            {hasSpanish ? 'Spanish' : ''}
+                          </button>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
             <div className={styles.pdfViewer}>
-              <button
-                className={styles.openNewTabButton}
-                onClick={() =>
-                  window.open(
-                    'https://myemail.constantcontact.com/District-6-Newsletter.html?soid=1140955148580&aid=NPruGTxG870',
-                    '_blank',
-                    'noopener noreferrer'
-                  )
-                }
-              >
-                <FiExternalLink size={25} />
-              </button>
-              <iframe
-                src="https://myemail.constantcontact.com/District-6-Newsletter.html?soid=1140955148580&aid=NPruGTxG870"
-                title="Newsletter PDF"
-                className={styles.pdfIframe}
-              />
+              {selectedPdf && (
+                <button
+                  className={styles.openNewTabButton}
+                  onClick={() => window.open(selectedPdf, '_blank', 'noopener noreferrer')}
+                >
+                  <FiExternalLink size={25} />
+                </button>
+              )}
+              {selectedPdf ? (
+                <iframe src={selectedPdf} title="Newsletter PDF" className={styles.pdfIframe} />
+              ) : (
+                <div className={styles.pdfPlaceholder}>
+                  <p>Select a newsletter to view</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
