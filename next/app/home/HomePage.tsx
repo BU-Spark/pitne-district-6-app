@@ -115,95 +115,71 @@ const HomePage = () => {
         <section className={styles.dateSection}>
           <h2>Upcoming Events</h2>
           <div className={styles.masonryWrapper}>
-            <Masonry
-              breakpointCols={breakpointColumnsObj}
-              className={styles.myMasonryGrid}
-              columnClassName={styles.myMasonryGridColumn}
-            >
-              {photos.map(({ id, title, image }, index) => (
-                <div key={id} className={styles.photoCard}>
-                  <Image
-                    src={image}
-                    alt={title}
-                    width={400}
-                    height={400}
-                    className={`${styles.photo} ${loadedImages[id] ? styles.loaded : ''}`}
-                    onLoad={() => handleImageLoad(id)}
-                    onClick={() => openZoom(index)}
-                    style={{ width: '100%', height: 'auto' }}
-                    unoptimized
-                  />
-                  <div className={styles.caption}>{title}</div>
-                </div>
-              ))}
-            </Masonry>
+            <div className={styles.masonryWrapper}>
+              <Masonry
+                breakpointCols={breakpointColumnsObj}
+                className={styles.myMasonryGrid}
+                columnClassName={styles.myMasonryGridColumn}
+              >
+                {flyers.map((flyer, index) => (
+                  <div key={flyer.id} className={styles.photoCard}>
+                    {flyer.image && Array.isArray(flyer.image) && flyer.image.length > 0 && (
+                      <Image
+                        src={
+                          flyer.image[0].url.startsWith('http')
+                            ? flyer.image[0].url
+                            : `${process.env.NEXT_PUBLIC_STRAPI_URL}${flyer.image[0].url}`
+                        }
+                        alt={flyer.title}
+                        width={400}
+                        height={400}
+                        className={`${styles.photo} ${loadedImages[flyer.id] ? styles.loaded : ''}`}
+                        onLoad={() => handleImageLoad(flyer.id)}
+                        onClick={() => openZoom(photos.length + index)}
+                        style={{ width: '100%', height: 'auto' }}
+                        unoptimized
+                      />
+                    )}
+                  </div>
+                ))}
+              </Masonry>
 
-            {isZoomed && selectedPhotoIndex !== null && allPhotos[selectedPhotoIndex] && (
-              <div className={styles.zoomOverlay}>
-                <div className={styles.topButtons}>
-                  <a
-                    className={styles.iconBtn}
-                    href={allPhotos[selectedPhotoIndex].image}
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="Download"
-                  >
-                    <Download size={28} />
-                  </a>
-                  <button className={styles.iconBtn} onClick={closeZoom} title="Close">
-                    <X size={28} />
+              {isZoomed && selectedPhotoIndex !== null && allPhotos[selectedPhotoIndex] && (
+                <div className={styles.zoomOverlay}>
+                  <div className={styles.topButtons}>
+                    <a
+                      className={styles.iconBtn}
+                      href={allPhotos[selectedPhotoIndex].image}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Download"
+                    >
+                      <Download size={28} />
+                    </a>
+                    <button className={styles.iconBtn} onClick={closeZoom} title="Close">
+                      <X size={28} />
+                    </button>
+                  </div>
+                  <button className={styles.prevBtn} onClick={showPrev}>
+                    <ChevronLeft size={48} />
                   </button>
-                </div>
-                <button className={styles.prevBtn} onClick={showPrev}>
-                  <ChevronLeft size={48} />
-                </button>
-                <div className={styles.zoomImageWrapper}>
-                  <Image
-                    src={allPhotos[selectedPhotoIndex].image}
-                    alt={allPhotos[selectedPhotoIndex].title}
-                    fill
-                    className={`${styles.zoomedImage} ${styles[`zoom-animate-${imageAnimationClass}`]}`}
-                    unoptimized
-                  />
-                </div>
-                <button className={styles.nextBtn} onClick={showNext}>
-                  <ChevronRight size={48} />
-                </button>
-                <div className={styles.zoomCaption}>{allPhotos[selectedPhotoIndex].title}</div>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.masonryWrapper}>
-            <Masonry
-              breakpointCols={breakpointColumnsObj}
-              className={styles.myMasonryGrid}
-              columnClassName={styles.myMasonryGridColumn}
-            >
-              {flyers.map((flyer, index) => (
-                <div key={flyer.id} className={styles.photoCard}>
-                  {flyer.image && Array.isArray(flyer.image) && flyer.image.length > 0 && (
+                  <div className={styles.zoomImageWrapper}>
                     <Image
-                      src={
-                        flyer.image[0].url.startsWith('http')
-                          ? flyer.image[0].url
-                          : `${process.env.NEXT_PUBLIC_STRAPI_URL}${flyer.image[0].url}`
-                      }
-                      alt={flyer.title}
-                      width={400}
-                      height={400}
-                      className={`${styles.photo} ${loadedImages[flyer.id] ? styles.loaded : ''}`}
-                      onLoad={() => handleImageLoad(flyer.id)}
-                      onClick={() => openZoom(photos.length + index)}
-                      style={{ width: '100%', height: 'auto' }}
+                      src={allPhotos[selectedPhotoIndex].image}
+                      alt={allPhotos[selectedPhotoIndex].title}
+                      fill
+                      className={`${styles.zoomedImage} ${styles[`zoom-animate-${imageAnimationClass}`]}`}
                       unoptimized
                     />
-                  )}
-                  <div className={styles.caption}>{flyer.title}</div>
+                  </div>
+                  <button className={styles.nextBtn} onClick={showNext}>
+                    <ChevronRight size={48} />
+                  </button>
+                  <div className={styles.zoomCaption}>{allPhotos[selectedPhotoIndex].title}</div>
                 </div>
-              ))}
-            </Masonry>
+              )}
+            </div>
           </div>
         </section>
 
