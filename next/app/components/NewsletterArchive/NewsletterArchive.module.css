@@ -63,7 +63,7 @@
 .pdfViewer {
   position: relative;
   border: 2px solid var(--color-border-light);
-  flex: 1;
+  flex: 1.4;
   overflow: hidden;
   border-radius: 8px;
   margin-bottom: 0;
@@ -80,6 +80,7 @@
 }
 
 .archiveList {
+  flex: 0.6;
   flex: 0.8;
   overflow-y: auto;
   padding-left: 1rem;
@@ -198,6 +199,7 @@
 .keyLink:hover {
   color: var(--color-freedom-trail-red);
 }
+
 .keyLinksTitleRow {
   display: flex;
   align-items: center;

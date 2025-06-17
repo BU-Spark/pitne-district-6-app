@@ -134,6 +134,16 @@ export interface StrapiResponse<T> {
   };
 }
 
+export interface Newsletter {
+  id: number;
+  month_year: string;
+  english_pdf: { data: StrapiMedia | null };
+  spanish_pdf?: { data: StrapiMedia | null };
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
 /**
  * Fetch all council members
  */
@@ -468,5 +478,26 @@ export async function submitPollResponse(
       success: false,
       message: error instanceof Error ? error.message : 'Failed to submit your vote. Please try again.',
     };
+  }
+}
+
+/**
+ * Fetch all newsletters with PDFs populated
+ */
+export async function fetchNewsletters(): Promise<Newsletter[]> {
+  try {
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/newsletters?populate=english_pdf,spanish_pdf&sort=createdAt:desc`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch newsletters: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Newsletter[]> = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching newsletters:', error);
+    return [];
   }
 }
