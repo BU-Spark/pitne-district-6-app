@@ -88,8 +88,66 @@ export interface Location {
 
 export interface Flyer {
   id: number;
+  documentId: string;
   title: string;
-  image?: StrapiMedia;
+  image?: StrapiMedia[]; // Array of images since schema has multiple: true
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface Newsletter {
+  id: number;
+  documentId: string;
+  month_year: string;
+  english_pdf?: StrapiMedia[];
+  spanish_pdf?: StrapiMedia[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface Poll {
+  id: number;
+  documentId: string;
+  Question: string;
+  choices: string[];
+  is_active: boolean;
+  start_date?: string;
+  end_date?: string;
+  poll_responses?: PollResponse[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface PollResponse {
+  id: number;
+  documentId: string;
+  email: string;
+  selected_choice: string;
+  submitted_at: string;
+  poll?: Poll;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface PollResult {
+  choice: string;
+  votes: number;
+  percentage: number;
+}
+
+export interface PollResultsResponse {
+  poll: {
+    id: number;
+    documentId: string;
+    Question: string;
+    choices: string[];
+  };
+  results: PollResult[];
+  totalVotes: number;
 }
 
 export interface StrapiResponse<T> {
@@ -102,6 +160,16 @@ export interface StrapiResponse<T> {
       total: number;
     };
   };
+}
+
+export interface Newsletter {
+  id: number;
+  month_year: string;
+  english_pdf: { data: StrapiMedia | null };
+  spanish_pdf?: { data: StrapiMedia | null };
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
 /**
@@ -336,16 +404,197 @@ function deduplicateLocations(locations: Location[]): Location[] {
  */
 export async function fetchFlyers(): Promise<Flyer[]> {
   try {
-    const response = await fetch(`${STRAPI_BASE_URL}/api/flyers?populate=image`);
+    const response = await fetch(`${STRAPI_BASE_URL}/api/flyers?populate=image&publicationState=live`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch flyers: ${response.statusText}`);
     }
 
     const result: StrapiResponse<Flyer[]> = await response.json();
+    console.log('Flyers API response:', result); // Debug log
     return result.data;
   } catch (error) {
     console.error('Error fetching flyers:', error);
     return [];
+  }
+}
+
+/**
+ * Fetch all newsletters with PDF files
+ */
+export async function fetchNewsletters(): Promise<Newsletter[]> {
+  try {
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/newsletters?populate=*&publicationState=live&sort=createdAt:desc`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch newsletters: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Newsletter[]> = await response.json();
+    console.log('Newsletters API response:', result); // Debug log
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching newsletters:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch the currently active poll
+ */
+export async function fetchActivePoll(): Promise<Poll | null> {
+  try {
+    const now = new Date().toISOString();
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/polls?filters[is_active][$eq]=true&publicationState=live&sort=createdAt:desc&pagination[limit]=1`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch active poll: ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<Poll[]> = await response.json();
+
+    // Filter by date range on client side for now
+    const activePolls = result.data.filter((poll) => {
+      if (!poll.start_date || !poll.end_date) return true; // No date restrictions
+      const startDate = new Date(poll.start_date);
+      const endDate = new Date(poll.end_date);
+      const currentDate = new Date(now);
+      return currentDate >= startDate && currentDate <= endDate;
+    });
+
+    return activePolls.length > 0 ? activePolls[0] : null;
+  } catch (error) {
+    console.error('Error fetching active poll:', error);
+    return null;
+  }
+}
+
+/**
+ * Submit a poll response
+ */
+export async function submitPollResponse(
+  pollId: number,
+  email: string,
+  selectedChoice: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    // First check if user already voted for this poll
+    const existingResponse = await fetch(
+      `${STRAPI_BASE_URL}/api/poll-responses?filters[email][$eq]=${encodeURIComponent(email)}&filters[poll][id][$eq]=${pollId}&publicationState=live`
+    );
+
+    if (existingResponse.ok) {
+      const existingResult: StrapiResponse<PollResponse[]> = await existingResponse.json();
+      if (existingResult.data.length > 0) {
+        return {
+          success: false,
+          message: 'You have already voted in this poll.',
+        };
+      }
+    }
+
+    // Submit the poll response
+    const response = await fetch(`${STRAPI_BASE_URL}/api/poll-responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: {
+          email,
+          selected_choice: selectedChoice,
+          submitted_at: new Date().toISOString(),
+          poll: pollId,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || 'Failed to submit poll response');
+    }
+
+    return {
+      success: true,
+      message: 'Thank you for your vote!',
+    };
+  } catch (error) {
+    console.error('Error submitting poll response:', error);
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to submit your vote. Please try again.',
+    };
+  }
+}
+
+/**
+ * Fetch poll results for a specific poll
+ */
+export async function fetchPollResults(pollId: number): Promise<PollResultsResponse> {
+  try {
+    // First fetch all polls and find the one with matching ID
+    const pollsResponse = await fetch(`${STRAPI_BASE_URL}/api/polls?publicationState=live`);
+    if (!pollsResponse.ok) {
+      throw new Error(`Failed to fetch polls: ${pollsResponse.statusText}`);
+    }
+    const pollsResult: StrapiResponse<Poll[]> = await pollsResponse.json();
+
+    const poll = pollsResult.data.find((p) => p.id === pollId);
+    if (!poll) {
+      throw new Error('Poll not found');
+    }
+
+    // Fetch all poll responses with populated poll relation and filter by poll ID on client side
+    const responsesResponse = await fetch(
+      `${STRAPI_BASE_URL}/api/poll-responses?populate=poll&publicationState=live&pagination[limit]=1000`
+    );
+    if (!responsesResponse.ok) {
+      throw new Error(`Failed to fetch poll responses: ${responsesResponse.statusText}`);
+    }
+    const responsesResult: StrapiResponse<PollResponse[]> = await responsesResponse.json();
+    // Filter responses for this specific poll
+    const responses = responsesResult.data.filter((response) => {
+      // Check if response has poll relation and matches our poll ID
+      return response.poll && (response.poll as Poll).id === pollId;
+    });
+
+    // Calculate vote counts for each choice
+    const voteCounts: Record<string, number> = {};
+    poll.choices.forEach((choice) => {
+      voteCounts[choice] = 0;
+    });
+
+    responses.forEach((response) => {
+      if (poll.choices.includes(response.selected_choice)) {
+        voteCounts[response.selected_choice]++;
+      }
+    });
+
+    const totalVotes = responses.length;
+
+    // Calculate percentages and prepare results
+    const results: PollResult[] = poll.choices.map((choice) => ({
+      choice,
+      votes: voteCounts[choice],
+      percentage: totalVotes > 0 ? Math.round((voteCounts[choice] / totalVotes) * 100) : 0,
+    }));
+
+    return {
+      poll: {
+        id: poll.id,
+        documentId: poll.documentId,
+        Question: poll.Question,
+        choices: poll.choices,
+      },
+      results,
+      totalVotes,
+    };
+  } catch (error) {
+    console.error('Error fetching poll results:', error);
+    throw error;
   }
 }

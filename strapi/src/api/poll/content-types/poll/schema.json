@@ -4,14 +4,34 @@
   "info": {
     "singularName": "poll",
     "pluralName": "polls",
-    "displayName": "poll"
+    "displayName": "Poll"
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
-    "question": {
-      "type": "string"
+    "Question": {
+      "type": "text"
+    },
+    "choices": {
+      "type": "json",
+      "required": true
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "end_date": {
+      "type": "datetime"
+    },
+    "poll_responses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::poll-response.poll-response",
+      "mappedBy": "poll"
     }
   }
 }
