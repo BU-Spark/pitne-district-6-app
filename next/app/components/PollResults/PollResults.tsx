@@ -6,11 +6,11 @@ import styles from './PollResults.module.css';
 import { Users } from 'lucide-react';
 
 interface PollResultsProps {
-  pollId: number;
+  pollDocumentId: string;
   userChoice?: string;
 }
 
-const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
+const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice }) => {
   const [results, setResults] = useState<PollResultsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [animateResults, setAnimateResults] = useState(false);
@@ -18,7 +18,7 @@ const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
   useEffect(() => {
     const loadResults = async () => {
       try {
-        const pollResults = await fetchPollResults(pollId);
+        const pollResults = await fetchPollResults(pollDocumentId);
         setResults(pollResults);
 
         // Trigger animation after a short delay
@@ -33,7 +33,7 @@ const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
     };
 
     loadResults();
-  }, [pollId]);
+  }, [pollDocumentId]);
 
   if (isLoading) {
     return (
@@ -97,6 +97,41 @@ const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
                   }}
                 />
               </div>
+
+              {/* Regional Breakdown */}
+              {result.votes > 0 && (
+                <div className={styles.regionalBreakdown}>
+                  <div className={styles.regionalTitle}>Regional Distribution:</div>
+                  <div className={styles.regionalStats}>
+                    {result.regionalBreakdown.map((regional, regionalIndex) => (
+                      <div
+                        key={regional.region}
+                        className={styles.regionalItem}
+                        style={{
+                          animationDelay: `${index * 100 + regionalIndex * 50 + 200}ms`,
+                        }}
+                      >
+                        <div className={styles.regionalHeader}>
+                          <span className={styles.regionName}>{regional.region}</span>
+                          <span className={styles.regionalPercentage}>{regional.percentage}%</span>
+                        </div>
+                        <div className={styles.regionalBarContainer}>
+                          <div
+                            className={styles.regionalBar}
+                            style={{
+                              width: animateResults ? `${regional.percentage}%` : '0%',
+                              backgroundColor: regional.region === 'Jamaica Plain' ? '#10b981' : '#f59e0b',
+                            }}
+                          />
+                        </div>
+                        <div className={styles.regionalVoteCount}>
+                          {regional.votes} {regional.votes === 1 ? 'vote' : 'votes'}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {isUserChoice && (
                 <div className={styles.userIndicator}>

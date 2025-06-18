@@ -223,4 +223,101 @@
   .question {
     font-size: 0.875rem;
   }
+
+  .regionalBreakdown {
+    margin-top: 0.5rem;
+  }
+
+  .regionalTitle {
+    font-size: 0.75rem;
+  }
+
+  .regionName {
+    font-size: 0.75rem;
+  }
+
+  .regionalPercentage {
+    font-size: 0.75rem;
+  }
+
+  .regionalVoteCount {
+    font-size: 0.7rem;
+  }
+}
+
+/* Regional Breakdown Styles */
+.regionalBreakdown {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.regionalTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-charles-blue);
+  margin-bottom: 0.5rem;
+}
+
+.regionalStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.regionalItem {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.regionalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.regionName {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-dark-text);
+}
+
+.regionalPercentage {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-charles-blue);
+}
+
+.regionalBarContainer {
+  position: relative;
+  height: 0.25rem;
+  background: var(--color-border-light);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.regionalBar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.regionalVoteCount {
+  font-size: 0.7rem;
+  color: var(--color-dark-text);
+  text-align: right;
+  opacity: 0.8;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

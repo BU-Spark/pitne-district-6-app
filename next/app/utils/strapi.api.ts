@@ -127,16 +127,25 @@ export interface PollResponse {
   email: string;
   selected_choice: string;
   submitted_at: string;
+  Address: string;
+  Region: 'Jamaica Plain' | 'West Roxbury';
   poll?: Poll;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
 }
 
+export interface RegionalBreakdown {
+  region: 'Jamaica Plain' | 'West Roxbury';
+  votes: number;
+  percentage: number;
+}
+
 export interface PollResult {
   choice: string;
   votes: number;
   percentage: number;
+  regionalBreakdown: RegionalBreakdown[];
 }
 
 export interface PollResultsResponse {
@@ -160,16 +169,6 @@ export interface StrapiResponse<T> {
       total: number;
     };
   };
-}
-
-export interface Newsletter {
-  id: number;
-  month_year: string;
-  english_pdf: { data: StrapiMedia | null };
-  spanish_pdf?: { data: StrapiMedia | null };
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
 }
 
 /**
@@ -477,14 +476,16 @@ export async function fetchActivePoll(): Promise<Poll | null> {
  * Submit a poll response
  */
 export async function submitPollResponse(
-  pollId: number,
+  pollDocumentId: string,
   email: string,
-  selectedChoice: string
+  selectedChoice: string,
+  address: string,
+  region: 'Jamaica Plain' | 'West Roxbury'
 ): Promise<{ success: boolean; message: string }> {
   try {
     // First check if user already voted for this poll
     const existingResponse = await fetch(
-      `${STRAPI_BASE_URL}/api/poll-responses?filters[email][$eq]=${encodeURIComponent(email)}&filters[poll][id][$eq]=${pollId}&publicationState=live`
+      `${STRAPI_BASE_URL}/api/poll-responses?filters[email][$eq]=${encodeURIComponent(email)}&filters[poll][documentId][$eq]=${pollDocumentId}&publicationState=live`
     );
 
     if (existingResponse.ok) {
@@ -508,7 +509,11 @@ export async function submitPollResponse(
           email,
           selected_choice: selectedChoice,
           submitted_at: new Date().toISOString(),
-          poll: pollId,
+          Address: address,
+          Region: region,
+          poll: {
+            connect: [pollDocumentId],
+          },
         },
       }),
     });
@@ -534,21 +539,21 @@ export async function submitPollResponse(
 /**
  * Fetch poll results for a specific poll
  */
-export async function fetchPollResults(pollId: number): Promise<PollResultsResponse> {
+export async function fetchPollResults(pollDocumentId: string): Promise<PollResultsResponse> {
   try {
-    // First fetch all polls and find the one with matching ID
-    const pollsResponse = await fetch(`${STRAPI_BASE_URL}/api/polls?publicationState=live`);
-    if (!pollsResponse.ok) {
-      throw new Error(`Failed to fetch polls: ${pollsResponse.statusText}`);
+    // First fetch the specific poll by documentId
+    const pollResponse = await fetch(`${STRAPI_BASE_URL}/api/polls/${pollDocumentId}?publicationState=live`);
+    if (!pollResponse.ok) {
+      throw new Error(`Failed to fetch poll: ${pollResponse.statusText}`);
     }
-    const pollsResult: StrapiResponse<Poll[]> = await pollsResponse.json();
+    const pollResult: StrapiResponse<Poll> = await pollResponse.json();
+    const poll = pollResult.data;
 
-    const poll = pollsResult.data.find((p) => p.id === pollId);
     if (!poll) {
       throw new Error('Poll not found');
     }
 
-    // Fetch all poll responses with populated poll relation and filter by poll ID on client side
+    // Fetch all poll responses with populated poll relation and filter by poll documentId on client side
     const responsesResponse = await fetch(
       `${STRAPI_BASE_URL}/api/poll-responses?populate=poll&publicationState=live&pagination[limit]=1000`
     );
@@ -558,30 +563,58 @@ export async function fetchPollResults(pollId: number): Promise<PollResultsRespo
     const responsesResult: StrapiResponse<PollResponse[]> = await responsesResponse.json();
     // Filter responses for this specific poll
     const responses = responsesResult.data.filter((response) => {
-      // Check if response has poll relation and matches our poll ID
-      return response.poll && (response.poll as Poll).id === pollId;
+      // Check if response has poll relation and matches our poll documentId
+      return response.poll && (response.poll as Poll).documentId === pollDocumentId;
     });
 
-    // Calculate vote counts for each choice
+    // Calculate vote counts for each choice and region
     const voteCounts: Record<string, number> = {};
+    const regionalVoteCounts: Record<string, Record<string, number>> = {};
+
     poll.choices.forEach((choice) => {
       voteCounts[choice] = 0;
+      regionalVoteCounts[choice] = {
+        'Jamaica Plain': 0,
+        'West Roxbury': 0,
+      };
     });
 
     responses.forEach((response) => {
       if (poll.choices.includes(response.selected_choice)) {
         voteCounts[response.selected_choice]++;
+        if (response.Region) {
+          regionalVoteCounts[response.selected_choice][response.Region]++;
+        }
       }
     });
 
     const totalVotes = responses.length;
 
-    // Calculate percentages and prepare results
-    const results: PollResult[] = poll.choices.map((choice) => ({
-      choice,
-      votes: voteCounts[choice],
-      percentage: totalVotes > 0 ? Math.round((voteCounts[choice] / totalVotes) * 100) : 0,
-    }));
+    // Calculate percentages and prepare results with regional breakdown
+    const results: PollResult[] = poll.choices.map((choice) => {
+      const choiceVotes = voteCounts[choice];
+      const choicePercentage = totalVotes > 0 ? Math.round((choiceVotes / totalVotes) * 100) : 0;
+
+      const regionalBreakdown: RegionalBreakdown[] = [
+        {
+          region: 'Jamaica Plain',
+          votes: regionalVoteCounts[choice]['Jamaica Plain'],
+          percentage: totalVotes > 0 ? Math.round((regionalVoteCounts[choice]['Jamaica Plain'] / totalVotes) * 100) : 0,
+        },
+        {
+          region: 'West Roxbury',
+          votes: regionalVoteCounts[choice]['West Roxbury'],
+          percentage: totalVotes > 0 ? Math.round((regionalVoteCounts[choice]['West Roxbury'] / totalVotes) * 100) : 0,
+        },
+      ];
+
+      return {
+        choice,
+        votes: choiceVotes,
+        percentage: choicePercentage,
+        regionalBreakdown,
+      };
+    });
 
     return {
       poll: {

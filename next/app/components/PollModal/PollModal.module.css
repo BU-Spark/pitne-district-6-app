@@ -160,6 +160,94 @@
   border-color: var(--color-freedom-trail-red);
 }
 
+.addressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.addressLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-charles-blue);
+}
+
+.addressInput {
+  padding: 0.75rem;
+  font-family: var(--font-primary);
+  border: 2px solid var(--color-border-light);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.addressInput:focus {
+  outline: none;
+  border-color: var(--color-freedom-trail-red);
+}
+
+.regionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.regionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-charles-blue);
+  margin: 0;
+}
+
+.regionChoices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.regionLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border-light);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--color-white);
+}
+
+.regionLabel:hover {
+  border-color: var(--color-freedom-trail-red);
+  background: var(--color-alt-white-hover);
+}
+
+.regionInput {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-freedom-trail-red);
+}
+
+.regionInput:checked + .regionText {
+  font-weight: 600;
+  color: var(--color-freedom-trail-red);
+}
+
+.regionLabel:has(.regionInput:checked) {
+  border-color: var(--color-freedom-trail-red);
+  background: var(--color-alt-white-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.regionText {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--color-dark-text);
+  transition: all 0.2s ease;
+}
+
 .submitButton {
   background: var(--color-freedom-trail-red);
   color: var(--color-white);

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "poll-response",
     "pluralName": "poll-responses",
-    "displayName": "Poll Response"
+    "displayName": "Poll Response",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,6 +26,16 @@
       "relation": "manyToOne",
       "target": "api::poll.poll",
       "inversedBy": "poll_responses"
+    },
+    "Address": {
+      "type": "text"
+    },
+    "Region": {
+      "type": "enumeration",
+      "enum": [
+        "Jamaica Plain",
+        "West Roxbury"
+      ]
     }
   }
 }
