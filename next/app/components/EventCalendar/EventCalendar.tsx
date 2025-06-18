@@ -10,9 +10,12 @@ import { EventClickArg, EventApi } from '@fullcalendar/core';
 import { FiPlus, FiEye, FiCalendar, FiMapPin } from 'react-icons/fi';
 import styles from './EventCalendar.module.css';
 
-const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
-const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || 'AIzaSyCf8g-I9J2eGojPv4HTUdJYxihk4eO8Zj0';
+const GOOGLE_CALENDAR_ID =
+  process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
+const GOOGLE_API_KEY =
+  process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || 'AIzaSyCf8g-I9J2eGojPv4HTUdJYxihk4eO8Zj0';
 
+/* ─── Simple i18n helpers ───────────────────────────────────────────── */
 const dictionary = {
   en: {
     buttonText: {
@@ -22,7 +25,15 @@ const dictionary = {
       day: 'Day',
       list: 'List',
     },
-    weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    weekDays: [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ],
     monthNames: [
       'January',
       'February',
@@ -46,7 +57,15 @@ const dictionary = {
       day: 'Día',
       list: 'Lista',
     },
-    weekDays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    weekDays: [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+    ],
     monthNames: [
       'Enero',
       'Febrero',
@@ -68,116 +87,87 @@ function createCustomLocale(lang: 'en' | 'es') {
   const dict = dictionary[lang];
   return {
     code: lang,
-    week: {
-      dow: 0,
-      doy: 6,
-    },
+    week: { dow: 0, doy: 6 },
     buttonText: dict.buttonText,
     monthNames: dict.monthNames,
-    monthNamesShort: dict.monthNames.map((m) => m.substring(0, 3)),
+    monthNamesShort: dict.monthNames.map((m) => m.slice(0, 3)),
     dayNames: dict.weekDays,
-    dayNamesShort: dict.weekDays.map((d) => d.substring(0, 3)),
+    dayNamesShort: dict.weekDays.map((d) => d.slice(0, 3)),
   };
 }
 
-type EventCalendarProps = {
-  lang: string;
-};
+/* ─── Component ─────────────────────────────────────────────────────── */
+type Props = { lang: 'en' | 'es' };
 
-export default function EventCalendar({ lang }: EventCalendarProps) {
+export default function EventCalendar({ lang }: Props) {
   const calendarRef = useRef<FullCalendar>(null);
+
   const [selectedEvent, setSelectedEvent] = useState<EventApi | null>(null);
   const [showEventPopup, setShowEventPopup] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
+  /* ── Helpers ── */
   const formatEventDate = (event: EventApi) => {
     const start = new Date(event.start!);
     const end = event.end ? new Date(event.end) : null;
 
-    const formatOptionsFullDate: Intl.DateTimeFormatOptions = {
+    const fullDate: Intl.DateTimeFormatOptions = {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     };
-
-    const formatOptionsShortDate: Intl.DateTimeFormatOptions = {
-      month: 'short',
-      day: 'numeric',
-    };
-
-    const formatTime = (date: Date) => {
-      if (date.getMinutes() === 0) {
-        return date.toLocaleTimeString(lang, { hour: 'numeric', hour12: true }).toLowerCase();
-      }
-      return date.toLocaleTimeString(lang, { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
-    };
+    const shortDate: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+    const fmtTime = (d: Date) =>
+      d.toLocaleTimeString(lang, {
+        hour: 'numeric',
+        minute: d.getMinutes() ? '2-digit' : undefined,
+        hour12: true,
+      }).toLowerCase();
 
     if (event.allDay) {
-      // For all-day multi-day events, show start and end dates
-      if (end && start.toDateString() !== end.toDateString()) {
-        return `${start.toLocaleDateString(lang, formatOptionsFullDate)} - ${end.toLocaleDateString(lang, formatOptionsFullDate)}`;
-      }
-      return start.toLocaleDateString(lang, formatOptionsFullDate);
+      return end && start.toDateString() !== end.toDateString()
+        ? `${start.toLocaleDateString(lang, fullDate)} - ${end.toLocaleDateString(
+            lang,
+            fullDate,
+          )}`
+        : start.toLocaleDateString(lang, fullDate);
     }
 
     if (end) {
       if (start.toDateString() === end.toDateString()) {
-        // Same day event
-
-        const startHour = start.getHours();
-        const endHour = end.getHours();
-        const startIsPM = startHour >= 12;
-        const endIsPM = endHour >= 12;
-
-        const to12Hr = (h: number) => ((h + 11) % 12) + 1;
-
-        const dateStr = start.toLocaleDateString(lang, formatOptionsFullDate);
-
-        if (startIsPM === endIsPM && start.getMinutes() === 0 && end.getMinutes() === 0) {
-          // e.g. "June 10, 2025, 6-7 pm"
-          return `${dateStr}, ${to12Hr(startHour)}-${to12Hr(endHour)} ${startIsPM ? 'pm' : 'am'}`;
-        } else {
-          // e.g. "June 10, 2025, 6:30 pm - 7:15 pm"
-          return `${dateStr}, ${formatTime(start)} - ${formatTime(end)}`;
-        }
-      } else {
-        // Multi-day event: show both dates and times
-        return `${start.toLocaleDateString(lang, formatOptionsShortDate)}, ${formatTime(start)} - ${end.toLocaleDateString(lang, formatOptionsShortDate)}, ${formatTime(end)}`;
+        /* same-day event */
+        return `${start.toLocaleDateString(lang, fullDate)}, ${fmtTime(start)} - ${fmtTime(
+          end,
+        )}`;
       }
+      /* multi-day, timed event */
+      return `${start.toLocaleDateString(lang, shortDate)}, ${fmtTime(
+        start,
+      )} - ${end.toLocaleDateString(lang, shortDate)}, ${fmtTime(end)}`;
     }
 
-    // No end time: show only start date and time
-    return `${start.toLocaleDateString(lang, formatOptionsFullDate)}, ${formatTime(start)}`;
+    /* no explicit end */
+    return `${start.toLocaleDateString(lang, fullDate)}, ${fmtTime(start)}`;
   };
 
-  const handleAddEventToCalendar = (event: EventApi) => {
-    const startDate = new Date(event.start!);
-    const endDate = event.end ? new Date(event.end) : new Date(startDate.getTime() + 60 * 60 * 1000);
+  const handleAddToCalendar = (event: EventApi) => {
+    const start = new Date(event.start!);
+    const end = event.end ? new Date(event.end) : new Date(start.getTime() + 3600 * 1000);
+    const iso = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
-    const formatGoogleDate = (date: Date) => {
-      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    };
-
-    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      event.title || 'Event'
-    )}&dates=${formatGoogleDate(startDate)}/${formatGoogleDate(endDate)}&details=${encodeURIComponent(
-      event.extendedProps?.description || 'Event from District 6 Calendar'
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+      event.title || 'Event',
+    )}&dates=${iso(start)}/${iso(end)}&details=${encodeURIComponent(
+      event.extendedProps?.description || 'Event from District 6 Calendar',
     )}&location=${encodeURIComponent(event.extendedProps?.location || '')}`;
 
-    window.open(googleCalendarUrl, '_blank');
+    window.open(url, '_blank');
     setShowEventPopup(false);
   };
 
+  /* ── Event handlers ── */
   const handleEventClick = (info: EventClickArg) => {
-    info.jsEvent.preventDefault();
-
-    const rect = info.el.getBoundingClientRect();
-    setPopupPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top - 10,
-    });
-
+    info.jsEvent.preventDefault(); // keep calendar selection
     setSelectedEvent(info.event);
     setShowEventPopup(true);
   };
@@ -192,49 +182,41 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
     setSelectedEvent(null);
   };
 
+  /* ── Render ── */
   return (
     <div className={styles.calendarWrapper}>
       <div className="notranslate">
         <FullCalendar
           key={lang}
           plugins={[dayGridPlugin, timeGridPlugin, googleCalendarPlugin, interactionPlugin]}
+          ref={calendarRef}
           initialView="dayGridMonth"
-          editable={false}
-          selectable={true}
-          selectMirror={true}
-          slotMinTime="05:00:00"
-          slotMaxTime="24:00:00"
-          weekends={true}
-          locale={createCustomLocale(lang === 'es' ? 'es' : 'en')}
-          googleCalendarApiKey={GOOGLE_API_KEY}
-          events={{
-            googleCalendarId: GOOGLE_CALENDAR_ID,
-            className: 'gcal-event',
-          }}
-          eventClick={handleEventClick}
-          dateClick={handleDateClick}
+          locale={createCustomLocale(lang)}
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
-          ref={calendarRef}
           height="auto"
+          selectable
+          editable={false}
+          slotMinTime="05:00:00"
+          slotMaxTime="24:00:00"
+          events={{
+            googleCalendarId: GOOGLE_CALENDAR_ID,
+            className: 'gcal-event',
+          }}
+          googleCalendarApiKey={GOOGLE_API_KEY}
+          eventClick={handleEventClick}
+          dateClick={handleDateClick}
         />
       </div>
 
-      {/* Event Details Popup */}
+      {/* ── Popup ── */}
       {showEventPopup && selectedEvent && (
         <>
           <div className={styles.popupOverlay} onClick={handleClosePopup} />
-          <div
-            className={styles.eventPopup}
-            style={{
-              left: `${popupPosition.x}px`,
-              top: `${popupPosition.y}px`,
-              transform: 'translateX(-50%) translateY(-100%)',
-            }}
-          >
+          <div className={styles.eventPopup}>
             <div className={styles.popupHeader}>
               <h3 className={styles.eventTitle}>{selectedEvent.title}</h3>
               <button className={styles.closeButton} onClick={handleClosePopup}>
@@ -256,26 +238,27 @@ export default function EventCalendar({ lang }: EventCalendarProps) {
               )}
 
               {selectedEvent.extendedProps?.description && (
-                <p className={styles.eventDescription}>{selectedEvent.extendedProps.description}</p>
+                <p className={styles.eventDescription}>
+                  {selectedEvent.extendedProps.description}
+                </p>
               )}
             </div>
 
             <div className={styles.popupActions}>
-              <button className={styles.addToCalendarButton} onClick={() => handleAddEventToCalendar(selectedEvent)}>
-                <FiPlus
-                  style={{
-                    verticalAlign: 'middle',
-                    marginRight: 3,
-                    color: 'inherit',
-                    fontSize: 20,
-                  }}
-                />
+              <button
+                className={styles.addToCalendarButton}
+                onClick={() => handleAddToCalendar(selectedEvent)}
+              >
+                <FiPlus style={{ marginRight: 3, fontSize: 20 }} />
                 Add to Calendar
               </button>
 
               {selectedEvent.url && (
-                <button className={styles.viewDetailsButton} onClick={() => window.open(selectedEvent.url, '_blank')}>
-                  <FiEye style={{ verticalAlign: 'middle', marginRight: 3, color: 'inherit', fontSize: 20 }} />
+                <button
+                  className={styles.viewDetailsButton}
+                  onClick={() => window.open(selectedEvent.url as string, '_blank')}
+                >
+                  <FiEye style={{ marginRight: 3, fontSize: 20 }} />
                   View Details
                 </button>
               )}
