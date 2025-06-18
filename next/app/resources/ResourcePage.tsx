@@ -110,6 +110,7 @@ export default function ResourcePage() {
       website: location.website || '',
       lat: location.lat || null,
       lng: location.lng || null,
+      description: location.description || null,
     };
   };
 
@@ -174,6 +175,7 @@ export default function ResourcePage() {
                         website={cardProps.website}
                         lat={cardProps.lat}
                         lng={cardProps.lng}
+                        description={cardProps.description}
                       />
                     );
                   })

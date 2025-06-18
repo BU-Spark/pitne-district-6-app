@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './ResourceCard.css';
 import { MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 import { categoryMeta, groupColors } from '../../utils/categoryMeta';
@@ -24,9 +24,10 @@ interface ResourceCardProps {
   icon?: React.ReactNode;
   category: string;
   title: string;
+  description?: string | null;
   email: string | null;
   contact: string | null;
-  website: string;
+  website: string | null;
   lat?: number | null;
   lng?: number | null;
 }
@@ -41,7 +42,21 @@ function resolveCssColor(value: string): string {
   return value;
 }
 
-const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, email, contact, website, lat, lng }) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({
+  icon,
+  category,
+  title,
+  description,
+  email,
+  contact,
+  website,
+  lat,
+  lng,
+}) => {
+  const [showModal, setShowModal] = useState(false); //  new state for popup modal
+  useEffect(() => {
+    console.log('🧪 ResourceCard description:', description);
+  }, [description]);
   const mapsLink = lat != null && lng != null ? `https://www.google.com/maps?q=${lat},${lng}` : null;
   const meta = categoryMeta[category] || { group: 'community' };
   const rawColor = groupColors[meta.group] || '#091F2F';
@@ -51,7 +66,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
   return (
     <div className="resource-card">
       <div className="slider">
-        {/* First card: Initial view with category and title */}
+        {/* first card */}
         <div className="slide-out">
           <div className="card-header">
             <div className="category-pill" style={{ background: groupColor }}>
@@ -59,15 +74,31 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
               <span className="category-text">{category}</span>
             </div>
           </div>
+
           <div className="card-content">
             <h2 className="resource-title">{title}</h2>
           </div>
         </div>
-        {/* Second card: Contact details on hover */}
+
+        {/* second card */}
         <div className="slide-in" style={{ background: lighterColor }}>
           <div className="contact-header">
             <h3 className="contact-title">{title}</h3>
           </div>
+
+          {/* showing one line */}
+          {description && (
+            <div className="description-container">
+              <p
+                className="description-text truncated"
+                onClick={() => setShowModal(true)} 
+                title="Click to view full description"
+              >
+                {description}
+              </p>
+            </div>
+          )}
+
           <div className="contact-info">
             {email && (
               <div className="contact-row">
@@ -86,7 +117,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
             {website && (
               <div className="contact-row">
                 <ExternalLink size={16} className="contact-icon" />
-                <a href={website} target="_blank" rel="noopener noreferrer" className="contact-link" title={website}>
+                <a href={website} target="_blank" rel="noopener noreferrer" className="contact-link">
                   Visit Website
                 </a>
               </div>
@@ -94,13 +125,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
             {mapsLink && (
               <div className="contact-row">
                 <MapPin size={16} className="contact-icon" />
-                <a
-                  href={mapsLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-link"
-                  title="Open location in Google Maps"
-                >
+                <a href={mapsLink} target="_blank" rel="noopener noreferrer" className="contact-link">
                   View Directions
                 </a>
               </div>
@@ -108,6 +133,19 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ icon, category, title, emai
           </div>
         </div>
       </div>
+
+      {/*  project description modal */}
+      {showModal && (
+        <div className="description-popup-overlay" onClick={() => setShowModal(false)}>
+          <div className="description-popup" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setShowModal(false)}>
+              ×
+            </button>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
