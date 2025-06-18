@@ -6,11 +6,11 @@ import styles from './PollResults.module.css';
 import { Users } from 'lucide-react';
 
 interface PollResultsProps {
-  pollId: number;
+  pollDocumentId: string;
   userChoice?: string;
 }
 
-const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
+const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice }) => {
   const [results, setResults] = useState<PollResultsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [animateResults, setAnimateResults] = useState(false);
@@ -18,7 +18,7 @@ const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
   useEffect(() => {
     const loadResults = async () => {
       try {
-        const pollResults = await fetchPollResults(pollId);
+        const pollResults = await fetchPollResults(pollDocumentId);
         setResults(pollResults);
 
         // Trigger animation after a short delay
@@ -33,7 +33,7 @@ const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
     };
 
     loadResults();
-  }, [pollId]);
+  }, [pollDocumentId]);
 
   if (isLoading) {
     return (

@@ -14,6 +14,8 @@ interface PollModalProps {
 const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
   const [selectedChoice, setSelectedChoice] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [region, setRegion] = useState<'Jamaica Plain' | 'West Roxbury' | ''>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -24,10 +26,10 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!selectedChoice || !email) {
+    if (!selectedChoice || !email || !address || !region) {
       setSubmitStatus({
         type: 'error',
-        message: 'Please select an option and enter your email address.',
+        message: 'Please fill in all required fields: choice, email, address, and region.',
       });
       return;
     }
@@ -36,7 +38,13 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
     setSubmitStatus({ type: null, message: '' });
 
     try {
-      const result = await submitPollResponse(poll.id, email, selectedChoice);
+      const result = await submitPollResponse(
+        poll.documentId,
+        email,
+        selectedChoice,
+        address,
+        region as 'Jamaica Plain' | 'West Roxbury'
+      );
 
       if (result.success) {
         setSubmitStatus({
@@ -79,7 +87,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
         </button>
 
         {showResults ? (
-          <PollResults pollId={poll.id} userChoice={selectedChoice} />
+          <PollResults pollDocumentId={poll.documentId} userChoice={selectedChoice} />
         ) : (
           <>
             <div className={styles.header}>
@@ -122,6 +130,49 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
                 />
               </div>
 
+              <div className={styles.addressSection}>
+                <label htmlFor="address" className={styles.addressLabel}>
+                  Address:
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Enter your address"
+                  className={styles.addressInput}
+                  required
+                />
+              </div>
+
+              <div className={styles.regionSection}>
+                <h3 className={styles.regionTitle}>Select your region:</h3>
+                <div className={styles.regionChoices}>
+                  <label className={styles.regionLabel}>
+                    <input
+                      type="radio"
+                      name="region"
+                      value="Jamaica Plain"
+                      checked={region === 'Jamaica Plain'}
+                      onChange={(e) => setRegion(e.target.value as 'Jamaica Plain' | 'West Roxbury')}
+                      className={styles.regionInput}
+                    />
+                    <span className={styles.regionText}>Jamaica Plain</span>
+                  </label>
+                  <label className={styles.regionLabel}>
+                    <input
+                      type="radio"
+                      name="region"
+                      value="West Roxbury"
+                      checked={region === 'West Roxbury'}
+                      onChange={(e) => setRegion(e.target.value as 'Jamaica Plain' | 'West Roxbury')}
+                      className={styles.regionInput}
+                    />
+                    <span className={styles.regionText}>West Roxbury</span>
+                  </label>
+                </div>
+              </div>
+
               {submitStatus.type && (
                 <div className={`${styles.statusMessage} ${styles[submitStatus.type]}`}>
                   {submitStatus.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
@@ -131,7 +182,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
 
               <button
                 type="submit"
-                disabled={isSubmitting || !selectedChoice || !email}
+                disabled={isSubmitting || !selectedChoice || !email || !address || !region}
                 className={styles.submitButton}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Vote'}

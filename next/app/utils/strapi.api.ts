@@ -127,6 +127,8 @@ export interface PollResponse {
   email: string;
   selected_choice: string;
   submitted_at: string;
+  Address: string;
+  Region: 'Jamaica Plain' | 'West Roxbury';
   poll?: Poll;
   createdAt: string;
   updatedAt: string;
@@ -160,16 +162,6 @@ export interface StrapiResponse<T> {
       total: number;
     };
   };
-}
-
-export interface Newsletter {
-  id: number;
-  month_year: string;
-  english_pdf: { data: StrapiMedia | null };
-  spanish_pdf?: { data: StrapiMedia | null };
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
 }
 
 /**
@@ -477,14 +469,16 @@ export async function fetchActivePoll(): Promise<Poll | null> {
  * Submit a poll response
  */
 export async function submitPollResponse(
-  pollId: number,
+  pollDocumentId: string,
   email: string,
-  selectedChoice: string
+  selectedChoice: string,
+  address: string,
+  region: 'Jamaica Plain' | 'West Roxbury'
 ): Promise<{ success: boolean; message: string }> {
   try {
     // First check if user already voted for this poll
     const existingResponse = await fetch(
-      `${STRAPI_BASE_URL}/api/poll-responses?filters[email][$eq]=${encodeURIComponent(email)}&filters[poll][id][$eq]=${pollId}&publicationState=live`
+      `${STRAPI_BASE_URL}/api/poll-responses?filters[email][$eq]=${encodeURIComponent(email)}&filters[poll][documentId][$eq]=${pollDocumentId}&publicationState=live`
     );
 
     if (existingResponse.ok) {
@@ -508,7 +502,11 @@ export async function submitPollResponse(
           email,
           selected_choice: selectedChoice,
           submitted_at: new Date().toISOString(),
-          poll: pollId,
+          Address: address,
+          Region: region,
+          poll: {
+            connect: [pollDocumentId],
+          },
         },
       }),
     });
@@ -534,21 +532,21 @@ export async function submitPollResponse(
 /**
  * Fetch poll results for a specific poll
  */
-export async function fetchPollResults(pollId: number): Promise<PollResultsResponse> {
+export async function fetchPollResults(pollDocumentId: string): Promise<PollResultsResponse> {
   try {
-    // First fetch all polls and find the one with matching ID
-    const pollsResponse = await fetch(`${STRAPI_BASE_URL}/api/polls?publicationState=live`);
-    if (!pollsResponse.ok) {
-      throw new Error(`Failed to fetch polls: ${pollsResponse.statusText}`);
+    // First fetch the specific poll by documentId
+    const pollResponse = await fetch(`${STRAPI_BASE_URL}/api/polls/${pollDocumentId}?publicationState=live`);
+    if (!pollResponse.ok) {
+      throw new Error(`Failed to fetch poll: ${pollResponse.statusText}`);
     }
-    const pollsResult: StrapiResponse<Poll[]> = await pollsResponse.json();
+    const pollResult: StrapiResponse<Poll> = await pollResponse.json();
+    const poll = pollResult.data;
 
-    const poll = pollsResult.data.find((p) => p.id === pollId);
     if (!poll) {
       throw new Error('Poll not found');
     }
 
-    // Fetch all poll responses with populated poll relation and filter by poll ID on client side
+    // Fetch all poll responses with populated poll relation and filter by poll documentId on client side
     const responsesResponse = await fetch(
       `${STRAPI_BASE_URL}/api/poll-responses?populate=poll&publicationState=live&pagination[limit]=1000`
     );
@@ -558,8 +556,8 @@ export async function fetchPollResults(pollId: number): Promise<PollResultsRespo
     const responsesResult: StrapiResponse<PollResponse[]> = await responsesResponse.json();
     // Filter responses for this specific poll
     const responses = responsesResult.data.filter((response) => {
-      // Check if response has poll relation and matches our poll ID
-      return response.poll && (response.poll as Poll).id === pollId;
+      // Check if response has poll relation and matches our poll documentId
+      return response.poll && (response.poll as Poll).documentId === pollDocumentId;
     });
 
     // Calculate vote counts for each choice
