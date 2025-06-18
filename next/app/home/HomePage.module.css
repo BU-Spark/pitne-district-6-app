@@ -27,6 +27,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.slideUp {
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .overlay::before {
@@ -34,7 +59,7 @@
   position: absolute;
   inset: 0;
   background-color: var(--color-charles-blue);
-  opacity: 0.6;
+  opacity: 0.8;
   z-index: 0;
 }
 
@@ -346,6 +371,7 @@
     transform: translateX(40px);
   }
 }
+
 .topButtons {
   position: absolute;
   top: 20px;

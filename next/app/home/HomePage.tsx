@@ -24,6 +24,7 @@ const HomePage = () => {
   const [imageAnimationClass, setImageAnimationClass] = useState<string>('in-right');
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [isZoomedFirstOpen, setIsZoomedFirstOpen] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(true);
 
   const allPhotos = flyers
@@ -40,10 +41,12 @@ const HomePage = () => {
     setSelectedPhotoIndex(index);
     setImageAnimationClass('in-right');
     setIsZoomed(true);
+    setIsZoomedFirstOpen(true);
   };
 
   const closeZoom = () => {
     setIsZoomed(false);
+    setTimeout(() => setIsZoomedFirstOpen(false), 300);
   };
 
   const showPrev = () => {
@@ -122,7 +125,7 @@ const HomePage = () => {
             </Masonry>
 
             {isZoomed && selectedPhotoIndex !== null && allPhotos[selectedPhotoIndex] && (
-              <div className={styles.zoomOverlay}>
+              <div className={`${styles.zoomOverlay} ${isZoomedFirstOpen ? '' : styles.fadeSlideIn}`}>
                 <div className={styles.topButtons}>
                   <a
                     className={styles.iconBtn}

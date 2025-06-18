@@ -7,6 +7,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import React from 'react';
 import { categoryMeta, groupColors, groupNames } from '../../utils/categoryMeta';
 import { Location } from '../../utils/strapi.api';
+import { PlusCircle } from 'lucide-react';
 
 interface SidebarProps {
   selectedCategories: Set<string>;
@@ -70,6 +71,17 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
             </svg>
           </div>
           <h2>SEARCH</h2>
+          <div className="sidebar-links">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfdzVxHh_YYVQCkTCg-rIVm9tOQURprBrqXhlbiVjvqraYmFQ/viewform?usp=header"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sidebar-link submit-resource-link"
+            >
+              <PlusCircle size={14} />
+              Submit Resource
+            </a>
+          </div>
         </div>
         <SearchBar onSearchResults={handleSearchResults} onSearchStateChange={handleSearchStateChange} />
       </div>
@@ -141,18 +153,6 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
             })()}
           </div>
         </div>
-      </div>
-
-      {/* Submit Resource Button */}
-      <div className="sidebar-section">
-        <a
-          href="https://your-submit-form-link.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="submit-resource-button"
-        >
-          Submit a Resource
-        </a>
       </div>
     </aside>
   );
