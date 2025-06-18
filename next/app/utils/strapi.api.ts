@@ -135,10 +135,17 @@ export interface PollResponse {
   publishedAt: string;
 }
 
+export interface RegionalBreakdown {
+  region: 'Jamaica Plain' | 'West Roxbury';
+  votes: number;
+  percentage: number;
+}
+
 export interface PollResult {
   choice: string;
   votes: number;
   percentage: number;
+  regionalBreakdown: RegionalBreakdown[];
 }
 
 export interface PollResultsResponse {
@@ -560,26 +567,54 @@ export async function fetchPollResults(pollDocumentId: string): Promise<PollResu
       return response.poll && (response.poll as Poll).documentId === pollDocumentId;
     });
 
-    // Calculate vote counts for each choice
+    // Calculate vote counts for each choice and region
     const voteCounts: Record<string, number> = {};
+    const regionalVoteCounts: Record<string, Record<string, number>> = {};
+
     poll.choices.forEach((choice) => {
       voteCounts[choice] = 0;
+      regionalVoteCounts[choice] = {
+        'Jamaica Plain': 0,
+        'West Roxbury': 0,
+      };
     });
 
     responses.forEach((response) => {
       if (poll.choices.includes(response.selected_choice)) {
         voteCounts[response.selected_choice]++;
+        if (response.Region) {
+          regionalVoteCounts[response.selected_choice][response.Region]++;
+        }
       }
     });
 
     const totalVotes = responses.length;
 
-    // Calculate percentages and prepare results
-    const results: PollResult[] = poll.choices.map((choice) => ({
-      choice,
-      votes: voteCounts[choice],
-      percentage: totalVotes > 0 ? Math.round((voteCounts[choice] / totalVotes) * 100) : 0,
-    }));
+    // Calculate percentages and prepare results with regional breakdown
+    const results: PollResult[] = poll.choices.map((choice) => {
+      const choiceVotes = voteCounts[choice];
+      const choicePercentage = totalVotes > 0 ? Math.round((choiceVotes / totalVotes) * 100) : 0;
+
+      const regionalBreakdown: RegionalBreakdown[] = [
+        {
+          region: 'Jamaica Plain',
+          votes: regionalVoteCounts[choice]['Jamaica Plain'],
+          percentage: totalVotes > 0 ? Math.round((regionalVoteCounts[choice]['Jamaica Plain'] / totalVotes) * 100) : 0,
+        },
+        {
+          region: 'West Roxbury',
+          votes: regionalVoteCounts[choice]['West Roxbury'],
+          percentage: totalVotes > 0 ? Math.round((regionalVoteCounts[choice]['West Roxbury'] / totalVotes) * 100) : 0,
+        },
+      ];
+
+      return {
+        choice,
+        votes: choiceVotes,
+        percentage: choicePercentage,
+        regionalBreakdown,
+      };
+    });
 
     return {
       poll: {
