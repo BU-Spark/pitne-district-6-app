@@ -1,16 +1,14 @@
 .resultsContainer {
-  padding: 1.5rem;
+  /* padding: 1.5rem; */
   max-width: 500px;
   margin: 0 auto;
 }
 
 .header {
-  font-family: var(--font-primary);
-
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .titleRow {
@@ -21,9 +19,7 @@
 }
 
 .title {
-  font-family: var(--font-primary);
   text-transform: uppercase;
-  margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -34,14 +30,16 @@
   gap: 0.375rem;
   color: var(--color-dark-text);
   font-size: 0.875rem;
+  margin-bottom: 0.5rem;
 }
 
 .question {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.1rem;
   color: var(--color-dark-text);
-  margin-bottom: 1.5rem;
   line-height: 1.5;
+  margin-top: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
 
 .resultsGrid {
@@ -72,7 +70,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .choiceText {
@@ -80,13 +78,6 @@
   color: var(--color-dark-text);
   flex: 1;
   margin-right: 1rem;
-}
-
-.stats {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
 }
 
 .percentage {
@@ -97,6 +88,8 @@
 
 .voteCount {
   color: var(--color-charles-blue);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
 }
 
 .barContainer {
@@ -150,7 +143,7 @@
 }
 
 .footer {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   text-align: center;
 }
 
@@ -200,7 +193,54 @@
   }
 }
 
-/* Mobile responsive */
+/* Regional Breakdown */
+.regionalBreakdown {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.regionalItem {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+  padding: 0.25rem 0;
+}
+
+.regionalLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-dark-text);
+  margin-bottom: 0.25rem;
+}
+
+.regionalBarContainer {
+  position: relative;
+  height: 0.3rem;
+  background: var(--color-border-light);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.regionalBar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
 @media (max-width: 640px) {
   .resultsContainer {
     padding: 1rem;
@@ -212,8 +252,8 @@
     gap: 0.5rem;
   }
 
-  .stats {
-    align-self: flex-end;
+  .voteCount {
+    margin-top: 0.5rem;
   }
 
   .title {
@@ -221,103 +261,6 @@
   }
 
   .question {
-    font-size: 0.875rem;
-  }
-
-  .regionalBreakdown {
-    margin-top: 0.5rem;
-  }
-
-  .regionalTitle {
-    font-size: 0.75rem;
-  }
-
-  .regionName {
-    font-size: 0.75rem;
-  }
-
-  .regionalPercentage {
-    font-size: 0.75rem;
-  }
-
-  .regionalVoteCount {
-    font-size: 0.7rem;
-  }
-}
-
-/* Regional Breakdown Styles */
-.regionalBreakdown {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--color-border-light);
-}
-
-.regionalTitle {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-charles-blue);
-  margin-bottom: 0.5rem;
-}
-
-.regionalStats {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.regionalItem {
-  opacity: 0;
-  animation: slideInUp 0.6s ease-out forwards;
-}
-
-.regionalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.25rem;
-}
-
-.regionName {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--color-dark-text);
-}
-
-.regionalPercentage {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-charles-blue);
-}
-
-.regionalBarContainer {
-  position: relative;
-  height: 0.25rem;
-  background: var(--color-border-light);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 0.25rem;
-}
-
-.regionalBar {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.regionalVoteCount {
-  font-size: 0.7rem;
-  color: var(--color-dark-text);
-  text-align: right;
-  opacity: 0.8;
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    font-size: 0.9rem;
   }
 }

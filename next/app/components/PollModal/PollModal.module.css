@@ -10,10 +10,53 @@
   animation: fadeIn 0.3s ease;
 }
 
+.modalHeader {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0 0.3rem 0;
+
+  z-index: 10;
+  border-bottom: 2px solid var(--color-border-light);
+  min-height: 64px; /* ensures stafble header height */
+}
+
+.modalHeader .title {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-charles-blue);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.modalHeader .closeButton {
+  background: none;
+  border: none;
+  color: var(--color-border-light);
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  transition: all 0.2s ease;
+  font-family: var(--font-primary);
+}
+
+.modalHeader .closeButton:hover {
+  background-color: var(--color-alt-gray-hover);
+  color: var(--color-charles-blue);
+}
+
 .modal {
   background: var(--color-white);
+  padding: 0rem 2rem 2rem 2rem;
   border-radius: 12px;
-  padding: 2rem;
   max-width: 480px;
   width: 90%;
   max-height: 90vh;
@@ -23,47 +66,25 @@
   animation: slideUp 0.3s ease;
 }
 
-.closeButton {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  color: var(--color-border-light);
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  font-family: var(--font-primary);
-}
-
-.closeButton:hover {
-  background-color: var(--color-alt-gray-hover);
-  color: var(--color-charles-blue);
-}
-
 .header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   text-align: center;
-}
-
-.title {
-  text-transform: uppercase;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-charles-blue);
-  margin-bottom: 0.5rem;
 }
 
 .question {
   font-size: 1.1rem;
   color: var(--color-dark-text);
   line-height: 1.5;
-  margin: 0;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.fieldNote {
+  font-size: 0.83rem;
+  color: var(--color-border-light);
+  font-weight: 400;
+  margin-left: 3px;
+  /* font-style: italic; */
 }
 
 .form {
@@ -249,6 +270,7 @@
 }
 
 .submitButton {
+  text-transform: uppercase;
   background: var(--color-freedom-trail-red);
   color: var(--color-white);
   border: none;
@@ -330,4 +352,19 @@
     margin: 0.5rem;
     width: calc(100% - 1rem);
   }
+}
+
+.stackedRegionalBarContainer {
+  position: relative;
+  height: 0.5rem;
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+
+.stackedSegment {
+  height: 100%;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }

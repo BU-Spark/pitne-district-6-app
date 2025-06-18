@@ -672,7 +672,9 @@ export interface ApiPollResponsePollResponse
       Schema.Attribute.Private;
     poll: Schema.Attribute.Relation<'manyToOne', 'api::poll.poll'>;
     publishedAt: Schema.Attribute.DateTime;
-    Region: Schema.Attribute.Enumeration<['Jamaica Plain', 'West Roxbury']>;
+    Region: Schema.Attribute.Enumeration<
+      ['Jamaica Plain', 'West Roxbury', 'Other']
+    >;
     selected_choice: Schema.Attribute.String & Schema.Attribute.Required;
     submitted_at: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;

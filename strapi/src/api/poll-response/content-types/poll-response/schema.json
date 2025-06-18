@@ -34,7 +34,8 @@
       "type": "enumeration",
       "enum": [
         "Jamaica Plain",
-        "West Roxbury"
+        "West Roxbury",
+        "Other"
       ]
     }
   }

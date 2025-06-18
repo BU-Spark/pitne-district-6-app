@@ -21,7 +21,6 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
         const pollResults = await fetchPollResults(pollDocumentId);
         setResults(pollResults);
 
-        // Trigger animation after a short delay
         setTimeout(() => {
           setAnimateResults(true);
         }, 300);
@@ -56,19 +55,14 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
 
   return (
     <div className={styles.resultsContainer}>
-      <div className={styles.header}>
-        <div className={styles.titleRow}>
-          <h3 className={styles.title}>Poll Results</h3>
-        </div>
-        <div className={styles.totalVotes}>
-          <Users size={16} />
-          <span>
-            {results.totalVotes} {results.totalVotes === 1 ? 'vote' : 'votes'}
-          </span>
-        </div>
-      </div>
-
       <div className={styles.question}>{results.poll.Question}</div>
+
+      <div className={styles.totalVotes}>
+        <Users size={16} />
+        <span>
+          {results.totalVotes} {results.totalVotes === 1 ? 'vote' : 'votes'}
+        </span>
+      </div>
 
       <div className={styles.resultsGrid}>
         {results.results.map((result, index) => {
@@ -82,10 +76,7 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
             >
               <div className={styles.choiceHeader}>
                 <span className={styles.choiceText}>{result.choice}</span>
-                <div className={styles.stats}>
-                  <span className={styles.percentage}>{result.percentage}%</span>
-                  <span className={styles.voteCount}>({result.votes})</span>
-                </div>
+                <span className={styles.percentage}>{result.percentage}%</span>
               </div>
 
               <div className={styles.barContainer}>
@@ -98,38 +89,30 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
                 />
               </div>
 
-              {/* Regional Breakdown */}
-              {result.votes > 0 && (
-                <div className={styles.regionalBreakdown}>
-                  <div className={styles.regionalTitle}>Regional Distribution:</div>
-                  <div className={styles.regionalStats}>
-                    {result.regionalBreakdown.map((regional, regionalIndex) => (
-                      <div
-                        key={regional.region}
-                        className={styles.regionalItem}
-                        style={{
-                          animationDelay: `${index * 100 + regionalIndex * 50 + 200}ms`,
-                        }}
-                      >
-                        <div className={styles.regionalHeader}>
-                          <span className={styles.regionName}>{regional.region}</span>
-                          <span className={styles.regionalPercentage}>{regional.percentage}%</span>
-                        </div>
-                        <div className={styles.regionalBarContainer}>
-                          <div
-                            className={styles.regionalBar}
-                            style={{
-                              width: animateResults ? `${regional.percentage}%` : '0%',
-                              backgroundColor: regional.region === 'Jamaica Plain' ? '#10b981' : '#f59e0b',
-                            }}
-                          />
-                        </div>
-                        <div className={styles.regionalVoteCount}>
-                          {regional.votes} {regional.votes === 1 ? 'vote' : 'votes'}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+              <div className={styles.voteCount}>
+                {result.votes} {result.votes === 1 ? 'vote' : 'votes'}
+              </div>
+              {result.votes > 0 && result.regionalBreakdown.length > 0 && (
+                <div className={styles.stackedRegionalBarContainer}>
+                  {result.regionalBreakdown.map((regional, regionalIndex) => (
+                    <div
+                      key={regional.region}
+                      className={styles.stackedSegment}
+                      style={{
+                        width: animateResults ? `${regional.percentage}%` : '0%',
+                        backgroundColor:
+                          regional.region === 'Jamaica Plain'
+                            ? '#10b981'
+                            : regional.region === 'West Roxbury'
+                              ? '#f59e0b'
+                              : '#64748b',
+                        animationDelay: `${index * 100 + regionalIndex * 50 + 200}ms`,
+                      }}
+                      title={`${regional.region}: ${regional.percentage}% (${regional.votes} ${
+                        regional.votes === 1 ? 'vote' : 'votes'
+                      })`}
+                    />
+                  ))}
                 </div>
               )}
 
@@ -144,7 +127,7 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
       </div>
 
       <div className={styles.footer}>
-        <p className={styles.thanksMessage}>Thank you for participating in our community poll!</p>
+        <p className={styles.thanksMessage}>Thank you for participating in the community poll!</p>
       </div>
     </div>
   );

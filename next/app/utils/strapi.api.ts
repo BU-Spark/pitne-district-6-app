@@ -538,10 +538,9 @@ export async function submitPollResponse(
 
 /**
  * Fetch poll results for a specific poll
- */
-export async function fetchPollResults(pollDocumentId: string): Promise<PollResultsResponse> {
+ */ export async function fetchPollResults(pollDocumentId: string): Promise<PollResultsResponse> {
   try {
-    // First fetch the specific poll by documentId
+    // Fetch the poll
     const pollResponse = await fetch(`${STRAPI_BASE_URL}/api/polls/${pollDocumentId}?publicationState=live`);
     if (!pollResponse.ok) {
       throw new Error(`Failed to fetch poll: ${pollResponse.statusText}`);
@@ -553,7 +552,7 @@ export async function fetchPollResults(pollDocumentId: string): Promise<PollResu
       throw new Error('Poll not found');
     }
 
-    // Fetch all poll responses with populated poll relation and filter by poll documentId on client side
+    // Fetch responses
     const responsesResponse = await fetch(
       `${STRAPI_BASE_URL}/api/poll-responses?populate=poll&publicationState=live&pagination[limit]=1000`
     );
@@ -561,13 +560,12 @@ export async function fetchPollResults(pollDocumentId: string): Promise<PollResu
       throw new Error(`Failed to fetch poll responses: ${responsesResponse.statusText}`);
     }
     const responsesResult: StrapiResponse<PollResponse[]> = await responsesResponse.json();
-    // Filter responses for this specific poll
+
     const responses = responsesResult.data.filter((response) => {
-      // Check if response has poll relation and matches our poll documentId
       return response.poll && (response.poll as Poll).documentId === pollDocumentId;
     });
 
-    // Calculate vote counts for each choice and region
+    // Initialize counts
     const voteCounts: Record<string, number> = {};
     const regionalVoteCounts: Record<string, Record<string, number>> = {};
 
@@ -576,37 +574,42 @@ export async function fetchPollResults(pollDocumentId: string): Promise<PollResu
       regionalVoteCounts[choice] = {
         'Jamaica Plain': 0,
         'West Roxbury': 0,
+        Other: 0,
       };
     });
 
+    // Count votes
     responses.forEach((response) => {
       if (poll.choices.includes(response.selected_choice)) {
         voteCounts[response.selected_choice]++;
-        if (response.Region) {
-          regionalVoteCounts[response.selected_choice][response.Region]++;
+        const region = response.Region || 'Other';
+        if (regionalVoteCounts[response.selected_choice][region] !== undefined) {
+          regionalVoteCounts[response.selected_choice][region]++;
+        } else {
+          regionalVoteCounts[response.selected_choice]['Other']++;
         }
       }
     });
 
     const totalVotes = responses.length;
 
-    // Calculate percentages and prepare results with regional breakdown
+    // Build results with correct regional percentages
     const results: PollResult[] = poll.choices.map((choice) => {
       const choiceVotes = voteCounts[choice];
       const choicePercentage = totalVotes > 0 ? Math.round((choiceVotes / totalVotes) * 100) : 0;
 
-      const regionalBreakdown: RegionalBreakdown[] = [
-        {
-          region: 'Jamaica Plain',
-          votes: regionalVoteCounts[choice]['Jamaica Plain'],
-          percentage: totalVotes > 0 ? Math.round((regionalVoteCounts[choice]['Jamaica Plain'] / totalVotes) * 100) : 0,
-        },
-        {
-          region: 'West Roxbury',
-          votes: regionalVoteCounts[choice]['West Roxbury'],
-          percentage: totalVotes > 0 ? Math.round((regionalVoteCounts[choice]['West Roxbury'] / totalVotes) * 100) : 0,
-        },
-      ];
+      const regions = ['Jamaica Plain', 'West Roxbury', 'Other'];
+
+      const regionalBreakdown: RegionalBreakdown[] = regions.map((region) => {
+        const regionVotes = regionalVoteCounts[choice][region];
+        const regionPercentage = choiceVotes > 0 ? Math.round((regionVotes / choiceVotes) * 100) : 0;
+
+        return {
+          region,
+          votes: regionVotes,
+          percentage: regionPercentage,
+        };
+      });
 
       return {
         choice,

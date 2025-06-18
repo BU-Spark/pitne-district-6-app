@@ -18,7 +18,7 @@
 
 .sidebar-scroll-area {
   overflow-y: auto;
-  height: calc(100vh - 260px);
+  height: calc(100vh - 255px);
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 0;
@@ -39,6 +39,7 @@
 }
 
 .search-header {
+  padding: 16px 0 8px 0;
   padding-top: 32px;
   margin-bottom: 16px;
 }
@@ -125,39 +126,12 @@
   letter-spacing: 0.5px;
 }
 
-/* 
-.submit-resource-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem auto 0 auto;
-  color: var(--color-optimistic-blue);
-  font-family: var(--font-primary);
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: underline;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.submit-resource-button:hover {
-  color: var(--color-charles-blue);
-  text-decoration: underline;
-}
-
-.submit-divider {
-  border-bottom: 2px solid var(--color-border-light);
-  margin-bottom: 1rem;
-} */
-
 .sidebar-link.submit-resource-link {
-  font-size: 0.9rem; /* slightly bigger */
-  font-weight: 400; /* bold */
+  font-size: 0.9rem;
+  font-weight: 400;
   display: inline-flex;
   align-items: center;
-  gap: 4px; /* spacing between icon and text */
+  gap: 4px;
   text-decoration: underline;
   color: var(--color-optimistic-blue);
   transition: color 0.2s ease;

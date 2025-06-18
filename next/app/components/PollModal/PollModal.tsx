@@ -15,7 +15,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
   const [selectedChoice, setSelectedChoice] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [address, setAddress] = useState<string>('');
-  const [region, setRegion] = useState<'Jamaica Plain' | 'West Roxbury' | ''>('');
+  const [region, setRegion] = useState<'Jamaica Plain' | 'West Roxbury' | 'Other' | ''>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -43,7 +43,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
         email,
         selectedChoice,
         address,
-        region as 'Jamaica Plain' | 'West Roxbury'
+        region as 'Jamaica Plain' | 'West Roxbury' | 'Other'
       );
 
       if (result.success) {
@@ -52,7 +52,6 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
           message: result.message,
         });
 
-        // Show results after a brief success message
         setTimeout(() => {
           setShowResults(true);
         }, 1500);
@@ -82,22 +81,23 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.modal}>
-        <button className={styles.closeButton} onClick={onClose} aria-label="Close poll">
-          <X size={24} />
-        </button>
+        <div className={styles.modalHeader}>
+          <h2 className={styles.title}>Community Poll</h2>
+          <button className={styles.closeButton} onClick={onClose} aria-label="Close poll">
+            <X size={24} />
+          </button>
+        </div>
 
         {showResults ? (
           <PollResults pollDocumentId={poll.documentId} userChoice={selectedChoice} />
         ) : (
           <>
             <div className={styles.header}>
-              <h2 className={styles.title}>Community Poll</h2>
               <p className={styles.question}>{poll.Question}</p>
             </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.choicesSection}>
-                <h3 className={styles.choicesTitle}>Select your choice:</h3>
                 <div className={styles.choices}>
                   {poll.choices.map((choice, index) => (
                     <label key={index} className={styles.choiceLabel}>
@@ -117,7 +117,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
 
               <div className={styles.emailSection}>
                 <label htmlFor="email" className={styles.emailLabel}>
-                  Email Address:
+                  Email <span className={styles.fieldNote}>(shared only with the Council)</span>
                 </label>
                 <input
                   type="email"
@@ -132,21 +132,21 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
 
               <div className={styles.addressSection}>
                 <label htmlFor="address" className={styles.addressLabel}>
-                  Address:
+                  Address <span className={styles.fieldNote}>(shared only with the Council)</span>
                 </label>
                 <input
                   type="text"
                   id="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Enter your address"
+                  placeholder="123 Main St, Boston, MA"
                   className={styles.addressInput}
                   required
                 />
               </div>
 
               <div className={styles.regionSection}>
-                <h3 className={styles.regionTitle}>Select your region:</h3>
+                <h3 className={styles.regionTitle}>Select your region</h3>
                 <div className={styles.regionChoices}>
                   <label className={styles.regionLabel}>
                     <input
@@ -154,7 +154,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
                       name="region"
                       value="Jamaica Plain"
                       checked={region === 'Jamaica Plain'}
-                      onChange={(e) => setRegion(e.target.value as 'Jamaica Plain' | 'West Roxbury')}
+                      onChange={(e) => setRegion(e.target.value as 'Jamaica Plain' | 'West Roxbury' | 'Other')}
                       className={styles.regionInput}
                     />
                     <span className={styles.regionText}>Jamaica Plain</span>
@@ -165,10 +165,21 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
                       name="region"
                       value="West Roxbury"
                       checked={region === 'West Roxbury'}
-                      onChange={(e) => setRegion(e.target.value as 'Jamaica Plain' | 'West Roxbury')}
+                      onChange={(e) => setRegion(e.target.value as 'Jamaica Plain' | 'West Roxbury' | 'Other')}
                       className={styles.regionInput}
                     />
                     <span className={styles.regionText}>West Roxbury</span>
+                  </label>
+                  <label className={styles.regionLabel}>
+                    <input
+                      type="radio"
+                      name="region"
+                      value="Other"
+                      checked={region === 'Other'}
+                      onChange={(e) => setRegion(e.target.value as 'Jamaica Plain' | 'West Roxbury' | 'Other')}
+                      className={styles.regionInput}
+                    />
+                    <span className={styles.regionText}>Other</span>
                   </label>
                 </div>
               </div>

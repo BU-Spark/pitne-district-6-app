@@ -2,8 +2,8 @@
   position: fixed;
   bottom: 80px;
   right: 20px;
-  width: 60px;
-  height: 60px;
+  width: 75px;
+  height: 75px;
   background-color: var(--color-freedom-trail-red);
   color: var(--color-white);
   border: none;
@@ -49,7 +49,7 @@
   border-radius: 50%;
   pointer-events: none;
   animation: pulse 2s ease;
-  animation-iteration-count: 3;
+  animation-iteration-count: 6;
   animation-fill-mode: forwards;
 }
 
