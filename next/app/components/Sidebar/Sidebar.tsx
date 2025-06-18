@@ -40,8 +40,6 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
   };
 
   const handleSearchResults = (results: Location[]) => {
-    // Always set searching to true when we get search results (even if empty)
-    // This ensures we show "No results" instead of falling back to all locations
     onSearchResults(results, true);
   };
 
@@ -143,6 +141,18 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategories, setSelectedCatego
             })()}
           </div>
         </div>
+      </div>
+
+      {/* Submit Resource Button */}
+      <div className="sidebar-section">
+        <a
+          href="https://your-submit-form-link.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="submit-resource-button"
+        >
+          Submit a Resource
+        </a>
       </div>
     </aside>
   );
