@@ -2,13 +2,21 @@
 
 import React, { useState } from 'react';
 import styles from './SubscribeFooter.module.css';
+import { X } from 'lucide-react';
 
 type SubscribeFooterProps = {
   subscribeUrl: string;
+  onFooterToggle: (visible: boolean) => void;
 };
 
-const SubscribeFooter: React.FC<SubscribeFooterProps> = ({ subscribeUrl }) => {
+const SubscribeFooter: React.FC<SubscribeFooterProps> = ({ subscribeUrl, onFooterToggle }) => {
   const [visible, setVisible] = useState(true);
+
+  const handleClose = () => {
+    setVisible(false);
+    onFooterToggle(false);
+  };
+
   if (!visible) return null;
 
   return (
@@ -19,8 +27,8 @@ const SubscribeFooter: React.FC<SubscribeFooterProps> = ({ subscribeUrl }) => {
           Subscribe
         </a>
       </div>
-      <button className={styles.close} onClick={() => setVisible(false)}>
-        &times;
+      <button className={styles.close} onClick={handleClose} aria-label="Close">
+        <X size={24} />
       </button>
     </footer>
   );

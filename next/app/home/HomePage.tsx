@@ -38,6 +38,7 @@ const HomePage = () => {
   const [imageAnimationClass, setImageAnimationClass] = useState<string>('in-right');
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(true);
 
   // Combine photos and flyers for zoom functionality
   const allPhotos = [
@@ -184,11 +185,13 @@ const HomePage = () => {
           </div>
         </section>
 
-        <SubscribeFooter subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform" />
+        <SubscribeFooter
+          subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform"
+          onFooterToggle={(visible: boolean) => setIsFooterVisible(visible)}
+        />
       </div>
 
-      {/* Poll Button - floating on the page */}
-      <PollButton />
+      <PollButton isFooterVisible={isFooterVisible} />
     </>
   );
 };

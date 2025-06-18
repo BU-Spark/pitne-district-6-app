@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { Poll, fetchActivePoll } from '../../utils/strapi.api';
 import PollModal from '../PollModal/PollModal';
 import styles from './PollButton.module.css';
-import { MessageSquare } from 'lucide-react';
+import { FaPoll } from 'react-icons/fa';
 
-const PollButton: React.FC = () => {
+const PollButton: React.FC<{ isFooterVisible: boolean }> = ({ isFooterVisible }) => {
   const [activePoll, setActivePoll] = useState<Poll | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const bottomOffset = isFooterVisible ? '85px' : '20px';
 
   useEffect(() => {
     const loadActivePoll = async () => {
@@ -34,7 +35,6 @@ const PollButton: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  // Don't render if no active poll or still loading
   if (isLoading || !activePoll) {
     return null;
   }
@@ -46,8 +46,9 @@ const PollButton: React.FC = () => {
         onClick={handleOpenModal}
         aria-label="Open poll"
         title="Take our community poll"
+        style={{ bottom: bottomOffset }}
       >
-        <MessageSquare size={24} />
+        <FaPoll size={24} />
         <span className={styles.pollText}>Poll</span>
         <div className={styles.pulse}></div>
       </button>

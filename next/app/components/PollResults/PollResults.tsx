@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { PollResultsResponse, PollResult, fetchPollResults } from '../../utils/strapi.api';
 import styles from './PollResults.module.css';
-import { BarChart3, Users } from 'lucide-react';
+import { Users } from 'lucide-react';
 
 interface PollResultsProps {
   pollId: number;
@@ -58,7 +58,6 @@ const PollResults: React.FC<PollResultsProps> = ({ pollId, userChoice }) => {
     <div className={styles.resultsContainer}>
       <div className={styles.header}>
         <div className={styles.titleRow}>
-          <BarChart3 size={20} />
           <h3 className={styles.title}>Poll Results</h3>
         </div>
         <div className={styles.totalVotes}>
