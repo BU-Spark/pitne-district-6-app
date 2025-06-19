@@ -1,12 +1,32 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'localhost',
-      'your-strapi-domain.com',
-      'dev--district-6-strapi.up.railway.app',
-      'd6-strapi-bucket.s3.amazonaws.com',
-      'd6-strapi-bucket.s3.us-east-1.amazonaws.com',
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'your-strapi-domain.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dev--district-6-strapi.up.railway.app',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'd6-strapi-bucket.s3.amazonaws.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'd6-strapi-bucket.s3.us-east-1.amazonaws.com',
+        pathname: '/**',
+      },
     ],
   },
 };

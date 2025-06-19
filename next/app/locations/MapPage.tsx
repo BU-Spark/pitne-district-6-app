@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar/Navbar';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Papa from 'papaparse';
 import wellknown from 'wellknown';
-import { categoryMeta, getIconForCategory } from '../utils/categoryMeta';
+import { categoryMeta, getIconForCategory, groupColors } from '../utils/categoryMeta';
 import { FaFilter } from 'react-icons/fa';
 import { FiPhone, FiMail, FiGlobe } from 'react-icons/fi';
 import { Location } from '../utils/strapi.api';
@@ -142,48 +142,55 @@ export default function MapPage() {
                   : '&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
               }
             />
-            {filteredLocations.map((loc) => (
-              <Marker key={loc.id} position={[loc.lat, loc.lng]} icon={getIconForCategory(loc.category)}>
-                <Popup>
-                  <div className="popup-content">
-                    <strong>
-                      <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {loc.name}
-                      </a>
-                    </strong>
-                    {loc.category && (
-                      <div className="inline-item">
-                        <i>{loc.category}</i>
-                      </div>
-                    )}
-                    {loc.website && (
-                      <div className="inline-item">
-                        <FiGlobe size={14} style={{ marginRight: 2 }} />
-                        <a href={loc.website} target="_blank" rel="noopener noreferrer">
-                          {loc.website}
+            {filteredLocations.map((loc) => {
+              const groupKey = categoryMeta[loc.category ?? '']?.group ?? 'community';
+              const markerColor = groupColors[groupKey] ?? 'var(--color-charles-blue)';
+
+              return (
+                <Marker key={loc.id} position={[loc.lat, loc.lng]} icon={getIconForCategory(loc.category)}>
+                  <Popup>
+                    <div className="popup-content">
+                      <strong>
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: markerColor }}
+                        >
+                          {loc.name}
                         </a>
-                      </div>
-                    )}
-                    {loc.phone && (
-                      <div className="inline-item">
-                        <FiPhone size={14} style={{ marginRight: 2 }} />
-                        {loc.phone}
-                      </div>
-                    )}
-                    {loc.email && (
-                      <div className="inline-item">
-                        <FiMail size={14} style={{ marginRight: 2 }} />
-                        <a href={`mailto:${loc.email}`}>{loc.email}</a>
-                      </div>
-                    )}
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
+                      </strong>
+
+                      {loc.category && <div className="inline-item category-item">{loc.category}</div>}
+
+                      {loc.website && (
+                        <div className="inline-item">
+                          <FiGlobe size={14} style={{ marginRight: 2 }} />
+                          <a href={loc.website} target="_blank" rel="noopener noreferrer">
+                            {loc.website}
+                          </a>
+                        </div>
+                      )}
+
+                      {loc.email && (
+                        <div className="inline-item">
+                          <FiMail size={14} style={{ marginRight: 2 }} />
+                          <a href={`mailto:${loc.email}`}>{loc.email}</a>
+                        </div>
+                      )}
+
+                      {loc.phone && (
+                        <div className="inline-item">
+                          <FiPhone size={14} style={{ marginRight: 2 }} />
+                          {loc.phone}
+                        </div>
+                      )}
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
+
             <Polygon
               positions={district6Coords}
               pathOptions={{

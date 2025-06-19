@@ -21,7 +21,7 @@
 
   z-index: 10;
   border-bottom: 2px solid var(--color-border-light);
-  min-height: 64px; /* ensures stafble header height */
+  min-height: 64px;
 }
 
 .modalHeader .title {
@@ -367,4 +367,21 @@
   height: 100%;
   transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+}
+
+.statusMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.statusMessage.success {
+  color: var(--color-freedom-trail-red);
+}
+
+.statusMessage.error {
+  color: var(--color-charles-blue);
 }

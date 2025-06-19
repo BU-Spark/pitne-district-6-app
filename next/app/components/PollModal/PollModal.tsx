@@ -38,13 +38,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
     setSubmitStatus({ type: null, message: '' });
 
     try {
-      const result = await submitPollResponse(
-        poll.documentId,
-        email,
-        selectedChoice,
-        address,
-        region as 'Jamaica Plain' | 'West Roxbury' | 'Other'
-      );
+      const result = await submitPollResponse(poll.documentId, email, selectedChoice, address, region);
 
       if (result.success) {
         setSubmitStatus({
@@ -146,7 +140,7 @@ const PollModal: React.FC<PollModalProps> = ({ poll, onClose }) => {
               </div>
 
               <div className={styles.regionSection}>
-                <h3 className={styles.regionTitle}>Select your region</h3>
+                <h3 className={styles.regionTitle}>Region</h3>
                 <div className={styles.regionChoices}>
                   <label className={styles.regionLabel}>
                     <input

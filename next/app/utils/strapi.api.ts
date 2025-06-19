@@ -127,8 +127,8 @@ export interface PollResponse {
   email: string;
   selected_choice: string;
   submitted_at: string;
-  Address: string;
-  Region: 'Jamaica Plain' | 'West Roxbury';
+  address: string;
+  region?: 'Jamaica Plain' | 'West Roxbury' | 'Other';
   poll?: Poll;
   createdAt: string;
   updatedAt: string;
@@ -136,7 +136,7 @@ export interface PollResponse {
 }
 
 export interface RegionalBreakdown {
-  region: 'Jamaica Plain' | 'West Roxbury';
+  region: 'Jamaica Plain' | 'West Roxbury' | 'Other';
   votes: number;
   percentage: number;
 }
@@ -480,7 +480,7 @@ export async function submitPollResponse(
   email: string,
   selectedChoice: string,
   address: string,
-  region: 'Jamaica Plain' | 'West Roxbury'
+  region: 'Jamaica Plain' | 'West Roxbury' | 'Other'
 ): Promise<{ success: boolean; message: string }> {
   try {
     // First check if user already voted for this poll
@@ -509,8 +509,8 @@ export async function submitPollResponse(
           email,
           selected_choice: selectedChoice,
           submitted_at: new Date().toISOString(),
-          Address: address,
-          Region: region,
+          address: address,
+          region: region,
           poll: {
             connect: [pollDocumentId],
           },
@@ -567,7 +567,7 @@ export async function submitPollResponse(
 
     // Initialize counts
     const voteCounts: Record<string, number> = {};
-    const regionalVoteCounts: Record<string, Record<string, number>> = {};
+    const regionalVoteCounts: Record<string, Record<'Jamaica Plain' | 'West Roxbury' | 'Other', number>> = {};
 
     poll.choices.forEach((choice) => {
       voteCounts[choice] = 0;
@@ -582,7 +582,7 @@ export async function submitPollResponse(
     responses.forEach((response) => {
       if (poll.choices.includes(response.selected_choice)) {
         voteCounts[response.selected_choice]++;
-        const region = response.Region || 'Other';
+        const region = response.region ?? 'Other';
         if (regionalVoteCounts[response.selected_choice][region] !== undefined) {
           regionalVoteCounts[response.selected_choice][region]++;
         } else {
@@ -598,11 +598,11 @@ export async function submitPollResponse(
       const choiceVotes = voteCounts[choice];
       const choicePercentage = totalVotes > 0 ? Math.round((choiceVotes / totalVotes) * 100) : 0;
 
-      const regions = ['Jamaica Plain', 'West Roxbury', 'Other'];
+      const regions = ['Jamaica Plain', 'West Roxbury', 'Other'] as const;
 
       const regionalBreakdown: RegionalBreakdown[] = regions.map((region) => {
         const regionVotes = regionalVoteCounts[choice][region];
-        const regionPercentage = choiceVotes > 0 ? Math.round((regionVotes / choiceVotes) * 100) : 0;
+        const regionPercentage = choiceVotes > 0 ? (regionVotes / choiceVotes) * 100 : 0;
 
         return {
           region,

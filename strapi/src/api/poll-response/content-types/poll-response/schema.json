@@ -27,10 +27,10 @@
       "target": "api::poll.poll",
       "inversedBy": "poll_responses"
     },
-    "Address": {
+    "address": {
       "type": "text"
     },
-    "Region": {
+    "region": {
       "type": "enumeration",
       "enum": [
         "Jamaica Plain",

@@ -1,7 +1,7 @@
 .resultsContainer {
   /* padding: 1.5rem; */
   max-width: 500px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .header {
@@ -30,7 +30,7 @@
   gap: 0.375rem;
   color: var(--color-dark-text);
   font-size: 0.875rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .question {
@@ -39,7 +39,7 @@
   line-height: 1.5;
   margin-top: 20px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .resultsGrid {
@@ -57,11 +57,6 @@
 }
 
 .resultItem.userChoice {
-  border-color: var(--color-optimistic-blue);
-  background: var(--color-alt-white-hover);
-}
-
-.resultItem.winning {
   border-color: var(--color-freedom-trail-red);
   background: #f0fdf4;
 }
@@ -89,26 +84,17 @@
 .voteCount {
   color: var(--color-charles-blue);
   font-size: 0.85rem;
-  margin-top: 0.25rem;
+  margin-top: 0.3rem;
 }
-
 .barContainer {
   position: relative;
-  height: 0.5rem;
+  height: 0.75rem;
   background: var(--color-border-light);
   border-radius: 6px;
   overflow: hidden;
 }
 
-.progressBar {
-  height: 100%;
-  background: var(--color-optimistic-blue);
-  border-radius: 6px;
-  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.progressBar::after {
+.barContainer::after {
   content: '';
   position: absolute;
   top: 0;
@@ -116,14 +102,18 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: shimmer 2s infinite;
+  animation: shimmer 4s infinite;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--color-freedom-trail-red);
+  border-radius: 6px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .userBar {
-  background: var(--color-optimistic-blue);
-}
-
-.winningBar {
   background: var(--color-freedom-trail-red);
 }
 
@@ -134,8 +124,9 @@
 }
 
 .userIndicator span {
-  background: var(--color-optimistic-blue);
+  background: var(--color-freedom-trail-red);
   color: var(--color-white);
+  margin-top: 10px;
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.75rem;
@@ -193,40 +184,70 @@
   }
 }
 
-/* Regional Breakdown */
 .regionalBreakdown {
   margin-top: 0.75rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--color-border-light);
-}
-
-.regionalItem {
-  opacity: 0;
-  animation: slideInUp 0.6s ease-out forwards;
-  padding: 0.25rem 0;
-}
-
-.regionalLabel {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--color-dark-text);
-  margin-bottom: 0.25rem;
+  border-top: 2px solid var(--color-border-light);
 }
 
 .regionalBarContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 0.75rem; /* adjust as needed for pill thickness */
+  border-radius: 8px;
+  background: var(--color-border-light); /* fallback color for empty */
+  overflow: visible;
   position: relative;
-  height: 0.3rem;
-  background: var(--color-border-light);
-  border-radius: 4px;
-  overflow: hidden;
+  margin-top: 0.5rem;
 }
 
 .regionalBar {
   height: 100%;
-  border-radius: 4px;
-  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  transition: width 0.8s ease;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.regionalBar:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.regionalBar:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.regionalBar:hover::after {
+  content: attr(title);
+  white-space: nowrap;
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-dark-text);
+  color: var(--color-white);
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  border-radius: 5px;
+  z-index: 10;
+  opacity: 1;
+}
+
+.regionalBar:hover::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--color-dark-text);
+  z-index: 10;
 }
 
 @keyframes slideInUp {
@@ -263,4 +284,27 @@
   .question {
     font-size: 0.9rem;
   }
+}
+
+.regionalLabel {
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-dark-text);
+}
+
+.voteRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.userIndicatorInline span {
+  background: var(--color-freedom-trail-red);
+  color: var(--color-white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
 }

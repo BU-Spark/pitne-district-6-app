@@ -48,7 +48,7 @@ const PollButton: React.FC<{ isFooterVisible: boolean }> = ({ isFooterVisible })
         title="Take our community poll"
         style={{ bottom: bottomOffset }}
       >
-        <FaPoll size={24} />
+        <FaPoll size={32} />
         <span className={styles.pollText}>Poll</span>
         <div className={styles.pulse}></div>
       </button>

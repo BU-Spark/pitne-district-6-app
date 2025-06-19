@@ -659,7 +659,7 @@ export interface ApiPollResponsePollResponse
     draftAndPublish: true;
   };
   attributes: {
-    Address: Schema.Attribute.Text;
+    address: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -672,7 +672,7 @@ export interface ApiPollResponsePollResponse
       Schema.Attribute.Private;
     poll: Schema.Attribute.Relation<'manyToOne', 'api::poll.poll'>;
     publishedAt: Schema.Attribute.DateTime;
-    Region: Schema.Attribute.Enumeration<
+    region: Schema.Attribute.Enumeration<
       ['Jamaica Plain', 'West Roxbury', 'Other']
     >;
     selected_choice: Schema.Attribute.String & Schema.Attribute.Required;
