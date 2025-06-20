@@ -62,7 +62,7 @@
 
 .calendarWrapper :global(.fc-today-button) {
   background: var(--color-freedom-trail-red);
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .calendarWrapper :global(.fc-today-button:hover) {
@@ -76,7 +76,7 @@
 .calendarWrapper :global(.fc-day-today) {
   background-color: var(--color-light-background) !important;
   border: 2px solid var(--color-optimistic-blue);
-  border-radius: 7px;
+  /* border-radius: 7px; */
 }
 
 .calendarWrapper :global(.fc-daygrid-day-number) {
@@ -438,6 +438,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 4px;
+    margin-right: 12px;
     margin-bottom: 4px;
     width: max-content;
     padding: 8px 16px;
@@ -467,12 +468,12 @@
     border-radius: 4px;
   }
 
-    .eventPopup {
+  .eventPopup {
     /* center horizontally; leave a little room top & bottom   */
     width: 80%;
-    max-width: 360px;          /* stops it getting too wide on large tablets */
-   top: 50%;
-  left: 50%;
+    max-width: 360px; /* stops it getting too wide on large tablets */
+    top: 50%;
+    left: 50%;
     transform: translateX(-50%);
     /* let it scroll inside if the content is long */
     max-height: 84vh;
@@ -483,7 +484,7 @@
     padding: 16px;
   }
   .eventTitle {
-    font-size: 1rem;           /* down from 1.2rem */
+    font-size: 1rem; /* down from 1.2rem */
   }
   /* buttons stack vertically and fill width */
   .popupActions {
@@ -495,8 +496,6 @@
     flex: none;
     width: 100%;
   }
-
-
 }
 
 @media (max-width: 600px) {
@@ -543,40 +542,40 @@
   }
 
   @media (max-width: 480px) {
-
-   .eventPopup {
-    width: calc(100% - 32px);
-    max-width: 320px;
-    padding: 12px;
+    .eventPopup {
+      width: calc(100% - 32px);
+      max-width: 320px;
+      padding: 12px;
+    }
+    .eventTitle {
+      font-size: 0.95rem;
+    }
+    .addToCalendarButton,
+    .viewDetailsButton {
+      font-size: 0.75rem;
+      padding: 8px 12px;
+    }
+    .calendarWrapper {
+      padding: 16px;
+    }
+    /* Toolbar headline */
+    .calendarWrapper :global(.fc-toolbar-title) {
+      font-size: 1.1rem;
+    }
+    /* Month / Week / Day buttons */
+    .calendarWrapper :global(.fc-button) {
+      font-size: 0.7rem;
+      padding: 6px 10px;
+    }
+    /* Column headers & day numbers */
+    .calendarWrapper :global(.fc-col-header-cell),
+    .calendarWrapper :global(.fc-daygrid-day-number) {
+      font-size: 0.75rem;
+    }
+    /* Events */
+    .calendarWrapper :global(.fc-event) {
+      padding: 2px 4px;
+      font-size: 0.7rem;
+    }
   }
-  .eventTitle {
-    font-size: 0.95rem;
-  }
-  .addToCalendarButton,
-  .viewDetailsButton {
-    font-size: 0.75rem;
-    padding: 8px 12px;
-  }
-  .calendarWrapper {
-    padding: 16px;
-  }
-  /* Toolbar headline */
-  .calendarWrapper :global(.fc-toolbar-title) {
-    font-size: 1.1rem;
-  }
-  /* Month / Week / Day buttons */
-  .calendarWrapper :global(.fc-button) {
-    font-size: 0.7rem;
-    padding: 6px 10px;
-  }
-  /* Column headers & day numbers */
-  .calendarWrapper :global(.fc-col-header-cell),
-  .calendarWrapper :global(.fc-daygrid-day-number) {
-    font-size: 0.75rem;
-  }
-  /* Events */
-  .calendarWrapper :global(.fc-event) {
-    padding: 2px 4px;
-    font-size: 0.7rem;
-  }}
 }

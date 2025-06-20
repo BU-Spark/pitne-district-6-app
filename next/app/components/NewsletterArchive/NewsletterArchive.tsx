@@ -90,10 +90,104 @@ const keyLinks = [
   },
 ];
 
+const keyLinksSortedByGroup = [
+  {
+    href: 'https://newsletters.boston.gov/subscribe',
+    icon: <MdEmail size={16} />,
+    label: 'City of Boston Newsletters',
+    group: 'email',
+  },
+  {
+    href: 'https://www.boston.gov/departments/city-council#newsletter',
+    icon: <MdEmail size={16} />,
+    label: 'Boston City Council Newsletter',
+    group: 'email',
+  },
+  {
+    href: 'https://newsletters.boston.gov/subscribe?category=My%20Neighborhood',
+    icon: <MdEmail size={16} />,
+    label: 'ONS JP & West Roxbury Newsletters',
+    group: 'email',
+  },
+  {
+    href: 'https://www.facebook.com/groups/2553951258022030/',
+    icon: <FaFacebook size={16} />,
+    label: 'West Roxbury Association',
+    group: 'facebook',
+  },
+  {
+    href: 'https://www.facebook.com/groups/639547626202086/',
+    icon: <FaFacebook size={16} />,
+    label: 'West Roxbury Connect',
+    group: 'facebook',
+  },
+  {
+    href: 'https://www.facebook.com/groups/jamaicaplainma/',
+    icon: <FaFacebook size={16} />,
+    label: 'Jamaica Plain Facebook Page',
+    group: 'facebook',
+  },
+  {
+    href: 'https://www.facebook.com/groups/2678131715738649/',
+    icon: <FaFacebook size={16} />,
+    label: 'Parkway Respectful Discourse',
+    group: 'facebook',
+  },
+  {
+    href: 'https://www.bostonplans.org/neighborhoods/jamaica-plain/at-a-glance',
+    icon: <FaBuilding size={16} />,
+    label: 'JP Housing Developments',
+    group: 'building',
+  },
+  {
+    href: 'https://www.bostonplans.org/neighborhoods/west-roxbury/at-a-glance',
+    icon: <FaBuilding size={16} />,
+    label: 'West Roxbury Housing Developments',
+    group: 'building',
+  },
+  {
+    href: 'https://jamaicaplaingazette.com/',
+    icon: <FaNewspaper size={16} />,
+    label: 'Jamaica Plain Gazette',
+    group: 'newspaper',
+  },
+  {
+    href: 'https://jamaicaplainnews.com/',
+    icon: <FaNewspaper size={16} />,
+    label: 'Jamaica Plain News',
+    group: 'newspaper',
+  },
+  {
+    href: 'https://bulletinnewspapers.weebly.com/',
+    icon: <FaNewspaper size={16} />,
+    label: 'The Bulletin – WR/Roslindale',
+    group: 'newspaper',
+  },
+  {
+    href: 'https://www.boston.gov/departments/emergency-management/city-boston-alerts-and-notifications',
+    icon: <FiAlertCircle size={16} />,
+    label: 'City of Boston Alerts',
+    group: 'alert',
+  },
+  {
+    href: 'https://www.boston.gov/departments/public-works/roadway-resurfacing-boston',
+    icon: <FaRoad size={16} />,
+    label: 'Street Resurfacing List',
+    group: 'road',
+  },
+  {
+    href: 'https://www.boston.gov/departments/transportation/making-neighborhood-streets-safer',
+    icon: <FiMapPin size={16} />,
+    label: 'Speed Hump Eligibility Map',
+    group: 'map',
+  },
+];
+
 const NewsletterArchive = () => {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
   const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const loadNewsletters = async () => {
@@ -125,6 +219,16 @@ const NewsletterArchive = () => {
     setSelectedPdf(pdfUrl);
   };
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <section className={styles.newsSection}>
       <div className={styles.keyLinksContainer}>
@@ -134,7 +238,7 @@ const NewsletterArchive = () => {
         </div>
 
         <div className={styles.keyLinksGrid}>
-          {keyLinks.map(({ href, icon, label }) => (
+          {(isMobile ? keyLinksSortedByGroup : keyLinks).map(({ href, icon, label }) => (
             <a key={label} href={href} className={styles.keyLink} aria-label={label}>
               {icon} {label}
             </a>
