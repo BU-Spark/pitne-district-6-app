@@ -9,9 +9,10 @@ import EventCalendar from '../components/EventCalendar/EventCalendar';
 const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
 
 export default function EventsPage() {
-  const [language, setLanguage] = useState<string>(() => {
+  const [language, setLanguage] = useState<'en' | 'es'>(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('selected-language') || 'en';
+      const savedLanguage = localStorage.getItem('selected-language');
+      return savedLanguage === 'en' || savedLanguage === 'es' ? savedLanguage : 'en';
     }
     return 'en'; // default on server side
   });
@@ -22,6 +23,13 @@ export default function EventsPage() {
   }, [language]);
 
   const [showSubscriptionOptions, setShowSubscriptionOptions] = useState(false);
+
+  // Wrapper function to handle language setting with proper type conversion
+  const handleLanguageChange = (lang: string) => {
+    if (lang === 'en' || lang === 'es') {
+      setLanguage(lang);
+    }
+  };
 
   const handleAddToGoogleCalendar = () => {
     // Google Calendar subscription URL
@@ -47,7 +55,7 @@ export default function EventsPage() {
 
   return (
     <div className={styles.container}>
-      <Navbar setLanguage={setLanguage} />
+      <Navbar setLanguage={handleLanguageChange} />
       <section className={styles.calendarSection}>
         <div className={styles.calendarContainer}>
           <div className={styles.header}>

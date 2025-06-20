@@ -1,7 +1,7 @@
 import path from 'path';
 
 export default ({ env }) => {
-  const client = env('DATABASE_CLIENT', 'sqlite');
+  const client = env('DATABASE_CLIENT', 'postgres');
 
   const connections = {
     mysql: {
@@ -40,7 +40,16 @@ export default ({ env }) => {
         },
         schema: env('DATABASE_SCHEMA', 'public'),
       },
-      pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
+      pool: { 
+        min: env.int('DATABASE_POOL_MIN', 2), 
+        max: env.int('DATABASE_POOL_MAX', 10),
+        acquireTimeoutMillis: env.int('DATABASE_ACQUIRE_TIMEOUT', 60000),
+        createTimeoutMillis: env.int('DATABASE_CREATE_TIMEOUT', 30000),
+        destroyTimeoutMillis: env.int('DATABASE_DESTROY_TIMEOUT', 5000),
+        idleTimeoutMillis: env.int('DATABASE_IDLE_TIMEOUT', 30000),
+        reapIntervalMillis: env.int('DATABASE_REAP_INTERVAL', 1000),
+        createRetryIntervalMillis: env.int('DATABASE_CREATE_RETRY_INTERVAL', 200),
+      },
     },
     sqlite: {
       connection: {
@@ -49,6 +58,15 @@ export default ({ env }) => {
       useNullAsDefault: true,
     },
   };
+
+  if (client === 'postgres' && !env('DATABASE_URL')) {
+    throw new Error('DATABASE_URL environment variable is required when using PostgreSQL');
+  }
+
+  console.log(`🗄️  Database client: ${client}`);
+  if (client === 'postgres') {
+    console.log(`🔗 Database URL configured: ${env('DATABASE_URL') ? 'Yes' : 'No'}`);
+  }
 
   return {
     connection: {

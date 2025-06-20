@@ -6,33 +6,66 @@ const mime = require('mime-types');
 const { categories, authors, articles, global, about } = require('../data/data.json');
 
 async function seedExampleApp() {
+  // Production safety check - prevent seeding in production environments
+  const nodeEnv = process.env.NODE_ENV;
+  const isRailway = process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_PROJECT_ID;
+  const disableAutoSeed = process.env.DISABLE_AUTO_SEED === 'true';
+  
+  console.log(`🌱 Seed check - Environment: ${nodeEnv}`);
+  console.log(`🚂 Railway deployment: ${isRailway ? 'Yes' : 'No'}`);
+  console.log(`🚫 Auto-seed disabled: ${disableAutoSeed ? 'Yes' : 'No'}`);
+  
+  // Prevent seeding in production or when explicitly disabled
+  if (nodeEnv === 'production' || disableAutoSeed) {
+    console.log('🛑 Seeding skipped - Production environment or auto-seed disabled');
+    return;
+  }
+  
+  // Extra caution for Railway deployments
+  if (isRailway && nodeEnv !== 'development') {
+    console.log('🛑 Seeding skipped - Railway deployment detected outside development');
+    return;
+  }
+
   const shouldImportSeedData = await isFirstRun();
 
   if (shouldImportSeedData) {
     try {
-      console.log('Setting up the template...');
+      console.log('🌱 Setting up the template...');
       await importSeedData();
-      console.log('Ready to go');
+      console.log('✅ Ready to go');
     } catch (error) {
-      console.log('Could not import seed data');
+      console.log('❌ Could not import seed data');
       console.error(error);
     }
   } else {
     console.log(
-      'Seed data has already been imported. We cannot reimport unless you clear your database first.'
+      '✋ Seed data has already been imported. We cannot reimport unless you clear your database first.'
     );
   }
 }
 
 async function isFirstRun() {
-  const pluginStore = strapi.store({
-    environment: strapi.config.environment,
-    type: 'type',
-    name: 'setup',
-  });
-  const initHasRun = await pluginStore.get({ key: 'initHasRun' });
-  await pluginStore.set({ key: 'initHasRun', value: true });
-  return !initHasRun;
+  try {
+    const pluginStore = strapi.store({
+      environment: strapi.config.environment,
+      type: 'type',
+      name: 'setup',
+    });
+    const initHasRun = await pluginStore.get({ key: 'initHasRun' });
+    
+    // Only set initHasRun if this is actually the first run
+    if (!initHasRun) {
+      await pluginStore.set({ key: 'initHasRun', value: true });
+      console.log('🔄 First run detected - marking as initialized');
+    }
+    
+    return !initHasRun;
+  } catch (error) {
+    console.error('❌ Error checking first run status:', error);
+    // If we can't determine, err on the side of caution and don't seed
+    return false;
+  }
 }
 
 async function setPublicPermissions(newPermissions) {
