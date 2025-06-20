@@ -92,7 +92,12 @@ const HomePage = () => {
             <div className={styles.heroText}>
               <span className={styles.welcome}>Welcome to</span>
               <span className={styles.district}>DISTRICT 6</span>
-              <p className={styles.subtitle}>An interactive hub for D6 services, events, and community updates.</p>
+              <p className={styles.subtitle}>
+                This is the official homepage for Boston City Council District 6, which includes Jamaica Plain, West
+                Roxbury, Egleston Square in Roxbury, Back of the Hill and one Roslindale Precinct. Maintained by the
+                office of the D6 City Councilor, it compiles resources, events, and information about what&apos;s
+                happening in the district.
+              </p>
             </div>
             <div className={styles.photoCredit}>Photo by Korri Crowley (2025)</div>
           </div>
@@ -169,7 +174,7 @@ const HomePage = () => {
         />
       </div>
 
-      {/* <PollButton isFooterVisible={isFooterVisible} /> */}
+      <PollButton isFooterVisible={isFooterVisible} />
     </>
   );
 };

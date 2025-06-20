@@ -240,6 +240,7 @@
   height: 100%; /* or whatever height you want */
   position: relative;
 }
+
 @media (max-width: 768px) {
   .archiveList h3 {
     margin-bottom: 1rem;

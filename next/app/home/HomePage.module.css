@@ -18,7 +18,7 @@
   background-size: cover;
   background-position: center bottom;
   background-attachment: fixed;
-  height: 350px;
+  height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,6 +80,7 @@
 }
 
 .welcome {
+  margin-top: 40px;
   font-family: 'Lora', serif;
   font-style: italic;
   font-weight: 400;
@@ -115,26 +116,27 @@
 .district::after {
   content: '';
   position: absolute;
-  bottom: 10px;
+  bottom: 4px;
   left: 50%;
   width: 0%;
-  height: 6px;
+  height: 8px;
   background-color: var(--color-freedom-trail-red);
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
 
 .district:hover::after {
-  width: 98%;
+  width: 70%;
 }
 
 .subtitle {
   margin-top: 0.5rem;
-  font-family: var(--font-lora), serif;
+  font-family: var(--font-primary);
+  line-height: 1.5rem;
   /* font-style: italic; */
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   text-align: center;
-  max-width: 800px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
 }
