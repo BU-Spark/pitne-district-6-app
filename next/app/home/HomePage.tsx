@@ -9,6 +9,7 @@ import NewsletterArchive from '../components/NewsletterArchive/NewsletterArchive
 import Masonry from 'react-masonry-css';
 import { ChevronLeft, ChevronRight, X, Download } from 'lucide-react';
 import { fetchFlyers, Flyer } from '../utils/strapi.api';
+import PollButton from '../components/PollButton/PollButton';
 
 const breakpointColumnsObj = {
   default: 4,
@@ -24,6 +25,7 @@ const HomePage = () => {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [isZoomedFirstOpen, setIsZoomedFirstOpen] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(true);
 
   const allPhotos = flyers
     .filter((flyer) => flyer.image && Array.isArray(flyer.image) && flyer.image.length > 0)
@@ -168,7 +170,7 @@ const HomePage = () => {
 
         <SubscribeFooter
           subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform"
-          onFooterToggle={() => {}}
+          onFooterToggle={(visible: boolean) => setIsFooterVisible(visible)}
         />
       </div>
 
