@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import SubscribeFooter from '../components/SubscribeFooter/SubscribeFooter';
 import NewsletterArchive from '../components/NewsletterArchive/NewsletterArchive';
-import PollButton from '../components/PollButton/PollButton';
 import Masonry from 'react-masonry-css';
 import { ChevronLeft, ChevronRight, X, Download } from 'lucide-react';
 import { fetchFlyers, Flyer } from '../utils/strapi.api';
@@ -25,7 +24,6 @@ const HomePage = () => {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [isZoomedFirstOpen, setIsZoomedFirstOpen] = useState(false);
-  const [isFooterVisible, setIsFooterVisible] = useState(true);
 
   const allPhotos = flyers
     .filter((flyer) => flyer.image && Array.isArray(flyer.image) && flyer.image.length > 0)
@@ -165,11 +163,9 @@ const HomePage = () => {
 
         <SubscribeFooter
           subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform"
-          onFooterToggle={(visible: boolean) => setIsFooterVisible(visible)}
+          onFooterToggle={() => {}}
         />
       </div>
-
-      {/* <PollButton isFooterVisible={isFooterVisible} /> */}
     </>
   );
 };
