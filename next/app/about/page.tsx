@@ -48,16 +48,16 @@ export default function AboutPage() {
   }, []);
 
   const getImageUrl = (member: CouncilMember) => {
-    if (member.Image?.url) {
-      const imageUrl = member.Image.url;
-
+    const imageUrl = member.Image?.url;
+    if (imageUrl) {
+      // For absolute URLs (S3, external), return as-is
       if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
         console.log('Full image URL for', member.Name, ':', imageUrl);
         return imageUrl;
       }
 
       // For relative URLs, prepend the Strapi base URL
-      const baseUrl = 'https://dev--district-6-strapi.up.railway.app';
+      const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
       const normalizedImageUrl = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
       const url = `${baseUrl}/${normalizedImageUrl}`;
@@ -117,9 +117,9 @@ export default function AboutPage() {
                   href="https://www.jphs.org/jp-history/2005/4/10/how-jamaica-plain-got-its-name.html#gsc.tab=0"
                   target="_blank"
                   rel="noopener noreferrer"
-                  title=" Rev. John Eliot’s 1689 deed"
+                  title=" Rev. John Eliot's 1689 deed"
                 >
-                  Rev. John Eliot’s 1689 deed
+                  Rev. John Eliot&apos;s 1689 deed
                 </a>
                 . Today, Jamaica Plain is home to around 80,000 residents, including about 8,000 Dominicans. In 2018,
                 Hyde Square and Jackson Square were named{' '}
@@ -127,9 +127,9 @@ export default function AboutPage() {
                   href="https://www.boston.gov/departments/arts-and-culture/latin-quarter-cultural-district"
                   target="_blank"
                   rel="noopener noreferrer"
-                  title=" Boston’s Latin Quarter Cultural District"
+                  title=" Boston's Latin Quarter Cultural District"
                 >
-                  Boston’s Latin Quarter Cultural District
+                  Boston&apos;s Latin Quarter Cultural District
                 </a>{' '}
                 (
                 <a
@@ -146,9 +146,9 @@ export default function AboutPage() {
                   href="https://www.wbur.org/news/2020/02/26/boston-neighborhood-field-guide"
                   target="_blank"
                   rel="noopener noreferrer"
-                  title="WBUR’s Field Guide to Boston"
+                  title="WBUR's Field Guide to Boston"
                 >
-                  WBUR’s Field Guide to Boston
+                  WBUR&apos;s Field Guide to Boston
                 </a>
                 ,{' '}
                 <a
@@ -181,9 +181,9 @@ export default function AboutPage() {
                   href="https://www.wbur.org/news/2020/02/26/boston-neighborhood-field-guide"
                   target="_blank"
                   rel="noopener noreferrer"
-                  title="WBUR’s Field Guide to Boston"
+                  title="WBUR's Field Guide to Boston"
                 >
-                  WBUR’s Field Guide to Boston
+                  WBUR&apos;s Field Guide to Boston
                 </a>
                 )
               </p>

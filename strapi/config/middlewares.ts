@@ -20,6 +20,8 @@ export default [
             "https://*.basemaps.cartocdn.com",
             "https://tile.openstreetmap.org",
             "https://*.tile.openstreetmap.org",
+            "https://d6-strapi-bucket.s3.amazonaws.com",
+            "https://d6-strapi-bucket.s3.us-east-1.amazonaws.com",
           ],
           "img-src": [
             "'self'",
@@ -29,6 +31,8 @@ export default [
             "market-assets.strapi.io",
             "https://*.tile.openstreetmap.org",
             "https://unpkg.com/leaflet@1.9.4/dist/images/",
+            "https://d6-strapi-bucket.s3.amazonaws.com",
+            "https://d6-strapi-bucket.s3.us-east-1.amazonaws.com",
           ],
         },
       },
