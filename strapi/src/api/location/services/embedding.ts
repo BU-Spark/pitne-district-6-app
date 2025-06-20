@@ -56,21 +56,25 @@ export default {
 
   /**
    * Generate embedding text from location data
-   * Combines only name and category for semantic search
+   * Combines name and category, with category given double importance
    */
   generateEmbeddingText(locationData: any): string {
     const parts: string[] = [];
     
+    // Add the name once
     if (locationData.name) {
       parts.push(locationData.name);
     }
     
+    // Add the category twice for double importance
     if (locationData.category) {
       parts.push(locationData.category);
       parts.push(locationData.category);
     }
 
-    return parts.filter(Boolean).join(' ');
+    const result = parts.filter(Boolean).join(' ');
+    console.log(`Generated embedding text for "${locationData.name}": "${result}"`);
+    return result;
   },
 
   /**
