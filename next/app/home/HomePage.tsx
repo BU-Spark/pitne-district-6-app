@@ -169,7 +169,7 @@ const HomePage = () => {
         />
       </div>
 
-      <PollButton isFooterVisible={isFooterVisible} />
+      {/* <PollButton isFooterVisible={isFooterVisible} /> */}
     </>
   );
 };
