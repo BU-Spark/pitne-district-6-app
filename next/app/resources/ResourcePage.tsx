@@ -170,14 +170,26 @@ export default function ResourcePage() {
 
               {displayLocations.length > itemsPerPage && (
                 <div className="pagination-controls">
-                  <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="pagination-button"
-                  >
-                    Previous
-                  </button>
+                  {/* Row for Prev and Next buttons */}
+                  <div className="pagination-buttons-row">
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="pagination-button"
+                    >
+                      Previous
+                    </button>
 
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="pagination-button"
+                    >
+                      Next
+                    </button>
+                  </div>
+
+                  {/* Row for page numbers */}
                   <div className="page-numbers">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                       <button
@@ -189,14 +201,6 @@ export default function ResourcePage() {
                       </button>
                     ))}
                   </div>
-
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="pagination-button"
-                  >
-                    Next
-                  </button>
                 </div>
               )}
             </>

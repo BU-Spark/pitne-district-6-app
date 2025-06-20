@@ -54,6 +54,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   lng,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [isActive, setIsActive] = useState(false); // <--- added state for mobile "active" class
 
   const mapsLink = lat != null && lng != null ? `https://www.google.com/maps?q=${lat},${lng}` : null;
   const meta = categoryMeta[category] || { group: 'community' };
@@ -62,8 +63,11 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   const lighterColor = lightenColor(groupColor, 0.75);
 
   return (
-    <div className="resource-card">
-      <div className="slider">
+    <div
+      className="resource-card"
+      onClick={() => setIsActive(!isActive)} // <--- toggle on tap
+    >
+      <div className={`slider ${isActive ? 'active' : ''}`}>
         {/* first card */}
         <div className="slide-out">
           <div className="card-header">
@@ -79,7 +83,11 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         </div>
 
         {/* second card */}
-        <div className="slide-in" style={{ background: lighterColor }}>
+        <div
+          className="slide-in"
+          style={{ background: lighterColor }}
+          onClick={(e) => e.stopPropagation()} // stop closing when clicking inside
+        >
           <div className="contact-header">
             <div className="contact-title-row">
               <h3 className="contact-title">{title}</h3>
