@@ -117,7 +117,7 @@ export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang:
     }
 
     setIsInitialized(true);
-  }, []);
+  }, [isInitialized]);
 
   // Load saved language on mount
   useEffect(() => {
