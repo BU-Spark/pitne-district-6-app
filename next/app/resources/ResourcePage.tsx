@@ -18,54 +18,40 @@ export default function ResourcePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12; // Number of items to show per page
+  const itemsPerPage = 12;
 
-  // Apply category filtering to search results or regular locations
   const getFilteredLocations = (locationsToFilter: Location[]) => {
-    if (selectedCategories.size === 0) {
-      return [];
-    }
-
-    // If all categories are selected, return all locations
-    if (selectedCategories.size === allCategories.size) {
-      return locationsToFilter;
-    }
-
-    // Filter by selected categories
+    if (selectedCategories.size === 0) return [];
+    if (selectedCategories.size === allCategories.size) return locationsToFilter;
     return locationsToFilter.filter((location) => location.category && selectedCategories.has(location.category));
   };
 
-  // Combine search and category filtering
-  const displayLocations = isSearching ? getFilteredLocations(searchResults) : getFilteredLocations(locations);
+  const displayLocations = isSearching
+    ? getFilteredLocations(searchResults)
+    : getFilteredLocations(locations)
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name));
 
-  // Calculate pagination values
   const totalPages = Math.ceil(displayLocations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentLocations = displayLocations
-    // .slice()
-    // .sort((a, b) => a.name.localeCompare(b.name))
-    .slice(startIndex, endIndex);
+  const currentLocations = displayLocations.slice(startIndex, endIndex);
 
-  // Handle page change
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Reset page when categories change or search results change
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategories, isSearching, searchResults]);
 
-  // Handle search results from Sidebar
   const handleSearchResults = (results: Location[], searching: boolean) => {
     setSearchResults(results);
     setIsSearching(searching);
-    setCurrentPage(1); // Reset to first page when search changes
+    setCurrentPage(1);
   };
 
-  // Fetch locations on component mount
   useEffect(() => {
     const loadLocations = async () => {
       try {
@@ -89,15 +75,7 @@ export default function ResourcePage() {
     loadLocations();
   }, []);
 
-  useEffect(() => {
-    if (isSearching) {
-      return;
-    }
-  }, [selectedCategories, isSearching]);
-
-  // Transform Strapi location to ResourceCard props
   const transformLocation = (location: Location) => {
-    // Get icon path from categoryMeta, fallback to default icon
     const categoryInfo = categoryMeta[location.category || ''];
     const iconPath = categoryInfo?.iconPath || '/icons/default/default.svg';
 
@@ -143,7 +121,6 @@ export default function ResourcePage() {
           />
         </div>
         <div className="resource-card-container">
-          {/* Search and Filter Status Header */}
           {isSearching && (
             <div className="search-status">
               <h2>
@@ -191,7 +168,6 @@ export default function ResourcePage() {
                 )}
               </div>
 
-              {/* Pagination Controls */}
               {displayLocations.length > itemsPerPage && (
                 <div className="pagination-controls">
                   <button

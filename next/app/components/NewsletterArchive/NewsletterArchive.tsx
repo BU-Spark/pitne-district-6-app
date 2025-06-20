@@ -7,6 +7,9 @@ import { FaBuilding, FaFacebook, FaNewspaper, FaRoad } from 'react-icons/fa';
 import { FiAlertCircle, FiMapPin } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
 import { fetchNewsletters, Newsletter } from '../../utils/strapi.api';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+
 const keyLinks = [
   {
     href: 'https://newsletters.boston.gov/subscribe',

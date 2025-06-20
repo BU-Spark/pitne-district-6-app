@@ -92,6 +92,7 @@ const HomePage = () => {
             <div className={styles.heroText}>
               <span className={styles.welcome}>Welcome to</span>
               <span className={styles.district}>DISTRICT 6</span>
+              <p className={styles.subtitle}>An interactive hub for D6 services, events, and community updates.</p>
             </div>
             <div className={styles.photoCredit}>Photo by Korri Crowley (2025)</div>
           </div>

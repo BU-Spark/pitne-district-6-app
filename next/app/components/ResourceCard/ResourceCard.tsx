@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ResourceCard.css';
-import { MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
+import { MapPin, Mail, Phone, ExternalLink, ChevronDownCircle, X as CloseIcon } from 'lucide-react';
 import { categoryMeta, groupColors } from '../../utils/categoryMeta';
 
 function lightenColor(hex: string, percent: number): string {
@@ -53,10 +53,8 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   lat,
   lng,
 }) => {
-  const [showModal, setShowModal] = useState(false); //  new state for popup modal
-  useEffect(() => {
-    console.log('🧪 ResourceCard description:', description);
-  }, [description]);
+  const [showModal, setShowModal] = useState(false);
+
   const mapsLink = lat != null && lng != null ? `https://www.google.com/maps?q=${lat},${lng}` : null;
   const meta = categoryMeta[category] || { group: 'community' };
   const rawColor = groupColors[meta.group] || '#091F2F';
@@ -83,37 +81,24 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         {/* second card */}
         <div className="slide-in" style={{ background: lighterColor }}>
           <div className="contact-header">
-            <h3 className="contact-title">{title}</h3>
+            <div className="contact-title-row">
+              <h3 className="contact-title">{title}</h3>
+            </div>
           </div>
 
-          {/* showing one line */}
-          {description && (
-            <div className="description-container">
-              <p
-                className="description-text truncated"
-                onClick={() => setShowModal(true)} 
+          <div className="contact-info">
+            {/* description as first row */}
+            {description && (
+              <div
+                className="contact-row clickable"
+                onClick={() => setShowModal(true)}
                 title="Click to view full description"
               >
-                {description}
-              </p>
-            </div>
-          )}
+                <ChevronDownCircle size={16} className="contact-icon" />
+                <span className="contact-text">{description}</span>
+              </div>
+            )}
 
-          <div className="contact-info">
-            {email && (
-              <div className="contact-row">
-                <Mail size={16} className="contact-icon" />
-                <a className="contact-text" href={`mailto:${email}`}>
-                  {email}
-                </a>
-              </div>
-            )}
-            {contact && (
-              <div className="contact-row">
-                <Phone size={16} className="contact-icon" />
-                <span className="contact-text">{contact}</span>
-              </div>
-            )}
             {website && (
               <div className="contact-row">
                 <ExternalLink size={16} className="contact-icon" />
@@ -122,6 +107,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
                 </a>
               </div>
             )}
+
             {mapsLink && (
               <div className="contact-row">
                 <MapPin size={16} className="contact-icon" />
@@ -130,19 +116,37 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
                 </a>
               </div>
             )}
+            {email && (
+              <div className="contact-row">
+                <Mail size={16} className="contact-icon" />
+                <a className="contact-text" href={`mailto:${email}`}>
+                  {email}
+                </a>
+              </div>
+            )}
+
+            {contact && (
+              <div className="contact-row">
+                <Phone size={16} className="contact-icon" />
+                <span className="contact-text">{contact}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/*  project description modal */}
+      {/* project description modal */}
       {showModal && (
         <div className="description-popup-overlay" onClick={() => setShowModal(false)}>
           <div className="description-popup" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={() => setShowModal(false)}>
-              ×
-            </button>
-            <h3>{title}</h3>
-            <p>{description}</p>
+            <div className="popup-header">
+              <h3 className="popup-title">{title}</h3>
+              <button className="close-button" onClick={() => setShowModal(false)} title="Close">
+                <CloseIcon size={20} />
+              </button>
+            </div>
+
+            <p className="popup-description">{description}</p>
           </div>
         </div>
       )}
