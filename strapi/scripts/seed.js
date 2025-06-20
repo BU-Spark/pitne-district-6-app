@@ -11,19 +11,19 @@ async function seedExampleApp() {
   const isRailway = process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_PROJECT_ID;
   const disableAutoSeed = process.env.DISABLE_AUTO_SEED === 'true';
   
-  console.log(`🌱 Seed check - Environment: ${nodeEnv}`);
-  console.log(`🚂 Railway deployment: ${isRailway ? 'Yes' : 'No'}`);
-  console.log(`🚫 Auto-seed disabled: ${disableAutoSeed ? 'Yes' : 'No'}`);
+  console.log(`Seed check - Environment: ${nodeEnv}`);
+  console.log(`Railway deployment: ${isRailway ? 'Yes' : 'No'}`);
+  console.log(`Auto-seed disabled: ${disableAutoSeed ? 'Yes' : 'No'}`);
   
   // Prevent seeding in production or when explicitly disabled
   if (nodeEnv === 'production' || disableAutoSeed) {
-    console.log('🛑 Seeding skipped - Production environment or auto-seed disabled');
+    console.log('Seeding skipped - Production environment or auto-seed disabled');
     return;
   }
   
   // Extra caution for Railway deployments
   if (isRailway && nodeEnv !== 'development') {
-    console.log('🛑 Seeding skipped - Railway deployment detected outside development');
+    console.log('Seeding skipped - Railway deployment detected outside development');
     return;
   }
 
@@ -31,16 +31,16 @@ async function seedExampleApp() {
 
   if (shouldImportSeedData) {
     try {
-      console.log('🌱 Setting up the template...');
+      console.log('Setting up the template...');
       await importSeedData();
-      console.log('✅ Ready to go');
+      console.log('Ready to go');
     } catch (error) {
-      console.log('❌ Could not import seed data');
+      console.log('Could not import seed data');
       console.error(error);
     }
   } else {
     console.log(
-      '✋ Seed data has already been imported. We cannot reimport unless you clear your database first.'
+      'Seed data has already been imported. We cannot reimport unless you clear your database first.'
     );
   }
 }
@@ -57,12 +57,12 @@ async function isFirstRun() {
     // Only set initHasRun if this is actually the first run
     if (!initHasRun) {
       await pluginStore.set({ key: 'initHasRun', value: true });
-      console.log('🔄 First run detected - marking as initialized');
+      console.log('First run detected - marking as initialized');
     }
     
     return !initHasRun;
   } catch (error) {
-    console.error('❌ Error checking first run status:', error);
+    console.error('Error checking first run status:', error);
     // If we can't determine, err on the side of caution and don't seed
     return false;
   }

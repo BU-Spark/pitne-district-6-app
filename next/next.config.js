@@ -9,11 +9,6 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'your-strapi-domain.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
         hostname: 'dev--district-6-strapi.up.railway.app',
         pathname: '/**',
       },
@@ -25,6 +20,16 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'd6-strapi-bucket.s3.us-east-1.amazonaws.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.s3.amazonaws.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.s3.us-east-1.amazonaws.com',
         pathname: '/**',
       },
     ],

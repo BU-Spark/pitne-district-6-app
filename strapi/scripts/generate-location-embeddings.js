@@ -194,7 +194,7 @@ async function processEmbeddingsBatch(locations, batchSize = 3, delayMs = 1500) 
  */
 async function generateLocationEmbeddings() {
   try {
-    console.log('🚀 Starting location embeddings generation with NomicAI...\n');
+    console.log('Starting location embeddings generation with NomicAI...\n');
     
     // Initialize Strapi (this loads environment variables)
     const { createStrapi, compileStrapi } = require('@strapi/strapi');
@@ -206,7 +206,7 @@ async function generateLocationEmbeddings() {
       throw new Error('NOMIC_API_KEY environment variable is required');
     }
     
-    console.log('✅ Strapi loaded successfully');
+    console.log('Strapi loaded successfully');
     
     // Fetch all locations (including those with existing embeddings)
     const locations = await strapi.entityService.findMany('api::location.location', {
@@ -214,13 +214,13 @@ async function generateLocationEmbeddings() {
       publicationState: 'preview', // Include both published and draft
     });
     
-    console.log(`📍 Found ${locations.length} locations to process`);
+    console.log(`Found ${locations.length} locations to process`);
     
     // Filter locations or show overwrite info
     const locationsWithEmbeddings = locations.filter(loc => loc.embeddings);
     const locationsWithoutEmbeddings = locations.filter(loc => !loc.embeddings);
     
-    console.log(`📊 Embedding status:`);
+    console.log(`Embedding status:`);
     console.log(`- Locations with existing embeddings: ${locationsWithEmbeddings.length} (will be overwritten)`);
     console.log(`- Locations without embeddings: ${locationsWithoutEmbeddings.length}`);
     console.log(`- Total to process: ${locations.length}\n`);
@@ -240,10 +240,10 @@ async function generateLocationEmbeddings() {
     const successful = results.filter(r => r.success);
     const failed = results.filter(r => !r.success);
     
-    console.log(`\n📊 Generation Summary:`);
-    console.log(`✅ Successful: ${successful.length}`);
-    console.log(`❌ Failed: ${failed.length}`);
-    console.log(`📈 Success Rate: ${((successful.length / results.length) * 100).toFixed(1)}%`);
+    console.log(`\nGeneration Summary:`);
+    console.log(`Successful: ${successful.length}`);
+    console.log(`Failed: ${failed.length}`);
+    console.log(`Success Rate: ${((successful.length / results.length) * 100).toFixed(1)}%`);
     
     // Update locations with embeddings
     console.log('\n💾 Updating locations with embeddings...');
@@ -263,26 +263,26 @@ async function generateLocationEmbeddings() {
         
         if (hadEmbeddings) {
           overwriteCount++;
-          console.log(`🔄 Overwritten embeddings for location ${result.locationId}: "${result.location.name}"`);
+          console.log(`Overwritten embeddings for location ${result.locationId}: "${result.location.name}"`);
         } else {
-          console.log(`✅ Created embeddings for location ${result.locationId}: "${result.location.name}"`);
+          console.log(`Created embeddings for location ${result.locationId}: "${result.location.name}"`);
         }
         
         updateCount++;
       } catch (error) {
-        console.error(`❌ Failed to update location ${result.locationId}:`, error.message);
+        console.error(`Failed to update location ${result.locationId}:`, error.message);
       }
     }
     
     // Final statistics
-    console.log(`\n📈 Update Summary:`);
-    console.log(`✅ Total updated: ${updateCount}`);
-    console.log(`🔄 Overwritten: ${overwriteCount}`);
-    console.log(`🆕 Newly created: ${updateCount - overwriteCount}`);
+    console.log(`\nUpdate Summary:`);
+    console.log(`Total updated: ${updateCount}`);
+    console.log(`Overwritten: ${overwriteCount}`);
+    console.log(`Newly created: ${updateCount - overwriteCount}`);
     
     // Report failed locations
     if (failed.length > 0) {
-      console.log('\n❌ Failed locations:');
+      console.log('\nFailed locations:');
       failed.forEach(result => {
         console.log(`- ID: ${result.locationId}, Name: "${result.location.name}"`);
       });
@@ -294,18 +294,18 @@ async function generateLocationEmbeddings() {
       const originalDescription = sampleLocation.description || '';
       const cleanedDescription = cleanText(originalDescription);
       
-      console.log('\n🧹 Sample text cleaning:');
+      console.log('\nSample text cleaning:');
       console.log(`Original: ${originalDescription.substring(0, 100)}...`);
       console.log(`Cleaned: ${cleanedDescription.substring(0, 100)}...`);
     }
     
-    console.log('\n🎉 Embeddings generation completed!');
+    console.log('\nEmbeddings generation completed!');
     
     // Clean up Strapi instance
     await strapi.destroy();
     
   } catch (error) {
-    console.error('💥 Fatal error:', error.message);
+    console.error('Fatal error:', error.message);
     console.error(error.stack);
   } finally {
     process.exit(0);
@@ -317,7 +317,7 @@ async function generateLocationEmbeddings() {
  */
 async function testSingleLocation(locationId) {
   try {
-    console.log(`🧪 Testing embedding generation for location ID: ${locationId}\n`);
+    console.log(`Testing embedding generation for location ID: ${locationId}\n`);
     
     const { createStrapi, compileStrapi } = require('@strapi/strapi');
     const appContext = await compileStrapi();
@@ -335,7 +335,7 @@ async function testSingleLocation(locationId) {
       throw new Error(`Location with ID ${locationId} not found`);
     }
     
-    console.log('📍 Location details:');
+    console.log('Location details:');
     console.log(`- ID: ${location.id}`);
     console.log(`- Name: ${location.name}`);
     console.log(`- Category: ${location.category}`);
@@ -346,38 +346,38 @@ async function testSingleLocation(locationId) {
     const originalDescription = location.description || '';
     const cleanedDescription = cleanText(originalDescription);
     
-    console.log(`\n🧹 Text cleaning demonstration:`);
+    console.log(`\nText cleaning demonstration:`);
     console.log(`Original description: ${originalDescription}`);
     console.log(`Cleaned description: ${cleanedDescription}`);
     
     const weightedContent = createWeightedContent(location);
-    console.log(`\n📝 Weighted content (${weightedContent.length} chars):`);
+    console.log(`\nWeighted content (${weightedContent.length} chars):`);
     console.log(weightedContent.substring(0, 300) + '...');
     
     const embedding = await generateEmbedding(location);
     
     if (embedding) {
-      console.log(`\n✅ Embedding generated successfully!`);
-      console.log(`📊 Embedding dimensions: ${embedding.length}`);
-      console.log(`🔢 First 10 values: [${embedding.slice(0, 10).map(v => v.toFixed(6)).join(', ')}...]`);
+      console.log(`\nEmbedding generated successfully!`);
+      console.log(`Embedding dimensions: ${embedding.length}`);
+      console.log(`First 10 values: [${embedding.slice(0, 10).map(v => v.toFixed(6)).join(', ')}...]`);
       
       // Update the location if requested
-      console.log(`\n💾 Updating location with new embedding...`);
+      console.log(`\nUpdating location with new embedding...`);
       await strapi.entityService.update('api::location.location', locationId, {
         data: {
           embeddings: JSON.stringify(embedding)
         }
       });
-      console.log(`✅ Location ${locationId} updated successfully`);
+      console.log(`Location ${locationId} updated successfully`);
     } else {
-      console.log('\n❌ Failed to generate embedding');
+      console.log('\nFailed to generate embedding');
     }
     
     // Clean up Strapi instance
     await strapi.destroy();
     
   } catch (error) {
-    console.error('💥 Test error:', error.message);
+    console.error('Test error:', error.message);
   } finally {
     process.exit(0);
   }
@@ -388,7 +388,7 @@ async function testSingleLocation(locationId) {
  */
 async function analyzeStopWordFiltering() {
   try {
-    console.log('🔍 Analyzing stop word filtering effectiveness...\n');
+    console.log('Analyzing stop word filtering effectiveness...\n');
     
     const { createStrapi, compileStrapi } = require('@strapi/strapi');
     const appContext = await compileStrapi();
@@ -399,7 +399,7 @@ async function analyzeStopWordFiltering() {
       limit: 5, // Analyze first 5 locations
     });
     
-    console.log('📊 Stop word filtering analysis:\n');
+    console.log('Stop word filtering analysis:\n');
     
     for (const location of locations) {
       const description = location.description || '';
@@ -410,7 +410,7 @@ async function analyzeStopWordFiltering() {
         !cleanedWords.includes(word.replace(/[^\w]/g, ''))
       );
       
-      console.log(`📍 Location: ${location.name}`);
+      console.log(`Location: ${location.name}`);
       console.log(`- Original word count: ${originalWords.length}`);
       console.log(`- Cleaned word count: ${cleanedWords.length}`);
       console.log(`- Words removed: ${removedWords.length} (${((removedWords.length / originalWords.length) * 100).toFixed(1)}%)`);
@@ -422,7 +422,7 @@ async function analyzeStopWordFiltering() {
     await strapi.destroy();
     
   } catch (error) {
-    console.error('💥 Analysis error:', error.message);
+    console.error('Analysis error:', error.message);
   } finally {
     process.exit(0);
   }
