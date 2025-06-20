@@ -8,6 +8,7 @@ import ResourceCard from '../components/ResourceCard/ResourceCard';
 import { fetchLocations, Location } from '../utils/strapi.api';
 import './ResourcePage.css';
 import { categoryMeta } from '../utils/categoryMeta';
+import { FaFilter } from 'react-icons/fa';
 
 export default function ResourcePage() {
   const allCategories = new Set(Object.keys(categoryMeta));
@@ -18,7 +19,13 @@ export default function ResourcePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const itemsPerPage = 12;
+
+  const togglePopup = () => {
+    setShowFilterPopup((prev) => !prev);
+  };
 
   const getFilteredLocations = (locationsToFilter: Location[]) => {
     if (selectedCategories.size === 0) return [];
@@ -75,6 +82,17 @@ export default function ResourcePage() {
     loadLocations();
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle('no-scroll', showFilterPopup);
+  }, [showFilterPopup]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const transformLocation = (location: Location) => {
     const categoryInfo = categoryMeta[location.category || ''];
     const iconPath = categoryInfo?.iconPath || '/icons/default/default.svg';
@@ -113,13 +131,16 @@ export default function ResourcePage() {
     <>
       <Navbar />
       <div className="resource-main-container">
-        <div className="resource-sidebar">
-          <Sidebar
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-            onSearchResults={handleSearchResults}
-          />
-        </div>
+        {!isMobile && (
+          <div className="resource-sidebar">
+            <Sidebar
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+              onSearchResults={handleSearchResults}
+            />
+          </div>
+        )}
+
         <div className="resource-card-container">
           {isSearching && (
             <div className="search-status">
@@ -170,7 +191,6 @@ export default function ResourcePage() {
 
               {displayLocations.length > itemsPerPage && (
                 <div className="pagination-controls">
-                  {/* Row for Prev and Next buttons */}
                   <div className="pagination-buttons-row">
                     <button
                       onClick={() => handlePageChange(currentPage - 1)}
@@ -189,7 +209,6 @@ export default function ResourcePage() {
                     </button>
                   </div>
 
-                  {/* Row for page numbers */}
                   <div className="page-numbers">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                       <button
@@ -203,6 +222,26 @@ export default function ResourcePage() {
                   </div>
                 </div>
               )}
+            </>
+          )}
+
+          {/* MOBILE FILTER BUTTON */}
+          {isMobile && (
+            <div className={`mobile-filter-button ${showFilterPopup ? 'open' : ''}`} onClick={togglePopup}>
+              <FaFilter />
+            </div>
+          )}
+
+          {showFilterPopup && isMobile && (
+            <>
+              <div className="filter-backdrop" onClick={togglePopup} />
+              <div className="filter-popup bottom-sheet">
+                <Sidebar
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
+                  onSearchResults={handleSearchResults}
+                />
+              </div>
             </>
           )}
         </div>

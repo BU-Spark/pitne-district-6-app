@@ -425,3 +425,75 @@
 .iconBtn:hover {
   color: var(--color-border-light);
 }
+
+/* Mobile friendly styles */
+@media (max-width: 768px) {
+  .hero {
+    height: 220px;
+    background-attachment: scroll; /* fixed bg causes bugs on mobile */
+    background-position: center center;
+  }
+
+  .welcome {
+    font-size: 1.5rem;
+  }
+
+  .district {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    padding: 0 12px;
+  }
+
+  .masonryWrapper {
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .myMasonryGrid {
+    display: block;
+  }
+
+  .myMasonryGridColumn {
+    padding-left: 0;
+  }
+
+  .zoomImageWrapper {
+    width: 95vw;
+    height: 80vh;
+  }
+
+  .zoomedImage {
+    max-width: 95vw;
+    max-height: 80vh;
+  }
+
+  .closeBtn {
+    font-size: 2rem;
+    top: 10px;
+    right: 15px;
+  }
+
+  .prevBtn,
+  .nextBtn {
+    font-size: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .prevBtn {
+    left: 10px;
+  }
+
+  .nextBtn {
+    right: 10px;
+  }
+
+  .zoomCaption {
+    padding: 0 12px;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}

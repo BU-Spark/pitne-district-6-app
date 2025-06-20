@@ -284,12 +284,9 @@ body {
 @media (max-width: 768px) {
   .resource-main-container {
     flex-direction: column;
+    padding-top: 55px;
     min-height: auto;
     overflow-y: auto; /* allow scrolling on mobile */
-  }
-
-  .resource-sidebar {
-    display: none;
   }
 
   .resource-card-container {
@@ -299,7 +296,6 @@ body {
   }
 
   .resource-card-stack {
-    padding-top: 70px;
     grid-template-columns: 1fr;
     gap: 12px;
   }
@@ -362,5 +358,148 @@ body {
   .resource-card-stack {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .resource-sidebar {
+    display: none;
+  }
+
+  .resource-bottom-sheet {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-light-background);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    padding: 1.25rem 1rem 2rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    animation: slideUp 240ms ease-out forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .bottom-sheet .sidebar {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: var(--color-light-background);
+    border: none !important;
+  }
+
+  .bottom-sheet .sidebar .search-header,
+  .bottom-sheet .sidebar .filter-header {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-light-background);
+    z-index: 10;
+    padding: 16px 1rem 12px;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .bottom-sheet {
+    display: flex;
+    flex-direction: column;
+    height: 70hv;
+    overflow: hidden;
+  }
+
+  .bottom-sheet .sidebar-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 1rem 2rem;
+    min-height: 0;
+  }
+
+  .mobile-filter-button {
+    display: flex;
+    position: fixed;
+    bottom: 30px; /* previously 80px — now aligned better with screen */
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--color-charles-blue);
+    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1100; /* raised above map controls */
+    transition:
+      background 0.25s ease,
+      color 0.25s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    pointer-events: auto;
+  }
+
+  .mobile-filter-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-filter-button.open {
+    background: var(--color-charles-blue);
+    color: var(--color-white);
+  }
+
+  /* Make sure the container or body doesn't interfere with position */
+  html,
+  body {
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* dimmed backdrop */
+  .filter-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 999;
+  }
+
+  /* sliding bottom sheet */
+  .filter-popup.bottom-sheet {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-light-background);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    padding: 1.25rem 1rem 2rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    animation: slideUp 240ms ease-out forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
 }
