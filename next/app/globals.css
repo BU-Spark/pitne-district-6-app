@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400&display=swap');
 
+
 :root {
   /* Boston Brand Colors */
   /* --color-charles-blue: #1a414d;
@@ -34,6 +35,7 @@
   /* Typography */
   --font-primary: 'Montserrat', Arial, sans-serif;
   --font-secondary: 'Lora', serif;
+
 }
 
 html,
@@ -68,4 +70,32 @@ a:hover {
 /* Utility class for secondary font */
 .secondaryFont {
   font-family: var(--font-secondary);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Mobile global styles for home page components */
+@media (max-width: 768px) {
+  .keyLinksCard,
+  .newsletterArchiveCard,
+  .subscribeFooter {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .keyLinksCard,
+  .newsletterArchiveCard {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 10px;
+    padding: 1.25rem 1rem;
+  }
+
+  .subscribeFooter {
+    padding: 1rem;
+  }
 }
