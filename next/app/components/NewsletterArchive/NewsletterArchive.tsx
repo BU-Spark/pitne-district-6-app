@@ -8,7 +8,6 @@ import { FiAlertCircle, FiMapPin } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
 import { fetchNewsletters, Newsletter } from '../../utils/strapi.api';
 
-
 const keyLinks = [
   {
     href: 'https://newsletters.boston.gov/subscribe',

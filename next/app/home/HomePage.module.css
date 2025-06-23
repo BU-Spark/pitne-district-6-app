@@ -454,21 +454,14 @@
   }
 
   .subtitle,
-  :global(.keyLinksCard),
-  :global(.newsletterArchiveCard),
-  .masonryWrapper,
-  :global(.subscribeFooter) {
+  .masonryWrapper {
     padding-left: 2rem;
     padding-right: 2rem;
   }
 
-  :global(.keyLinksCard),          
-  :global(.newsletterArchiveCard) {
-    margin-left: 0 !important;      
-    margin-right: 0 !important;
-    border-radius: 10px;
-    padding: 1.25rem 1rem;        
-  }
+
+
+
 
  
   .masonryWrapper {
@@ -478,9 +471,7 @@
     margin-bottom: 1rem;          
   }
 
-  :global(.subscribeFooter) {
-    padding: 1rem;
-  }
+
   .photoCredit {
   bottom: 10px;     
   right: 20px;     
