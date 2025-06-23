@@ -320,40 +320,6 @@
   }
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .modal {
-    padding: 1.5rem;
-    margin: 1rem;
-    max-width: none;
-    width: calc(100% - 2rem);
-  }
-
-  .title {
-    font-size: 1.25rem;
-  }
-
-  .question {
-    font-size: 1rem;
-  }
-
-  .choiceLabel {
-    padding: 0.625rem;
-  }
-
-  .choiceText {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .modal {
-    padding: 1rem;
-    margin: 0.5rem;
-    width: calc(100% - 1rem);
-  }
-}
-
 .stackedRegionalBarContainer {
   position: relative;
   height: 0.5rem;
@@ -384,4 +350,38 @@
 
 .statusMessage.error {
   color: var(--color-charles-blue);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .modalHeader {
+    padding-top: 1rem;
+    margin: 0;
+  }
+
+  .modal {
+    margin: 1rem;
+    max-width: none;
+    width: calc(100% - 2rem);
+  }
+
+  .statusMessage {
+    font-size: 0.85rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .question {
+    font-size: 1rem;
+  }
+
+  .choiceLabel {
+    padding: 0.625rem;
+  }
+
+  .choiceText {
+    font-size: 0.9rem;
+  }
 }

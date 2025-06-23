@@ -34,6 +34,8 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
     loadResults();
   }, [pollDocumentId]);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+
   if (isLoading) {
     return (
       <div className={styles.loading}>
@@ -105,6 +107,10 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
                     .map((regional) => {
                       const widthPercent = totalVotesForChoice > 0 ? (regional.votes / totalVotesForChoice) * 100 : 0;
 
+                      const titleText = isMobile
+                        ? `${regional.region}\n${regional.votes} ${regional.votes === 1 ? 'vote' : 'votes'} (${widthPercent.toFixed(1)}%)`
+                        : `${regional.region}, ${regional.votes} ${regional.votes === 1 ? 'vote' : 'votes'} (${widthPercent.toFixed(1)}%)`;
+
                       return (
                         <div
                           key={regional.region}
@@ -118,7 +124,7 @@ const PollResults: React.FC<PollResultsProps> = ({ pollDocumentId, userChoice })
                                   ? 'var(--color-alt-gray)'
                                   : 'var(--color-charles-blue)',
                           }}
-                          title={`${regional.region}, ${regional.votes} ${regional.votes === 1 ? 'vote' : 'votes'} (${widthPercent.toFixed(1)}%)`}
+                          title={titleText}
                         />
                       );
                     })}

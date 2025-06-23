@@ -10,7 +10,18 @@ const PollButton: React.FC<{ isFooterVisible: boolean }> = ({ isFooterVisible })
   const [activePoll, setActivePoll] = useState<Poll | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const bottomOffset = isFooterVisible ? '85px' : '20px';
+  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const loadActivePoll = async () => {
@@ -37,6 +48,17 @@ const PollButton: React.FC<{ isFooterVisible: boolean }> = ({ isFooterVisible })
 
   if (isLoading || !activePoll) {
     return null;
+  }
+
+  // Dynamic bottomOffset based on screen size + footer visibility
+  let bottomOffset = '20px'; // default desktop
+
+  if (windowWidth <= 768) {
+    // mobile & tablet
+    bottomOffset = isFooterVisible ? '135px' : '20px';
+  } else {
+    // desktop
+    bottomOffset = isFooterVisible ? '85px' : '20px';
   }
 
   return (
