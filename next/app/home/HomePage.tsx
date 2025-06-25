@@ -168,10 +168,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        <SubscribeFooter
-          subscribeUrl="https://docs.google.com/forms/d/e/1FAIpQLSddhuc44fUNSUSHSgdvp002jbUbr-svGOCnzocWIXNRqvkrnw/viewform"
-          onFooterToggle={(visible: boolean) => setIsFooterVisible(visible)}
-        />
+        <SubscribeFooter onFooterToggle={(visible: boolean) => setIsFooterVisible(visible)} />
       </div>
 
       <PollButton isFooterVisible={isFooterVisible} />
