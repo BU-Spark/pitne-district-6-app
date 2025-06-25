@@ -537,6 +537,33 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiLinkLink extends Struct.CollectionTypeSchema {
+  collectionName: 'links';
+  info: {
+    description: '';
+    displayName: 'Link';
+    pluralName: 'links';
+    singularName: 'link';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::link.link'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    url: Schema.Attribute.String;
+  };
+}
+
 export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
   collectionName: 'locations';
   info: {
@@ -713,69 +740,6 @@ export interface ApiPollPoll extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiResourceResource extends Struct.CollectionTypeSchema {
-  collectionName: 'resources';
-  info: {
-    description: '';
-    displayName: 'Old_Resource';
-    pluralName: 'resources';
-    singularName: 'resource';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    category: Schema.Attribute.Enumeration<
-      [
-        'Progressive Organizing',
-        'Small Business Community Organization',
-        'Senior Community Organizations',
-        'Bike Community Organizations',
-        'Education Community Organizations',
-        'Climate, Environment, Parks Organizations',
-        'Housing Community Organizations',
-        'Pet Care',
-        'Child Care Organizations',
-        'Healthcare',
-        'Food Community Organizations',
-        'Youth Community Organizations',
-        'Justice and Community Organizing',
-        'Neighborhood Associations',
-        'BHA and Senior Housing',
-        'Police and Fire',
-        'Arts and Culture Organizations',
-        'Boston Public Schools',
-        'Others',
-      ]
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
-    documents: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    email: Schema.Attribute.Email;
-    embeddings: Schema.Attribute.Text;
-    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    is_active: Schema.Attribute.Boolean;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::resource.resource'
-    > &
-      Schema.Attribute.Private;
-    phone: Schema.Attribute.BigInteger;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    website: Schema.Attribute.String;
   };
 }
 
@@ -1293,11 +1257,11 @@ declare module '@strapi/strapi' {
       'api::event.event': ApiEventEvent;
       'api::flyer.flyer': ApiFlyerFlyer;
       'api::global.global': ApiGlobalGlobal;
+      'api::link.link': ApiLinkLink;
       'api::location.location': ApiLocationLocation;
       'api::newsletter.newsletter': ApiNewsletterNewsletter;
       'api::poll-response.poll-response': ApiPollResponsePollResponse;
       'api::poll.poll': ApiPollPoll;
-      'api::resource.resource': ApiResourceResource;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

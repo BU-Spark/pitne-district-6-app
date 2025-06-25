@@ -6,7 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import Image from 'next/image';
-import { fetchCouncilor, CouncilMember } from '../../utils';
+import { fetchCouncilor, CouncilMember, fetchLink } from '../../utils';
 
 export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,6 +14,20 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const [councilor, setCouncilor] = useState<CouncilMember | null>(null);
   const [loading, setLoading] = useState(true);
+  const [councilorLink, setCouncilorLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadLink = async () => {
+      try {
+        const url = await fetchLink('Councillor D6 City of Boston Link');
+        setCouncilorLink(url);
+      } catch (error) {
+        console.error('Failed to load councilor link:', error);
+      }
+    };
+
+    loadLink();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,9 +104,13 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
               DISTRICT 6
             </Link>
             <span className={styles.divider}></span>
-            <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
+            <a
+              href={councilorLink || 'https://www.boston.gov/departments/city-council/benjamin-j-weber'}
+              className={styles.mayor}
+            >
               {getCouncilorDisplay()}
             </a>
+
             <span className={styles.divider}></span>
             <LanguageSelector setLanguage={setLanguage} />
           </div>
@@ -103,7 +121,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
           <Link href="/resources">RESOURCES</Link>
           <Link href="/locations">LOCATIONS</Link>
           <Link href="/events">EVENTS</Link>
-          <Link href="/about">ABOUT US</Link>
+          <Link href="/about">ABOUT</Link>
           {/* <span className={styles.searchIcon}>
             <Search size={18} strokeWidth={4} />
           </span> */}
@@ -134,7 +152,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
                 EVENTS
               </Link>
               <Link href="/about" onClick={closeMobileMenu}>
-                ABOUT US
+                ABOUT
               </Link>
             </nav>
           </div>

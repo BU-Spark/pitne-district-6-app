@@ -157,16 +157,18 @@ export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang:
   };
 
   return (
-    <div className={styles.languageSelector}>
+    <div className={`${styles.languageSelector} notranslate`}>
       {languages.map((language) => (
         <button
           key={language.code}
-          className={`${styles.languageButton} ${language.code === currentLanguage ? styles.active : ''}`}
+          className={`${styles.languageButton} ${language.code === currentLanguage ? styles.active : ''} notranslate`}
           onClick={() => changeLanguage(language.code)}
           title={language.name}
         >
-          <span className={styles.flag}>{language.flag}</span>
-          <span className={styles.langCode}>{(isMobile ? shortLabels : fullLabels)[language.code].toUpperCase()}</span>
+          <span className={`${styles.flag} notranslate`}>{language.flag}</span>
+          <span className={`${styles.langCode} notranslate`}>
+            {(isMobile ? shortLabels : fullLabels)[language.code].toUpperCase()}
+          </span>
         </button>
       ))}
     </div>
