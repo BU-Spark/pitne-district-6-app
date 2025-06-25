@@ -171,6 +171,11 @@ export interface StrapiResponse<T> {
   };
 }
 
+export interface StrapiLink {
+  title: string;
+  url: string;
+}
+
 /**
  * Fetch all council members
  */
@@ -632,5 +637,31 @@ export async function submitPollResponse(
   } catch (error) {
     console.error('Error fetching poll results:', error);
     throw error;
+  }
+}
+
+/**
+ * Fetch a single link by title
+ */
+export async function fetchLink(title: string): Promise<string | null> {
+  try {
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/links?filters[title][$eq]=${encodeURIComponent(title)}&populate=*`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch link "${title}": ${response.statusText}`);
+    }
+
+    const result: StrapiResponse<StrapiLink[]> = await response.json();
+
+    if (result.data.length > 0 && result.data[0].title && result.data[0].url) {
+      return result.data[0].url;
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Error fetching link "${title}":`, error);
+    return null;
   }
 }

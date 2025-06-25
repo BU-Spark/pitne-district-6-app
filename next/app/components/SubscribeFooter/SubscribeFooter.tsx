@@ -1,23 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SubscribeFooter.module.css';
 import { X } from 'lucide-react';
+import { fetchLink } from '../../utils';
 
 type SubscribeFooterProps = {
-  subscribeUrl: string;
   onFooterToggle: (visible: boolean) => void;
 };
 
-const SubscribeFooter: React.FC<SubscribeFooterProps> = ({ subscribeUrl, onFooterToggle }) => {
+const SubscribeFooter: React.FC<SubscribeFooterProps> = ({ onFooterToggle }) => {
   const [visible, setVisible] = useState(true);
+  const [subscribeUrl, setSubscribeUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadLink = async () => {
+      try {
+        const url = await fetchLink('District 6 Subscribe to Newsletter Link');
+        setSubscribeUrl(url);
+      } catch (error) {
+        console.error('Failed to load newsletter link:', error);
+      }
+    };
+
+    loadLink();
+  }, []);
 
   const handleClose = () => {
     setVisible(false);
     onFooterToggle(false);
   };
 
-  if (!visible) return null;
+  if (!visible || !subscribeUrl) return null;
 
   return (
     <footer className={styles.footer}>

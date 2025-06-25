@@ -6,7 +6,7 @@ import { BsBook } from 'react-icons/bs';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
-import { fetchCouncilMembers, CouncilMember } from '../utils/strapi.api';
+import { fetchCouncilMembers, CouncilMember, fetchLink } from '../utils/strapi.api';
 import styles from './AboutPage.module.css';
 import { FaInstagram } from 'react-icons/fa';
 
@@ -28,6 +28,20 @@ export default function AboutPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const [instagramLink, setInstagramLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadInstagramLink = async () => {
+      try {
+        const url = await fetchLink('D6 Team Instagram Page');
+        setInstagramLink(url);
+      } catch (error) {
+        console.error('Failed to load Instagram link:', error);
+      }
+    };
+
+    loadInstagramLink();
+  }, []);
 
   useEffect(() => {
     const loadCouncilMembers = async () => {
@@ -197,7 +211,7 @@ export default function AboutPage() {
             <h2 className={styles.sectionTitle}>
               Meet the Team{' '}
               <a
-                href="https://www.instagram.com/ben4district6/"
+                href={instagramLink || 'https://www.instagram.com/ben4district6/'}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"

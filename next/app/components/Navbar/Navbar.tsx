@@ -6,7 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import Image from 'next/image';
-import { fetchCouncilor, CouncilMember } from '../../utils';
+import { fetchCouncilor, CouncilMember, fetchLink } from '../../utils';
 
 export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,6 +14,20 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const [councilor, setCouncilor] = useState<CouncilMember | null>(null);
   const [loading, setLoading] = useState(true);
+  const [councilorLink, setCouncilorLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadLink = async () => {
+      try {
+        const url = await fetchLink('Councillor D6 City of Boston Link');
+        setCouncilorLink(url);
+      } catch (error) {
+        console.error('Failed to load councilor link:', error);
+      }
+    };
+
+    loadLink();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,7 +92,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
 
         {/* ✅ Boston Logo Centered */}
         <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
-          <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={110} height={110} priority />
+          <Image src="/icons/boston_city_logo1.png" alt="City of Boston Logo" width={110} height={110} priority />
         </div>
 
         {/* ✅ Desktop Only */}
@@ -88,9 +102,13 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
               DISTRICT 6
             </Link>
             <span className={styles.divider}></span>
-            <a href="https://www.boston.gov/departments/city-council/benjamin-j-weber" className={styles.mayor}>
+            <a
+              href={councilorLink || 'https://www.boston.gov/departments/city-council/benjamin-j-weber'}
+              className={styles.mayor}
+            >
               {getCouncilorDisplay()}
             </a>
+
             <span className={styles.divider}></span>
             <LanguageSelector setLanguage={setLanguage} />
           </div>

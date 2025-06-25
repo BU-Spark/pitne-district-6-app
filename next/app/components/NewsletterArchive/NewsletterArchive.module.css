@@ -51,11 +51,12 @@
   height: 100%;
   border: none;
   display: block;
+  background-color: #f9f9f9;
+  overflow: hidden;
 }
 
 .archiveList {
   flex: 1.3;
-  /* padding: 0.8rem; */
   overflow-y: auto;
   max-height: 100%;
   scrollbar-width: none;
@@ -158,7 +159,6 @@
   opacity: 1;
 }
 
-/* Key Links Styling */
 .keyLinksContainer {
   margin-top: 0;
   background: var(--color-white);
@@ -168,6 +168,7 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1.5rem;
 }
 
 .keyLinksContainer h3 {
@@ -176,10 +177,6 @@
   font-weight: bold;
   color: var(--color-charles-blue);
   margin-bottom: 1rem;
-}
-
-.keyLinksContainer {
-  margin-bottom: 1.5rem;
 }
 
 .keyLinksGrid {
@@ -226,19 +223,95 @@
   opacity: 0.6;
 }
 
-.pdfIframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  background-color: #f9f9f9;
-  overflow: hidden;
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 2rem 0;
+  padding: 1rem;
 }
 
-.pdfViewer {
+.pagination-buttons-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
   width: 100%;
-  height: 100%;
-  position: relative;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  font-family: var(--font-primary);
+  border: 2px solid var(--color-border-light);
+  border-radius: 4px;
+  background-color: var(--color-light-background);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: var(--color-white);
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  max-width: 100%;
+}
+
+.page-number {
+  flex: 1 0 auto;
+  min-width: 44px;
+  max-width: 60px;
+  text-align: center;
+  padding: 0.5rem;
+  border: 2px solid var(--color-border-light);
+  font-family: var(--font-primary);
+  border-radius: 4px;
+  background-color: var(--color-light-background);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.page-number:hover {
+  background-color: var(--color-border-light);
+}
+
+.page-number.active {
+  background-color: var(--color-charles-blue);
+  color: var(--color-white);
+  border-color: var(--color-charles-blue);
+}
+
+@media (min-width: 769px) {
+  .pagination-controls {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .pagination-buttons-row {
+    width: auto;
+    gap: 0.75rem;
+    margin-right: 2rem;
+  }
+
+  .page-numbers {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
 }
 
 @media (max-width: 768px) {
