@@ -20,9 +20,9 @@ const keyLinks = [
     label: 'West Roxbury Association',
   },
   {
-    href: 'https://www.bostonplans.org/neighborhoods/jamaica-plain/at-a-glance',
+    href: 'https://www.bostonplans.org/projects/development-projects?neighborhoodid=11&sortby=filed&sortdirection=DESC',
     icon: <FaBuilding size={16} />,
-    label: 'JP Housing Developments',
+    label: 'JP Development Projects Under Review',
   },
   {
     href: 'https://www.boston.gov/departments/city-council#newsletter',
@@ -35,9 +35,9 @@ const keyLinks = [
     label: 'West Roxbury Connect',
   },
   {
-    href: 'https://www.bostonplans.org/neighborhoods/west-roxbury/at-a-glance',
+    href: 'https://www.bostonplans.org/projects/development-projects?neighborhoodid=19&sortby=filed&sortdirection=DESC',
     icon: <FaBuilding size={16} />,
-    label: 'West Roxbury Housing Developments',
+    label: 'WR Development Projects Under Review',
   },
   {
     href: 'https://newsletters.boston.gov/subscribe?category=My%20Neighborhood',
@@ -237,7 +237,14 @@ const NewsletterArchive = () => {
 
         <div className={styles.keyLinksGrid}>
           {(isMobile ? keyLinksSortedByGroup : keyLinks).map(({ href, icon, label }) => (
-            <a key={label} href={href} className={styles.keyLink} aria-label={label}>
+            <a
+              key={label}
+              href={href}
+              className={styles.keyLink}
+              aria-label={label}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {icon} {label}
             </a>
           ))}

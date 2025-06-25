@@ -92,7 +92,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
 
         {/* ✅ Boston Logo Centered */}
         <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
-          <Image src="/icons/boston_city_logo1.png" alt="City of Boston Logo" width={110} height={110} priority />
+          <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={110} height={110} priority />
         </div>
 
         {/* ✅ Desktop Only */}
@@ -119,7 +119,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
           <Link href="/resources">RESOURCES</Link>
           <Link href="/locations">LOCATIONS</Link>
           <Link href="/events">EVENTS</Link>
-          <Link href="/about">ABOUT US</Link>
+          <Link href="/about">ABOUT</Link>
           {/* <span className={styles.searchIcon}>
             <Search size={18} strokeWidth={4} />
           </span> */}
@@ -150,7 +150,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
                 EVENTS
               </Link>
               <Link href="/about" onClick={closeMobileMenu}>
-                ABOUT US
+                ABOUT
               </Link>
             </nav>
           </div>
