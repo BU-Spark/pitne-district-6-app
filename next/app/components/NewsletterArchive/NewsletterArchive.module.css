@@ -105,7 +105,7 @@
   display: flex;
   gap: 0.5rem;
   min-width: 180px;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .archiveButton {
@@ -292,6 +292,12 @@
   background-color: var(--color-charles-blue);
   color: var(--color-white);
   border-color: var(--color-charles-blue);
+}
+
+.keyLink svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
 }
 
 @media (min-width: 769px) {

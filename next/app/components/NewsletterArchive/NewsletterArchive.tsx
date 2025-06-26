@@ -108,6 +108,12 @@ const keyLinks = [
 
 const keyLinksSortedByGroup = [
   {
+    href: 'https://www.boston.gov/departments/emergency-management/city-boston-alerts-and-notifications',
+    icon: <FiAlertCircle size={16} />,
+    label: 'City of Boston Alerts',
+    group: 'alert',
+  },
+  {
     href: 'https://newsletters.boston.gov/subscribe',
     icon: <MdEmail size={16} />,
     label: 'City of Boston Newsletters',
@@ -167,24 +173,6 @@ const keyLinksSortedByGroup = [
     label: 'The Bulletin – WR/Roslindale',
     group: 'newspaper',
   },
-  {
-    href: 'https://www.boston.gov/departments/emergency-management/city-boston-alerts-and-notifications',
-    icon: <FiAlertCircle size={16} />,
-    label: 'City of Boston Alerts',
-    group: 'alert',
-  },
-  {
-    href: 'https://www.boston.gov/departments/public-works/roadway-resurfacing-boston',
-    icon: <FaRoad size={16} />,
-    label: 'Street Resurfacing List',
-    group: 'road',
-  },
-  {
-    href: 'https://www.boston.gov/departments/transportation/making-neighborhood-streets-safer',
-    icon: <FiMapPin size={16} />,
-    label: 'Speed Hump Eligibility Map',
-    group: 'map',
-  },
 
   {
     href: 'https://www.bostonplans.org/projects/development-projects?neighborhoodid=11&sortby=filed&sortdirection=DESC',
@@ -203,6 +191,19 @@ const keyLinksSortedByGroup = [
     icon: <FaCity size={16} />,
     label: 'My Neighborhood',
     group: 'city',
+  },
+
+  {
+    href: 'https://www.boston.gov/departments/public-works/roadway-resurfacing-boston',
+    icon: <FaRoad size={16} />,
+    label: 'Street Resurfacing List',
+    group: 'road',
+  },
+  {
+    href: 'https://www.boston.gov/departments/transportation/making-neighborhood-streets-safer',
+    icon: <FiMapPin size={16} />,
+    label: 'Speed Hump Eligibility Map',
+    group: 'map',
   },
 ];
 

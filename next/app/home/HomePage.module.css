@@ -465,6 +465,7 @@
   .subtitle {
     padding-top: 5%;
     font-size: 0.75rem;
+    max-width: 420px;
     line-height: 1.3rem;
   }
 
@@ -527,5 +528,20 @@
     max-width: 94%;
     padding-left: 12px;
     padding-right: 12px;
+  }
+
+  .myMasonryGrid {
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .myMasonryGridColumn {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    max-width: 500px;
   }
 }

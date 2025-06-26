@@ -75,7 +75,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
   return (
     <>
       <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
-        {/* ✅ Mobile Only */}
+        {/* Mobile Only */}
         <div className={styles.mobileOnly}>
           <div className={styles.mobileHeaderLeft}>
             <button className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
@@ -90,12 +90,12 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
           </div>
         </div>
 
-        {/* ✅ Boston Logo Centered */}
+        {/* Boston Logo Centered */}
         <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
-          <Image src="/icons/boston_city_logo5.png" alt="City of Boston Logo" width={110} height={110} priority />
+          <Image src="/icons/d6_logo.png" alt="D6 Logo" width={110} height={110} priority />
         </div>
 
-        {/* ✅ Desktop Only */}
+        {/* Desktop Only */}
         <div className={styles.desktopOnly}>
           <div className={styles.logoSection}>
             <Link href="/" className={styles.cityName}>
@@ -116,7 +116,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
           </div>
         </div>
 
-        {/* ✅ Navigation */}
+        {/* Navigation */}
         <nav className={styles.nav}>
           <Link href="/resources">RESOURCES</Link>
           <Link href="/locations">LOCATIONS</Link>
@@ -128,7 +128,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
         </nav>
       </header>
 
-      {/* ✅ Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className={styles.mobileMenuOverlay} onClick={closeMobileMenu}>
           <div
@@ -136,7 +136,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.mobileMenuLogo}>
-              <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={120} height={120} priority />
+              <Image src="/icons/d6_logo.png" alt="D6 Logo" width={180} height={180} priority />
             </div>
             <nav className={styles.mobileNav}>
               <Link href="/" onClick={closeMobileMenu}>
