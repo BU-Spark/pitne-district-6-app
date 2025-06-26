@@ -41,14 +41,15 @@
 .aboutText p {
   margin-bottom: 1.5rem;
 }
-
-/* Style the top buttons container */
 .linkButtons {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Link styles */

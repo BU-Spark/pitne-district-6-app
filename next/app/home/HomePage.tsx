@@ -167,9 +167,9 @@ const HomePage = () => {
             )}
           </div>
         </section>
-
-        <SubscribeFooter onFooterToggle={(visible: boolean) => setIsFooterVisible(visible)} />
       </div>
+
+      <SubscribeFooter onFooterToggle={(visible: boolean) => setIsFooterVisible(visible)} />
 
       <PollButton isFooterVisible={isFooterVisible} />
     </>

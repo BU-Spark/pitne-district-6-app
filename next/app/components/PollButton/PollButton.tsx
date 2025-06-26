@@ -50,8 +50,7 @@ const PollButton: React.FC<{ isFooterVisible: boolean }> = ({ isFooterVisible })
     return null;
   }
 
-  // Dynamic bottomOffset based on screen size + footer visibility
-  let bottomOffset = '20px'; // default desktop
+  let bottomOffset = '20px';
 
   if (windowWidth <= 768) {
     // mobile & tablet
