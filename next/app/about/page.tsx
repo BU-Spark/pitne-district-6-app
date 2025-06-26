@@ -91,7 +91,6 @@ export default function AboutPage() {
           <div className={styles.aboutContent}>
             <h1 className={styles.mainTitle}>About District 6</h1>
             {/* Link cards */}
-
             <div className={styles.linkButtons}>
               <a
                 href="https://www.bostonplans.org/getattachment/ebd89ac2-3046-4ebd-879b-0cf2b67c8ee8/"
@@ -118,6 +117,15 @@ export default function AboutPage() {
               >
                 <BsBook style={{ marginRight: '6px', verticalAlign: 'middle' }} />
                 <strong>Jamaica Plain Field Guide</strong>
+              </a>
+
+              <a
+                href="  https://www.wbur.org/news/2023/09/01/west-roxbury-boston-massachusetts-locals-field-guide"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BsBook style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                <strong>West Roxbury Field Guide</strong>
               </a>
             </div>
 
@@ -157,7 +165,7 @@ export default function AboutPage() {
                 ). JP also has a vibrant LGBTQIA+ population—one of the highest in Boston (13.9% of its population as of
                 2017). (
                 <a
-                  href="https://www.wbur.org/news/2020/02/26/boston-neighborhood-field-guide"
+                  href="https://www.wbur.org/tag/boston-massachusetts-neighborhood-field-guide"
                   target="_blank"
                   rel="noopener noreferrer"
                   title="WBUR's Field Guide to Boston"
@@ -192,7 +200,7 @@ export default function AboutPage() {
                 </a>
                 ,{' '}
                 <a
-                  href="https://www.wbur.org/news/2020/02/26/boston-neighborhood-field-guide"
+                  href="https://www.wbur.org/tag/boston-massachusetts-neighborhood-field-guide"
                   target="_blank"
                   rel="noopener noreferrer"
                   title="WBUR's Field Guide to Boston"

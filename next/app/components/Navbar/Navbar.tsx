@@ -19,7 +19,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
   useEffect(() => {
     const loadLink = async () => {
       try {
-        const url = await fetchLink('Councillor D6 City of Boston Link');
+        const url = await fetchLink('Councilor D6 City of Boston Link');
         setCouncilorLink(url);
       } catch (error) {
         console.error('Failed to load councilor link:', error);
@@ -94,7 +94,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
 
         {/* ✅ Boston Logo Centered */}
         <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
-          <Image src="/icons/boston_city_logo.png" alt="City of Boston Logo" width={110} height={110} priority />
+          <Image src="/icons/boston_city_logo5.png" alt="City of Boston Logo" width={110} height={110} priority />
         </div>
 
         {/* ✅ Desktop Only */}
@@ -107,6 +107,8 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
             <a
               href={councilorLink || 'https://www.boston.gov/departments/city-council/benjamin-j-weber'}
               className={styles.mayor}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {getCouncilorDisplay()}
             </a>

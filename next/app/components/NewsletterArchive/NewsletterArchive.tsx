@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './NewsletterArchive.module.css';
 import { FiExternalLink } from 'react-icons/fi';
-import { FaBuilding, FaFacebook, FaNewspaper, FaRoad } from 'react-icons/fa';
+import { FaHome, FaBuilding, FaFacebook, FaNewspaper, FaRoad, FaCity } from 'react-icons/fa';
 import { FiAlertCircle, FiMapPin } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
 import { fetchNewsletters, Newsletter } from '../../utils/strapi.api';
@@ -69,10 +69,11 @@ const keyLinks = [
     icon: <FaNewspaper size={16} />,
     label: 'Jamaica Plain News',
   },
+
   {
-    href: 'https://www.boston.gov/departments/public-works/roadway-resurfacing-boston',
-    icon: <FaRoad size={16} />,
-    label: 'Street Resurfacing List',
+    href: 'https://311.boston.gov/',
+    icon: <FiAlertCircle size={16} />,
+    label: 'Boston 311',
   },
 
   {
@@ -85,6 +86,23 @@ const keyLinks = [
     href: 'https://bulletinnewspapers.weebly.com/',
     icon: <FaNewspaper size={16} />,
     label: 'The Bulletin – WR/Roslindale',
+  },
+
+  {
+    href: 'https://www.boston.gov/my-neighborhood?p3',
+    icon: <FaCity size={16} />,
+    label: 'My Neighborhood',
+  },
+
+  {
+    href: 'https://www.boston.gov/departments/public-works/roadway-resurfacing-boston',
+    icon: <FaRoad size={16} />,
+    label: 'Street Resurfacing List',
+  },
+  {
+    href: 'https://www.boston.gov/metrolist',
+    icon: <FaHome size={16} />,
+    label: 'Metrolist Housing Search',
   },
 ];
 
@@ -132,18 +150,6 @@ const keyLinksSortedByGroup = [
     group: 'facebook',
   },
   {
-    href: 'https://www.bostonplans.org/neighborhoods/jamaica-plain/at-a-glance',
-    icon: <FaBuilding size={16} />,
-    label: 'JP Housing Developments',
-    group: 'building',
-  },
-  {
-    href: 'https://www.bostonplans.org/neighborhoods/west-roxbury/at-a-glance',
-    icon: <FaBuilding size={16} />,
-    label: 'West Roxbury Housing Developments',
-    group: 'building',
-  },
-  {
     href: 'https://jamaicaplaingazette.com/',
     icon: <FaNewspaper size={16} />,
     label: 'Jamaica Plain Gazette',
@@ -178,6 +184,25 @@ const keyLinksSortedByGroup = [
     icon: <FiMapPin size={16} />,
     label: 'Speed Hump Eligibility Map',
     group: 'map',
+  },
+
+  {
+    href: 'https://www.bostonplans.org/projects/development-projects?neighborhoodid=11&sortby=filed&sortdirection=DESC',
+    icon: <FaBuilding size={16} />,
+    label: 'JP Development Projects Under Review',
+    group: 'building',
+  },
+  {
+    href: 'https://www.bostonplans.org/projects/development-projects?neighborhoodid=19&sortby=filed&sortdirection=DESC',
+    icon: <FaBuilding size={16} />,
+    label: 'WR Development Projects Under Review',
+    group: 'building',
+  },
+  {
+    href: 'https://www.boston.gov/my-neighborhood?p3',
+    icon: <FaCity size={16} />,
+    label: 'My Neighborhood',
+    group: 'city',
   },
 ];
 
