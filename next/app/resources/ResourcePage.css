@@ -503,3 +503,35 @@ body {
     }
   }
 }
+
+/* Pagination Layout - Desktop & Mobile */
+.pagination-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-buttons-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .pagination-flex {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pagination-buttons-group {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .pagination-controls {
+    padding-top: 1rem;
+  }
+}

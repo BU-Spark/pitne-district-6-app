@@ -191,34 +191,35 @@ export default function ResourcePage() {
 
               {displayLocations.length > itemsPerPage && (
                 <div className="pagination-controls">
-                  <div className="pagination-buttons-row">
-                    <button
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      className="pagination-button"
-                    >
-                      Previous
-                    </button>
-
-                    <button
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      className="pagination-button"
-                    >
-                      Next
-                    </button>
-                  </div>
-
-                  <div className="page-numbers">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <div className="pagination-flex">
+                    <div className="pagination-buttons-group">
                       <button
-                        key={pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                        className={`page-number ${pageNum === currentPage ? 'active' : ''}`}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="pagination-button"
                       >
-                        {pageNum}
+                        Previous
                       </button>
-                    ))}
+                      <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="pagination-button"
+                      >
+                        Next
+                      </button>
+                    </div>
+
+                    <div className="page-numbers">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                        <button
+                          key={pageNum}
+                          onClick={() => handlePageChange(pageNum)}
+                          className={`page-number ${pageNum === currentPage ? 'active' : ''}`}
+                        >
+                          {pageNum}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
