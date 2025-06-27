@@ -138,7 +138,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.mobileMenuLogo}>
-              <Image src="/icons/d6_logo.png" alt="D6 Logo" width={180} height={180} priority />
+              <Image src="/icons/d6logo.png" alt="D6 Logo" width={180} height={180} priority />
             </div>
             <nav className={styles.mobileNav}>
               <Link href="/" onClick={closeMobileMenu}>
