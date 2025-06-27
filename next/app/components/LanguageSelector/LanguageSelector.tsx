@@ -45,6 +45,47 @@ declare global {
   }
 }
 
+// Utility functions for robust cookie management
+const setCookie = (name: string, value: string, options: { path?: string; domain?: string; expires?: string } = {}) => {
+  let cookieString = `${name}=${value}`;
+
+  if (options.path) cookieString += `; path=${options.path}`;
+  if (options.domain) cookieString += `; domain=${options.domain}`;
+  if (options.expires) cookieString += `; expires=${options.expires}`;
+
+  document.cookie = cookieString;
+};
+
+const deleteCookie = (name: string, options: { path?: string; domain?: string } = {}) => {
+  const expireDate = new Date(0).toUTCString();
+  setCookie(name, '', { ...options, expires: expireDate });
+};
+
+const clearAllGoogleTranslateCookies = () => {
+  // Clear various Google Translate cookies with different path/domain combinations
+  const cookieNames = ['googtrans', 'goog-gt-sl', 'goog-gt-tl', 'googtrans=/auto/es', 'googtrans=/en/es'];
+  const paths = ['/', ''];
+  const domains = [window.location.hostname, `.${window.location.hostname}`, ''];
+
+  cookieNames.forEach((cookieName) => {
+    paths.forEach((path) => {
+      domains.forEach((domain) => {
+        deleteCookie(cookieName, { path, domain });
+      });
+    });
+  });
+
+  // Additional cleanup - clear all cookies that start with 'googtrans'
+  document.cookie.split(';').forEach((cookie) => {
+    const cookiePair = cookie.trim().split('=');
+    if (cookiePair[0] && cookiePair[0].includes('googtrans')) {
+      deleteCookie(cookiePair[0], { path: '/' });
+      deleteCookie(cookiePair[0], { path: '', domain: window.location.hostname });
+      deleteCookie(cookiePair[0], { path: '', domain: `.${window.location.hostname}` });
+    }
+  });
+};
+
 export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang: string) => void }) {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [isInitialized, setIsInitialized] = useState(false);
@@ -127,7 +168,7 @@ export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang:
     // Apply saved language if it's Spanish
     if (savedLang === 'es') {
       setTimeout(() => {
-        document.cookie = 'googtrans=/en/es; path=/';
+        setCookie('googtrans', '/en/es', { path: '/' });
       }, 2000);
     }
   }, []);
@@ -142,17 +183,34 @@ export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang:
       setLanguage(langCode);
     }
 
-    setCurrentLanguage(langCode);
-    localStorage.setItem('selected-language', langCode);
-
     if (langCode === 'es') {
-      // Set Google Translate cookie for Spanish
-      document.cookie = 'googtrans=/en/es; path=/';
-      window.location.reload();
+      // Set Google Translate cookie for Spanish with robust cookie setting
+      setCookie('googtrans', '/en/es', { path: '/' });
+
+      // For production environments, also try setting with domain
+      if (window.location.hostname !== 'localhost') {
+        setCookie('googtrans', '/en/es', { path: '/', domain: window.location.hostname });
+      }
+
+      setTimeout(() => window.location.reload(), 100);
     } else {
-      // Reset to English
-      document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      window.location.reload();
+      // Enhanced reset to English with multiple fallback methods
+      clearAllGoogleTranslateCookies();
+
+      // Force set to English explicitly
+      setCookie('googtrans', '/auto/en', { path: '/' });
+
+      // Additional cleanup for production
+      if (window.location.hostname !== 'localhost') {
+        setCookie('googtrans', '/auto/en', { path: '/', domain: window.location.hostname });
+        setCookie('googtrans', '/auto/en', { path: '/', domain: `.${window.location.hostname}` });
+      }
+
+      // Clear any remaining translation state
+      setTimeout(() => {
+        clearAllGoogleTranslateCookies();
+        window.location.reload();
+      }, 100);
     }
   };
 
