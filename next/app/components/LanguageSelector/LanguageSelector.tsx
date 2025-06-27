@@ -139,6 +139,7 @@ export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang:
     localStorage.setItem('selected-language', langCode);
     setLanguage?.(langCode);
 
+    // Safari fix: force reset by updating cookie and reloading via a short delay
     if (langCode === 'es') {
       document.cookie = 'googtrans=/en/es; path=/';
       setTimeout(() => {

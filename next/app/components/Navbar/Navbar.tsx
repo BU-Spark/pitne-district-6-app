@@ -94,7 +94,7 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
 
         {/* Boston Logo Centered */}
         <div className={`${styles.bostonLogo} ${isScrolled ? styles.bostonLogoScrolled : ''}`}>
-          <Image src="/icons/d6_logo.png" alt="D6 Logo" width={110} height={110} priority />
+          <Image src="/icons/d6logo.png" alt="D6 Logo" width={110} height={110} priority />
         </div>
 
         {/* Desktop Only */}
