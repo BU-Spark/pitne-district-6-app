@@ -42,10 +42,12 @@ export default function Navbar({ setLanguage }: { setLanguage?: (lang: string) =
   useEffect(() => {
     const loadCouncilor = async () => {
       try {
+        setLoading(true);
         const councilorData = await fetchCouncilor();
         setCouncilor(councilorData);
       } catch (error) {
         console.error('Failed to load councilor data:', error);
+        setCouncilor(null);
       } finally {
         setLoading(false);
       }

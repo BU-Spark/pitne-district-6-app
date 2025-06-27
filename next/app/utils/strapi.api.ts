@@ -181,14 +181,14 @@ export interface StrapiLink {
  */
 export async function fetchCouncilMembers(): Promise<CouncilMember[]> {
   try {
-    const response = await fetch(`${STRAPI_BASE_URL}/api/councils?populate=Image`);
+    const response = await fetch(`${STRAPI_BASE_URL}/api/councils?populate=Image&publicationState=live`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch council members: ${response.statusText}`);
     }
 
     const result: StrapiResponse<CouncilMember[]> = await response.json();
-    return result.data;
+    return result.data || [];
   } catch (error) {
     console.error('Error fetching council members:', error);
     return [];
@@ -200,14 +200,16 @@ export async function fetchCouncilMembers(): Promise<CouncilMember[]> {
  */
 export async function fetchCouncilMembersByRole(role: string): Promise<CouncilMember[]> {
   try {
-    const response = await fetch(`${STRAPI_BASE_URL}/api/councils?filters[Role][$eq]=${encodeURIComponent(role)}`);
+    const response = await fetch(
+      `${STRAPI_BASE_URL}/api/councils?filters[Role][$eq]=${encodeURIComponent(role)}&populate=Image&publicationState=live`
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to fetch council members by role: ${response.statusText}`);
     }
 
     const result: StrapiResponse<CouncilMember[]> = await response.json();
-    return result.data;
+    return result.data || [];
   } catch (error) {
     console.error('Error fetching council members by role:', error);
     return [];
@@ -218,8 +220,13 @@ export async function fetchCouncilMembersByRole(role: string): Promise<CouncilMe
  * Fetch the first councilor (assuming there's only one with role "Councilor")
  */
 export async function fetchCouncilor(): Promise<CouncilMember | null> {
-  const councilors = await fetchCouncilMembersByRole('Councilor');
-  return councilors.length > 0 ? councilors[0] : null;
+  try {
+    const councilors = await fetchCouncilMembersByRole('Councilor');
+    return councilors.length > 0 ? councilors[0] : null;
+  } catch (error) {
+    console.error('Error fetching councilor:', error);
+    return null;
+  }
 }
 
 /**
@@ -447,12 +454,15 @@ export async function fetchNewsletters(): Promise<Newsletter[]> {
 
 /**
  * Fetch the currently active poll
+ * Handles multiple active polls by returning the most recent one
  */
 export async function fetchActivePoll(): Promise<Poll | null> {
   try {
     const now = new Date().toISOString();
+
+    // Fetch all active polls, sorted by creation date (most recent first)
     const response = await fetch(
-      `${STRAPI_BASE_URL}/api/polls?filters[is_active][$eq]=true&publicationState=live&sort=createdAt:desc&pagination[limit]=1`
+      `${STRAPI_BASE_URL}/api/polls?filters[is_active][$eq]=true&publicationState=live&sort=createdAt:desc`
     );
 
     if (!response.ok) {
@@ -461,7 +471,7 @@ export async function fetchActivePoll(): Promise<Poll | null> {
 
     const result: StrapiResponse<Poll[]> = await response.json();
 
-    // Filter by date range on client side for now
+    // Filter by date range and return the most recent one
     const activePolls = result.data.filter((poll) => {
       if (!poll.start_date || !poll.end_date) return true; // No date restrictions
       const startDate = new Date(poll.start_date);
@@ -470,6 +480,7 @@ export async function fetchActivePoll(): Promise<Poll | null> {
       return currentDate >= startDate && currentDate <= endDate;
     });
 
+    // Return the most recent active poll (first in the sorted array)
     return activePolls.length > 0 ? activePolls[0] : null;
   } catch (error) {
     console.error('Error fetching active poll:', error);
@@ -543,7 +554,8 @@ export async function submitPollResponse(
 
 /**
  * Fetch poll results for a specific poll
- */ export async function fetchPollResults(pollDocumentId: string): Promise<PollResultsResponse> {
+ */
+export async function fetchPollResults(pollDocumentId: string): Promise<PollResultsResponse> {
   try {
     // Fetch the poll
     const pollResponse = await fetch(`${STRAPI_BASE_URL}/api/polls/${pollDocumentId}?publicationState=live`);
