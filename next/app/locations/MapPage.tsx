@@ -11,7 +11,7 @@ import wellknown from 'wellknown';
 import { categoryMeta, getIconForCategory, groupColors } from '../utils/categoryMeta';
 import { FaFilter } from 'react-icons/fa';
 import { FiPhone, FiMail, FiGlobe } from 'react-icons/fi';
-import { Location } from '../utils/strapi.api';
+import { Location, fetchLocations } from '../utils/strapi.api';
 
 export default function MapPage() {
   interface LocationData {
@@ -86,13 +86,27 @@ export default function MapPage() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:1337/api/locations?pagination[page]=1&pagination[pageSize]=1000')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.data) setLocations(data.data as LocationData[]);
-        else console.warn('No location data in API response.');
-      })
-      .catch((err) => console.error('Error loading locations:', err));
+    const loadLocations = async () => {
+      try {
+        const locationsData = await fetchLocations();
+        // Transform the Location data to LocationData format
+        const transformedLocations = locationsData.map((loc) => ({
+          id: loc.id,
+          name: loc.name,
+          lat: loc.lat || 0,
+          lng: loc.lng || 0,
+          category: loc.category,
+          phone: loc.phone?.toString(),
+          website: loc.website,
+          email: loc.email,
+        }));
+        setLocations(transformedLocations);
+      } catch (err) {
+        console.error('Error loading locations:', err);
+      }
+    };
+
+    loadLocations();
   }, []);
 
   useEffect(() => {
