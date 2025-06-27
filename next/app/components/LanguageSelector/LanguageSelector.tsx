@@ -140,16 +140,20 @@ export default function LanguageSelector({ setLanguage }: { setLanguage?: (lang:
     setLanguage?.(langCode);
 
     if (langCode === 'es') {
-      document.cookie = 'googtrans=/en/es; path=/; SameSite=None; Secure';
+      document.cookie = 'googtrans=/en/es; path=/';
       setTimeout(() => {
         window.location.reload();
       }, 100);
     } else {
-      document.cookie = 'googtrans=/en/en; path=/; SameSite=None; Secure';
-      document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=None; Secure';
+      document.cookie = 'googtrans=/en/en; path=/';
+      document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+
       setTimeout(() => {
+        const iframe = document.querySelector('iframe.goog-te-menu-frame') as HTMLIFrameElement | null;
+        if (iframe) iframe.contentWindow?.location.reload();
+
         window.location.reload();
-      }, 100);
+      }, 150);
     }
   };
 
