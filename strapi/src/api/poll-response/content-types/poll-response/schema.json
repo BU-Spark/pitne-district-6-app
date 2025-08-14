@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "poll_responses",
+  "info": {
+    "singularName": "poll-response",
+    "pluralName": "poll-responses",
+    "displayName": "Poll Response",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "email": {
+      "type": "email"
+    },
+    "selected_choice": {
+      "type": "string",
+      "required": true
+    },
+    "submitted_at": {
+      "type": "datetime"
+    },
+    "poll": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::poll.poll",
+      "inversedBy": "poll_responses"
+    },
+    "address": {
+      "type": "text"
+    },
+    "region": {
+      "type": "enumeration",
+      "enum": [
+        "Jamaica Plain",
+        "West Roxbury",
+        "Other"
+      ]
+    }
+  }
+}

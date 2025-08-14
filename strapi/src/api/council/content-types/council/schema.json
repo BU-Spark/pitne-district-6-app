@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "councils",
+  "info": {
+    "singularName": "council",
+    "pluralName": "councils",
+    "displayName": "Council",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "text"
+    },
+    "Role": {
+      "type": "enumeration",
+      "enum": [
+        "Councilor",
+        "Staff"
+      ]
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Wesbite": {
+      "type": "string"
+    },
+    "Phone": {
+      "type": "biginteger"
+    },
+    "Position": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "email"
+    },
+    "Location": {
+      "type": "string"
+    }
+  }
+}

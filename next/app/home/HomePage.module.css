@@ -1,0 +1,551 @@
+.container {
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: var(--color-light-background);
+  color: var(--color-charles-blue);
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  padding-top: 60px;
+  box-sizing: border-box;
+}
+
+.hero {
+  position: relative;
+  background-image: url('/images/home.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+  background-attachment: fixed;
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.slideUp {
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-charles-blue);
+  /* backdrop-filter: blur(6px);
+  mix-blend-mode: hard-light; */
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.overlay > * {
+  position: relative;
+  z-index: 1;
+}
+
+.heroText {
+  text-align: center;
+  color: var(--color-white);
+}
+
+.welcome {
+  margin-top: 40px;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2rem;
+  color: var(--color-white);
+  display: block;
+}
+
+.district {
+  margin-top: 2px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 7rem;
+  color: var(--color-white);
+  position: relative;
+  transition: font-style 0.3s ease;
+  display: block;
+  animation: fadeSlideInTitle 2s ease-out forwards;
+}
+
+@keyframes fadeSlideInTitle {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.district::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 0%;
+  height: 8px;
+  background-color: var(--color-freedom-trail-red);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.district:hover::after {
+  width: 70%;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-family: var(--font-primary);
+  line-height: 1.5rem;
+  /* font-style: italic; */
+  font-size: 0.9rem;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dateSection {
+  overflow-x: hidden;
+  background: var(--color-charles-blue);
+  color: var(--color-white);
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.dateSection h2 {
+  text-transform: uppercase;
+}
+
+.photoCredit {
+  /* font-family: var(--font-lora), serif;
+  font-style: italic; */
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  font-size: 0.75rem;
+  color: var(--color-alt-white);
+  opacity: 0.7;
+  /* font-style: italic; */
+  z-index: 10;
+  pointer-events: none;
+}
+
+/*Masonry stuff*/
+.masonryWrapper {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.photoCard {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.photoCard:hover {
+  transform: translateY(-2px);
+}
+
+.photo {
+  width: 100%;
+  display: block;
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.photo.loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.caption {
+  font-family: var(--font-primary);
+  color: var(--color-charles-blue);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: var(--color-alt-white);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.myMasonryGrid {
+  margin-top: 20px;
+  display: flex;
+  width: auto;
+}
+
+.myMasonryGridColumn {
+  padding-left: 16px;
+  background-clip: padding-box;
+}
+
+.zoomOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(6px);
+  background: rgba(16, 51, 61, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.zoomImageWrapper {
+  position: relative;
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.zoomedImage {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  animation: zoomIn 0.3s ease;
+  transition: transform 0.3s ease;
+}
+
+.zoom-animate-in {
+  animation: fadeSlideIn 0.3s ease forwards;
+}
+
+.zoom-animate-out {
+  animation: fadeSlideOut 0.3s ease forwards;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+.zoomCaption {
+  margin-top: 12px;
+  font-weight: 400;
+  color: var(--color-white);
+  font-size: 1rem;
+}
+
+.closeBtn,
+.prevBtn,
+.nextBtn {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  z-index: 10000;
+  transition: color 0.2s;
+}
+
+.closeBtn {
+  font-size: 2.5rem;
+}
+
+.prevBtn,
+.nextBtn {
+  font-size: 5rem;
+}
+
+.closeBtn:hover,
+.prevBtn:hover,
+.nextBtn:hover {
+  color: var(--color-border-light);
+}
+
+.closeBtn {
+  top: 20px;
+  right: 30px;
+}
+
+.prevBtn {
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nextBtn {
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.zoom-animate-in-right {
+  animation: fadeSlideInRight 0.3s ease forwards;
+}
+.zoom-animate-out-right {
+  animation: fadeSlideOutLeft 0.3s ease forwards;
+}
+.zoom-animate-in-left {
+  animation: fadeSlideInLeft 0.3s ease forwards;
+}
+.zoom-animate-out-left {
+  animation: fadeSlideOutRight 0.3s ease forwards;
+}
+
+@keyframes fadeSlideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeSlideOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+@keyframes fadeSlideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeSlideOutRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+.topButtons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10000;
+}
+
+.iconBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.iconBtn:hover {
+  color: var(--color-border-light);
+}
+
+/* Mobile friendly styles */
+@media (max-width: 768px) {
+  .zoomCaption {
+    display: none;
+  }
+
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hero {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    width: calc(100% + 2rem);
+  }
+
+  .heroText > * {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome {
+    font-size: 2rem;
+  }
+
+  .district {
+    font-size: 3.3rem;
+    margin-top: 0.25rem;
+  }
+
+  .district::after {
+    height: 5px; /* thinner */
+    bottom: -2px; /* lower */
+    max-width: 80%;
+  }
+
+  .subtitle {
+    padding-top: 5%;
+    font-size: 0.75rem;
+    max-width: 420px;
+    line-height: 1.3rem;
+  }
+
+  .subtitle,
+  .masonryWrapper {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  /* :global(.keyLinksCard),
+  :global(.newsletterArchiveCard) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 10px;
+    padding: 1.25rem 1rem;
+  } */
+
+  .masonryWrapper {
+    margin-top: 1rem;
+  }
+
+  .photoCard {
+    margin-bottom: 1rem;
+  }
+
+  /* :global(.subscribeFooter) {
+    padding: 1rem;
+  } */
+
+  .photoCredit {
+    bottom: 10px;
+    right: 20px;
+  }
+
+  .prevBtn,
+  .nextBtn {
+    top: 80%;
+    width: 45px;
+    height: 45px;
+  }
+
+  .zoomCaption {
+    margin-top: 4px;
+
+    font-size: 1.25rem;
+    text-align: center;
+    max-width: 80%;
+
+    top: 16px;
+    right: 16px;
+    gap: 16px;
+  }
+
+  .iconBtn svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .masonryWrapper {
+    max-width: 94%;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .myMasonryGrid {
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .myMasonryGridColumn {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    max-width: 500px;
+  }
+}

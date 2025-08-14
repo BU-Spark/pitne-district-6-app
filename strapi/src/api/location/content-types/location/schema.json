@@ -1,0 +1,85 @@
+{
+  "kind": "collectionType",
+  "collectionName": "locations",
+  "info": {
+    "singularName": "location",
+    "pluralName": "locations",
+    "displayName": "D6 Resource",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "lat": {
+      "type": "float"
+    },
+    "lng": {
+      "type": "float"
+    },
+    "geohash": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "biginteger"
+    },
+    "website": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "address": {
+      "type": "customField",
+      "options": {
+        "info": true
+      },
+      "customField": "plugin::geodata.geojson"
+    },
+    "email": {
+      "type": "string"
+    },
+    "resource": {
+      "type": "boolean",
+      "default": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Affordable & Public Housing",
+        "Boston Centers for Youth & Families",
+        "Housing Community Organizations",
+        "Neighborhood Associations",
+        "Police & Fire",
+        "Small Business Organizations",
+        "Child Care Organizations",
+        "Food Community Organizations",
+        "Healthcare",
+        "Pet Care",
+        "Justice, Organizing & Basic Needs",
+        "Senior Services & Communities",
+        "Bike Community Organizations",
+        "Boston Public Libraries",
+        "Climate & Environmental Organizations",
+        "Parks & Green Space",
+        "Arts & Culture Organizations",
+        "Education Community Organizations",
+        "Boston Public Schools",
+        "Youth Community Organizations",
+        "Ongoing Projects"
+      ],
+      "required": true
+    },
+    "embeddings": {
+      "type": "text"
+    }
+  }
+}

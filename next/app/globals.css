@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400&display=swap');
+
+
+:root {
+  /* Boston Brand Colors */
+  /* --color-charles-blue: #1a414d;
+  --color-optimistic-blue: #408894;
+  --color-alt-blue: #00593b;
+  --color-alt-gray: #357d90;
+  --color-freedom-trail-red: #34a17d;
+  --color-red-hover: #b4fbe3;
+  --color-dark-text: #58585b;
+  --color-light-background: #f2f2f2;
+  --color-border-light: #ccc;
+  --color-white: #ffffff;
+  --color-alt-white: #f7fafc;
+  --color-alt-white-hover: #edf2f7; */
+
+  --color-charles-blue: #0a2e38;
+  --color-optimistic-blue: #34a6ba;
+  --color-alt-blue: #00593b;
+  --color-freedom-trail-red: #34a17d;
+
+  --color-alt-gray: #357d90;
+  --color-red-hover: rgb(61, 208, 159);
+  --color-dark-text: #58585b;
+  --color-light-background: #f2f2f2;
+  --color-border-light: #ccc;
+  --color-white: #ffffff;
+  --color-alt-white: #f7fafc;
+  --color-alt-white-hover: #ebf2f9;
+
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Typography */
+  --font-primary: 'Montserrat', Arial, sans-serif;
+  --font-secondary: 'Lora', serif;
+
+}
+
+html,
+body {
+  width: 100vw;
+  overflow-x: hidden;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-primary);
+  background: var(--color-white);
+  color: var(--color-charles-blue);
+}
+
+* {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--color-optimistic-blue);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-freedom-trail-red);
+  text-decoration: underline;
+}
+
+/* Utility class for secondary font */
+.secondaryFont {
+  font-family: var(--font-secondary);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Mobile global styles for home page components */
+@media (max-width: 768px) {
+  .keyLinksCard,
+  .newsletterArchiveCard,
+  .subscribeFooter {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .keyLinksCard,
+  .newsletterArchiveCard {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 10px;
+    padding: 1.25rem 1rem;
+  }
+
+  .subscribeFooter {
+    padding: 1rem;
+  }
+}

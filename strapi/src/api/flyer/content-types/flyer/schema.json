@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "flyers",
+  "info": {
+    "singularName": "flyer",
+    "pluralName": "flyers",
+    "displayName": "Flyer"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

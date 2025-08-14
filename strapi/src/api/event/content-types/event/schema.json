@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "event_type": {
+      "type": "enumeration",
+      "enum": [
+        "Voting",
+        "Community",
+        "Concert",
+        "Sports",
+        "Others"
+      ]
+    },
+    "start_datetime": {
+      "type": "datetime"
+    },
+    "end_datetime": {
+      "type": "datetime"
+    },
+    "link": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    },
+    "is_active": {
+      "type": "boolean"
+    }
+  }
+}
