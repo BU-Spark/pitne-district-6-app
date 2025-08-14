@@ -328,9 +328,6 @@ export async function fetchLocationsByCategories(categories: string[]): Promise<
 
       const url = `${STRAPI_BASE_URL}/api/locations?populate=*&${filterParams}&filters[is_active][$eq]=true&filters[resource][$eq]=true&pagination[page]=${page}&pagination[pageSize]=100`;
 
-      console.log('API URL for category filtering (new format):', url);
-      console.log('Categories being filtered:', categories);
-
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -339,11 +336,6 @@ export async function fetchLocationsByCategories(categories: string[]): Promise<
 
       const result: StrapiResponse<Location[]> = await response.json();
       allLocations = [...allLocations, ...result.data];
-
-      console.log(`Page ${page} API response for filtered categories:`, {
-        pageResults: result.data.length,
-        totalSoFar: allLocations.length,
-        categories: result.data.map((location) => ({ name: location.name, category: location.category })),
       });
 
       // Check if there are more pages
@@ -422,7 +414,6 @@ export async function fetchFlyers(): Promise<Flyer[]> {
     }
 
     const result: StrapiResponse<Flyer[]> = await response.json();
-    console.log('Flyers API response:', result); // Debug log
     return result.data;
   } catch (error) {
     console.error('Error fetching flyers:', error);
@@ -444,7 +435,6 @@ export async function fetchNewsletters(): Promise<Newsletter[]> {
     }
 
     const result: StrapiResponse<Newsletter[]> = await response.json();
-    console.log('Newsletters API response:', result); // Debug log
     return result.data;
   } catch (error) {
     console.error('Error fetching newsletters:', error);
