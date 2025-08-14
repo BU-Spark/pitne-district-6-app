@@ -64,11 +64,6 @@ export default function ResourcePage() {
       try {
         setLoading(true);
         const locationsData = await fetchLocations();
-        console.log('Initial locations loaded:', locationsData.length);
-        console.log(
-          'Sample location categories:',
-          locationsData.slice(0, 3).map((l) => ({ name: l.name, category: l.category }))
-        );
         setLocations(locationsData);
         setError(null);
       } catch (err) {

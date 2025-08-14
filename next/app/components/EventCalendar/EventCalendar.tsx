@@ -150,7 +150,6 @@ export default function EventCalendar({ lang }: Props) {
   };
 
   const handleDateClick = (info: { dateStr: string }) => {
-    console.log('Date clicked:', info.dateStr);
     setShowEventPopup(false);
   };
 
