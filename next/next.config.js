@@ -9,7 +9,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'dev--district-6-strapi.up.railway.app',
+        hostname: 'bostond6.com',
         pathname: '/**',
       },
       {
