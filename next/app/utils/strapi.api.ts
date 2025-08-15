@@ -336,8 +336,7 @@ export async function fetchLocationsByCategories(categories: string[]): Promise<
 
       const result: StrapiResponse<Location[]> = await response.json();
       allLocations = [...allLocations, ...result.data];
-      });
-
+      
       // Check if there are more pages
       if (result.meta.pagination) {
         hasMorePages = page < result.meta.pagination.pageCount;
