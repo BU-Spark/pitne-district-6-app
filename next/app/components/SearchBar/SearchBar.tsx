@@ -36,25 +36,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults, onSearchStateCha
 
     try {
       setIsLoading(true);
-      console.log(`🔍 Semantic search for: "${searchQuery}"`);
 
       const results = await searchLocations(searchQuery);
       onSearchResults(results);
       onSearchStateChange(true);
-      // setLastSearchQuery(searchQuery);
-
-      console.log(`✅ Found ${results.length} results for "${searchQuery}"`);
-
-      // Log some examples for debugging semantic search
-      if (results.length > 0) {
-        console.log(
-          '📍 Top results:',
-          results.slice(0, 3).map((r) => ({
-            name: r.name,
-            category: r.category,
-          }))
-        );
-      }
     } catch (error) {
       console.error('❌ Search error:', error);
       onSearchResults([]);

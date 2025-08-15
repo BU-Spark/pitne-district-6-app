@@ -217,7 +217,6 @@ const NewsletterArchive = () => {
     const loadNewsletters = async () => {
       try {
         const fetched = await fetchNewsletters();
-        console.log('Fetched newsletters:', fetched);
         setNewsletters(fetched);
 
         // Set the first available PDF as selected by default

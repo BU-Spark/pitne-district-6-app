@@ -71,9 +71,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const loadFlyers = async () => {
-      console.log('Fetching flyers...');
       const fetched = await fetchFlyers();
-      console.log('Fetched flyers:', fetched);
       setFlyers(fetched);
     };
     loadFlyers();

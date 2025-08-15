@@ -66,7 +66,6 @@ export default function AboutPage() {
     if (imageUrl) {
       // For absolute URLs (S3, external), return as-is
       if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-        console.log('Full image URL for', member.Name, ':', imageUrl);
         return imageUrl;
       }
 
@@ -76,7 +75,6 @@ export default function AboutPage() {
       const normalizedImageUrl = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
       const url = `${baseUrl}/${normalizedImageUrl}`;
 
-      console.log('Relative image URL for', member.Name, ':', url);
       return url;
     }
     return null;
