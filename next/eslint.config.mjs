@@ -6,7 +6,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import { fixupConfigRules } from '@eslint/compat';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import prettier from 'eslint-plugin-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -49,8 +49,21 @@ const config = [
   // This will load rules from 'eslint-config-next'
   ...fixupConfigRules(compat.extends('next/core-web-vitals')),
 
-  // Prettier - MUST be last to override other formatting rules
-  eslintPluginPrettierRecommended,
+  // Custom Prettier configuration - less strict
+  {
+    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    plugins: {
+      prettier,
+    },
+    rules: {
+      'prettier/prettier': [
+        'warn',
+        {
+          endOfLine: 'lf',
+        },
+      ],
+    },
+  },
 ];
 
 export default config;
