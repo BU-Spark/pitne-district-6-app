@@ -11,7 +11,7 @@ import { FiPlus, FiEye, FiCalendar, FiMapPin } from 'react-icons/fi';
 import styles from './EventCalendar.module.css';
 
 const GOOGLE_CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || 'maja.mishevska@gmail.com';
-const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || 'AIzaSyCf8g-I9J2eGojPv4HTUdJYxihk4eO8Zj0';
+const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY;
 
 /* ─── Simple i18n helpers ───────────────────────────────────────────── */
 const dictionary = {

@@ -1,0 +1,25 @@
+name: Frontend checks
+on:
+  pull_request:
+    branches: [production, dev]
+  push:
+    branches: [production, dev]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: next
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: next/package-lock.json
+      - run: npm ci
+      - run: npm audit --omit=dev --audit-level=moderate
+      - run: npm test -- --runInBand
+      - run: npm run build

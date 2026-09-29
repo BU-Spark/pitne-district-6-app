@@ -1,5 +1,7 @@
 'use client';
 
+import { sanitizeHtml } from '../utils/sanitizeHtml';
+
 import { FiMap } from 'react-icons/fi';
 import { FaCompass } from 'react-icons/fa';
 import { BsBook } from 'react-icons/bs';
@@ -253,7 +255,7 @@ export default function AboutPage() {
                     {member.Description && (
                       <div
                         className={styles.memberDescription}
-                        dangerouslySetInnerHTML={{ __html: member.Description }}
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(member.Description) }}
                       />
                     )}
                   </div>

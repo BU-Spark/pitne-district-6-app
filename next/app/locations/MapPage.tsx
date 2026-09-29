@@ -149,12 +149,9 @@ export default function MapPage() {
           >
             <ZoomControl position={isMobile ? 'topright' : 'topleft'} />
             <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-              attribution={
-                isMobile
-                  ? ''
-                  : '&copy; <a href="https://carto.com/">CARTO</a> contributors &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
-              }
+              url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+              maxZoom={19}
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             {filteredLocations.map((loc) => {
               const groupKey = categoryMeta[loc.category ?? '']?.group ?? 'community';
