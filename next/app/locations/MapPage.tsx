@@ -13,6 +13,15 @@ import { FaFilter } from 'react-icons/fa';
 import { FiPhone, FiMail, FiGlobe } from 'react-icons/fi';
 import { Location, fetchLocations } from '../utils/strapi.api';
 
+// Browser-visible basemap key. Restrict it to the site's domains in CARTO.
+const cartoBasemapKey = process.env.NEXT_PUBLIC_CARTO_BASEMAP_API_KEY?.trim();
+const tileUrl = cartoBasemapKey
+  ? `https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(cartoBasemapKey)}`
+  : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const tileAttribution =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' +
+  (cartoBasemapKey ? ', &copy; <a href="https://carto.com/attributions">CARTO</a>' : '');
+
 export default function MapPage() {
   interface LocationData {
     id: number;
@@ -148,11 +157,7 @@ export default function MapPage() {
             doubleClickZoom
           >
             <ZoomControl position={isMobile ? 'topright' : 'topleft'} />
-            <TileLayer
-              url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-              maxZoom={19}
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
+            <TileLayer url={tileUrl} maxZoom={19} attribution={tileAttribution} />
             {filteredLocations.map((loc) => {
               const groupKey = categoryMeta[loc.category ?? '']?.group ?? 'community';
               const markerColor = groupColors[groupKey] ?? 'var(--color-charles-blue)';

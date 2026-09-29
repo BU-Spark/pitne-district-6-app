@@ -135,3 +135,19 @@ Most projects will require the use of other technologies. Below are a few guides
 
 ## Project Team Members
 - Bhavya Surana
+
+
+## Basemap configuration
+
+Set `NEXT_PUBLIC_CARTO_BASEMAP_API_KEY` on the Railway production Next.js service
+and rebuild the frontend to use CARTO's light (Positron) basemap. Request a key at
+https://www.carto.com/basemaps/apikey/. This key is public in browser tile requests;
+use a dedicated District 6 key and restrict its allowed origins in CARTO to the
+site domains (including `https://www.bostond6.com`). Add a localhost origin only
+when needed for local testing.
+
+Without the variable, the map continues to use standard OpenStreetMap tiles.
+Both providers retain visible attribution on desktop and mobile. Next.js embeds
+`NEXT_PUBLIC_` values at build time, so changing this variable requires a rebuild.
+Do not commit the key. Before switching production, verify that keyed CARTO tiles
+load without the API-key watermark and that markers and filters still work.
